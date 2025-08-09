@@ -7,7 +7,7 @@
 #include "iostream"
 
 Spaceship::Spaceship() :
-    position({constants::MITTE_X_ACHSE, 50}),
+    position({constants::MITTE_X_ACHSE, 0}),
     texture(),
     sprite(texture) {
           //load texture
@@ -15,10 +15,15 @@ Spaceship::Spaceship() :
               texture.loadFromFile("assets/sprites/spriteSpaceship.png"))
             throw std::invalid_argument("Could not load sprite");
           //set up sprite
-          sprite.setTexture(texture);
-          sprite.setTextureRect(sf::IntRect({0,0}, {60,30}));
-          sprite.setOrigin({50,100});
+          sprite.setTexture(texture, true);
+          //sprite.setTextureRect(sf::IntRect({0,0}, {60,30}));
+          sprite.setOrigin({0,100});
+         // sf::FloatRect bounds = sprite.getLocalBounds();
+         // float horizontaleMitteDesSprites = (bounds.position.x + (bounds.size.x / 2));
+          //float BottomDesSprites = (bounds.position.y + bounds.size.y);
+          //sprite.setOrigin({horizontaleMitteDesSprites, BottomDesSprites});       
           sprite.setPosition(position);
+
 
     
 }

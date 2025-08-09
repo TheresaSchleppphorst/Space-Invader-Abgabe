@@ -65,11 +65,13 @@ bool Game::input() {
 
 void Game::update(float time_passed) {
     // TODO: update the game objects with the current time stamp
+
+    //update the spaceships position
+    spaceship_control.update_spaceship(time_passed);
 }
 
 void Game::draw() {
     window.clear();
-
     game_layer.clear();
     // TODO: add game elements to layer
     spaceship_control.draw_spaceship();

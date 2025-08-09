@@ -16,13 +16,13 @@ enum class horizontaleRichtung {
 //Spaceship Class
 class Spaceship{
   protected:
-    //Anzahl der restlichen Leben
+    //number of remaining lives
     int anzahlLeben;
-    //Level des Spielers - wird in Raumschiff gespeichert
+    //level of the player - we save it in the spaceship
     int level;
-    //Position des Raumschiffs
+    //position of the spaceship
     sf::Vector2f position;
-    //Raumschiff bewegt sich links oder rechts
+    //spaceship moves left or right
     horizontaleRichtung hR = horizontaleRichtung::NONE;
 
     sf:: Texture texture;

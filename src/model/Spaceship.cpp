@@ -12,16 +12,18 @@ Spaceship::Spaceship() :
     sprite(texture) {
           //load texture
           if(!
-              texture.loadFromFile("assets/sprites/spriteSpaceship.png"))
+              texture.loadFromFile("assets/sprites/pixilart-drawing.png"))
             throw std::invalid_argument("Could not load sprite");
           //set up sprite
           sprite.setTexture(texture, true);
-          //sprite.setTextureRect(sf::IntRect({0,0}, {60,30}));
-          sprite.setOrigin({0,100});
-         // sf::FloatRect bounds = sprite.getLocalBounds();
-         // float horizontaleMitteDesSprites = (bounds.position.x + (bounds.size.x / 2));
-          //float BottomDesSprites = (bounds.position.y + bounds.size.y);
-          //sprite.setOrigin({horizontaleMitteDesSprites, BottomDesSprites});       
+          //sprite.setTextureRect(sf::IntRect({0,0}, {80,60}));
+          //sprite.setOrigin({80,60});
+          auto g = sprite.getLocalBounds();
+    
+          std::cout << "Sprite @ (" << g.position.x << "," << g.position.y << ") size (" << g.size.x << "x" << g.size.y << ")" << std::endl;
+
+          //float horizontaleMitteDesSprites = (bounds.size.x / 2);
+          //sprite.setOrigin({horizontaleMitteDesSprites, bounds.size.y});       
           sprite.setPosition(position);
 
 
@@ -46,13 +48,6 @@ sf::Vector2f Spaceship::getPosition() const {
     return position;
 }
 
-int Spaceship::getAnzahlLeben() const {
-    return anzahlLeben;
-}
-
-int Spaceship::getLevel() const {
-    return level;
-}
 
 horizontaleRichtung Spaceship::getHorizontaleRichtung() const {
     return hR;
@@ -67,10 +62,3 @@ void Spaceship::setPosition(sf::Vector2f position){
     sprite.setPosition(position);
 }
 
-void Spaceship::setAnzahlLeben(int anzahlLeben){
-    this->anzahlLeben = anzahlLeben;
-}
-
-void Spaceship:: setLevel(int level){
-    this->level = level;
-}

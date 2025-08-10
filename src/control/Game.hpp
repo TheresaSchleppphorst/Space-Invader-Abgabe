@@ -5,6 +5,8 @@
 
 #include "../view/Layer.hpp"
 #include "SpaceshipControl.hpp"
+#include "OverlayControl.hpp"
+#include "../model/GameState.hpp"
 
 
 // Game class
@@ -18,6 +20,9 @@ public:
     void start();
 
 private:
+    //the state of all variables (level, lives etc.)
+    GameState state;
+
     // processes user input, returns true if window has been closed
     bool input();
 
@@ -32,9 +37,11 @@ private:
     // view area and layers
     sf::View view;
     Layer game_layer;
+    Layer overlay_layer;
 
     //Controls for different parts of the game
     SpaceshipControl spaceship_control;
+    OverlayControl overlay_control;
 };
 
 #endif

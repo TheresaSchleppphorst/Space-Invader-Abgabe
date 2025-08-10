@@ -16,10 +16,7 @@ enum class horizontaleRichtung {
 //Spaceship Class
 class Spaceship{
   protected:
-    //number of remaining lives
-    int anzahlLeben;
-    //level of the player - we save it in the spaceship
-    int level;
+  
     //position of the spaceship
     sf::Vector2f position;
     //spaceship moves left or right
@@ -35,12 +32,7 @@ public:
     //setter + getter Position
     sf::Vector2f getPosition() const;
     void setPosition(sf::Vector2f position);
-    //setter + getter Level
-    int getLevel() const;
-    void setLevel(int level);
-    //setter + getter Anzahl der Leben
-    int getAnzahlLeben() const;
-    void setAnzahlLeben(int anzahlLeben);
+    
     //check if spaceship is moving left or right
     horizontaleRichtung getHorizontaleRichtung() const;
     //spaceship is no longer moving to right or left

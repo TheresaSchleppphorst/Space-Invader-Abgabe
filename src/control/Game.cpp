@@ -58,12 +58,18 @@ bool Game::input() {
                 // move left
                 spaceship_control.left_button_pressed();
             }
+             // shooting with space bar:
+            else if (keyPressed->code == sf::Keyboard::Key::Space) {
+                 spaceship_control.space_bar_pressed();
+            }
         } 
     }
     return false;
 }
 
 void Game::update(float time_passed) {
+    spaceship_control.update_spaceship(time_passed);
+    spaceship_control.update_shoot(time_passed);
     // TODO: update the game objects with the current time stamp
 }
 
@@ -73,6 +79,7 @@ void Game::draw() {
     game_layer.clear();
     // TODO: add game elements to layer
     spaceship_control.draw_spaceship();
+    spaceship_control.draw_shoot();
     
     game_layer.draw();
     

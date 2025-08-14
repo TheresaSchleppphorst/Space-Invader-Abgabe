@@ -4,7 +4,6 @@
 
 #ifndef SPACESHIP_HPP
 #define SPACESHIP_HPP
-
 #include <SFML/Graphics.hpp>
 
 enum class horizontaleRichtung {
@@ -53,10 +52,6 @@ public:
     const sf::Sprite &getSprite() const;
 
 
-
-
 };
-
-
 
 #endif //SPACESHIP_HPP

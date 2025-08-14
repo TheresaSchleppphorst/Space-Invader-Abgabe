@@ -69,3 +69,4 @@ void Spaceship::setAnzahlLeben(int anzahlLeben){
 void Spaceship:: setLevel(int level){
     this->level = level;
 }
+

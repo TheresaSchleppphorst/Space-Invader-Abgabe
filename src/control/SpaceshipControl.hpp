@@ -5,7 +5,7 @@
 
 #include "../model/Spaceship.hpp"
 //#include "ShootControl.hpp"
-//#include "../model/Shoot.hpp"
+#include "../model/Shoot.hpp"
 #include "../view/Layer.hpp"
 
 class SpaceshipControl {
@@ -19,6 +19,9 @@ class SpaceshipControl {
         //draw the spaceship to the layer
         void draw_spaceship();
 
+        //draw the shoot to the layer
+        void draw_shoot();
+
         //move the spaceship to the left
         void left_button_pressed();
 
@@ -28,12 +31,24 @@ class SpaceshipControl {
         //stop horizontal movement
         void direction_button_released(::horizontaleRichtung hR);
 
+        //shoot
+        void space_bar_pressed();
+
+        //shoot movement
+        void update_shoot(float elapsed_time);
+        
+
 private:
         //spaceship object
         Spaceship spaceship;
 
+        //shoot object
+        Shoot shoot;
+
         //layer on which the spaceship is drawn
         Layer &layer;    
+
+         bool shoot_active = false;
 };
 
 #endif

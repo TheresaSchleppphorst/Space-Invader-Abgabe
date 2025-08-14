@@ -4,7 +4,7 @@
 #include "iostream"
 
 Shoot::Shoot(sf::Vector2f position) :
-    position({0,0}), // Position beim Aufrufen setzen, Je nachdem ob Alien oder Spaceship
+    position(position), // Position beim Aufrufen setzen, je nachdem wo sich Alien oder Spaceship befinden
     texture(),
     sprite(texture) {
           //load texture
@@ -13,8 +13,9 @@ Shoot::Shoot(sf::Vector2f position) :
             throw std::invalid_argument("Could not load sprite");
           //set up sprite
           sprite.setTexture(texture);
-          sprite.setTextureRect(sf::IntRect({0,0}, {60,30}));
-          sprite.setOrigin({50,100});
+          sprite.setTextureRect(sf::IntRect({0,0}, {260,300}));
+          sprite.setOrigin({30.f, 15.f});
+          sprite.setScale(sf::Vector2f{0.35f, 0.35f});
           sprite.setPosition(position);
 }
 

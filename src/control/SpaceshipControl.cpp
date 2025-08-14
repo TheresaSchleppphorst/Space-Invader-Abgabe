@@ -6,10 +6,10 @@ SpaceshipControl::SpaceshipControl(Layer &layer) : layer(layer){
 }
 
 void SpaceshipControl::update_spaceship(float elapsed_time){
-    //horizontal position of the spaceship
+    //horizontal position of the spaceship (will change with this function)
     float x = 0;
-    //vertical position of the spaceship STATIC
-    float y = 50;
+    //vertical position of the spaceship (the exact position where I want the spaceship to show)
+    float y = spaceship.getPosition().y;
     //std::cout << "Der Wert der float-Variable ist: " << spaceship.getPosition().x << std::endl;
     if (spaceship.getPosition().x > 60 && spaceship.getHorizontaleRichtung() == horizontaleRichtung::LEFT)
     { x = -200;
@@ -37,5 +37,5 @@ void SpaceshipControl::left_button_pressed(){
 
 void SpaceshipControl::direction_button_released(::horizontaleRichtung hR){
     if(hR == spaceship.getHorizontaleRichtung())
-       spaceship.stop_horiontal_movement();
+       spaceship.stop_horizontal_movement();
 }

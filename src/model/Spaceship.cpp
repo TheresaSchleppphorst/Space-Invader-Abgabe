@@ -7,28 +7,23 @@
 #include "iostream"
 
 Spaceship::Spaceship() :
-    position({constants::MITTE_X_ACHSE, 0}),
+    position({constants::MITTE_X_ACHSE, -10}),
     texture(),
     sprite(texture) {
-          //load texture
-          if(!
-              texture.loadFromFile("assets/sprites/pixilart-drawing.png"))
-            throw std::invalid_argument("Could not load sprite");
-          //set up sprite
-          sprite.setTexture(texture, true);
-          //sprite.setTextureRect(sf::IntRect({0,0}, {80,60}));
-          //sprite.setOrigin({80,60});
-          auto g = sprite.getLocalBounds();
-    
-          std::cout << "Sprite @ (" << g.position.x << "," << g.position.y << ") size (" << g.size.x << "x" << g.size.y << ")" << std::endl;
-
-          //float horizontaleMitteDesSprites = (bounds.size.x / 2);
-          //sprite.setOrigin({horizontaleMitteDesSprites, bounds.size.y});       
-          sprite.setPosition(position);
-
-
-    
+        //load texture
+        if(!
+            texture.loadFromFile("assets/sprites/pixilart-drawing.png"))
+        throw std::invalid_argument("Could not load sprite");
+        //set up sprite
+        sprite.setTexture(texture, true);
+        //auto ts = texture.getSize();
+        //sprite.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
+        sf::FloatRect bounds = sprite.getLocalBounds();     
+        sprite.setOrigin({bounds.position.x + bounds.size.x / 2, bounds.position.y + bounds.size.y }); 
+        sprite.setPosition(position);
+ 
 }
+
 
 void Spaceship::move_right(){
     if (hR != horizontaleRichtung::RIGHT)
@@ -40,7 +35,7 @@ void Spaceship::move_left(){
     {hR = horizontaleRichtung::LEFT;}
 }
 
-void Spaceship::stop_horiontal_movement(){
+void Spaceship::stop_horizontal_movement(){
     hR = horizontaleRichtung::NONE;
 }
 

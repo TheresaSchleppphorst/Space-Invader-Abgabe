@@ -36,7 +36,7 @@ public:
     //check if spaceship is moving left or right
     horizontaleRichtung getHorizontaleRichtung() const;
     //spaceship is no longer moving to right or left
-    void stop_horiontal_movement();
+    void stop_horizontal_movement();
     //initiates movement to the right
     void move_right();
     //initiates movement to the left

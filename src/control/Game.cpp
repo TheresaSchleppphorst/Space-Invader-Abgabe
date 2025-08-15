@@ -9,7 +9,7 @@ Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIG
     view(sf::FloatRect(sf::Vector2f({0,-constants::VIEW_HEIGHT}), sf::Vector2f({constants::VIEW_WIDTH,constants::VIEW_HEIGHT}))),
     game_layer(window),
     overlay_layer(window),
-    overlay_control(overlay_layer),
+    overlay_control(overlay_layer, state),
     spaceship_control(game_layer)
     {
     // limit frame rate

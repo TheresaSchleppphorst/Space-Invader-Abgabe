@@ -1,53 +1,109 @@
 #include "OverlayControl.hpp"
 #include "../model/Constants.hpp"
 
-OverlayControl::OverlayControl(Layer &layer) :
+OverlayControl::OverlayControl(Layer &layer, GameState& state) :
     font("assets/fonts/DejaVuSansMono.ttf"),
     score_view(font),
     level_view(font),
     lives_view(font),
     center_view(font),
-    layer(layer) {
+    lives_texture(),
+    lives_icon_1(lives_texture),
+    lives_icon_2(lives_texture),
+    lives_icon_3(lives_texture),
+    layer(layer),
+    state (state) {
         //position the views
-       
+
+        level_view.setString("Level: 1");
+        level_view.setFillColor({255, 255, 255, 255});
+        level_view.setCharacterSize(15);
+
         score_view.setString("SCORE: 0");
         score_view.setFillColor({255, 255, 255, 255});
         score_view.setCharacterSize(20);
-  
-    
-        lives_view.setString("3");
+
+        lives_view.setString("Lives:");
         lives_view.setFillColor({255, 255, 255, 255});
-        lives_view.setCharacterSize(20);
-       
+        lives_view.setCharacterSize(15);
+
+        //load texture
+        if(!
+            lives_texture.loadFromFile("assets/sprites/pixilart-drawing.png"))
+        throw std::invalid_argument("Could not load sprite");
+        //set up sprites
+        auto ts = lives_texture.getSize();
+
+        //sprite 1
     
-        level_view.setString("Level: 1");
-        level_view.setFillColor({255, 255, 255, 255});
-        level_view.setCharacterSize(20);
+        lives_icon_1.setTexture(lives_texture, true);
+        lives_icon_1.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
+        sf::FloatRect icon_1 = lives_icon_1.getLocalBounds();     
+        lives_icon_1.setOrigin({icon_1.position.x + icon_1.size.x, icon_1.position.y + (icon_1.size.y / 2.f) }); 
+        lives_icon_1.setScale({0.3, 0.3});
 
-        center_view.setPosition({300, 300});
+        //sprite 2
 
+        lives_icon_2.setTexture(lives_texture, true);
+        lives_icon_2.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
+        sf::FloatRect icon_2 = lives_icon_2.getLocalBounds();     
+        lives_icon_2.setOrigin({icon_2.position.x + icon_2.size.x, icon_2.position.y + (icon_2.size.y / 2.f) }); 
+        lives_icon_2.setScale({0.3, 0.3});
+
+        //sprite 3
+
+        lives_icon_3.setTexture(lives_texture, true);
+        lives_icon_3.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
+        sf::FloatRect icon_3 = lives_icon_3.getLocalBounds();     
+        lives_icon_3.setOrigin({icon_3.position.x + icon_3.size.x, icon_3.position.y + (icon_3.size.y / 2.f) }); 
+        lives_icon_3.setScale({0.3, 0.3});
+
+
+        //position the center view
+
+        center_view.setPosition({constants::MITTE_X_ACHSE, constants::MITTE_Y_ACHSE});
+
+        //function that formats the header
         layout_header();
         
 }
 
 void OverlayControl::layout_header() {
 
-    //left top corner
-    sf::FloatRect a = level_view.getLocalBounds();
-    level_view.setPosition ({0,0});
-
     //middle top
     sf::FloatRect b = score_view.getLocalBounds();
-    score_view.setOrigin({b.size.x / 2, 0}); //top middle of the rect
-    score_view.setPosition ({constants::MITTE_X_ACHSE, 0});
+    score_view.setOrigin({b.position.x + (b.size.x / 2.f), b.position.y + (b.size.y / 2.f)}); //middle of the rect
+    //horizontal line that helps positioning the overlayer elements
+    float ausrichtungslinie = b.position.y + (b.size.y / 2.f);
+    //padding to the left and right, so the text doesn't start at the outlines
+    float padding_left = 5;
+    float padding_right = 5;
 
+    score_view.setPosition ({constants::MITTE_X_ACHSE, ausrichtungslinie});
+
+    
+
+    //left top corner
+    sf::FloatRect a = level_view.getLocalBounds();
+    level_view.setOrigin({a.position.x, a.position.y + (a.size.y / 2.f)}); //left middle of the rect
+    level_view.setPosition({padding_left, ausrichtungslinie});
+
+   
 
     //right top corner
     sf::FloatRect c = lives_view.getLocalBounds();
-    lives_view.setOrigin({c.size.x, 0}); //right top corner of the rect
-    lives_view.setPosition({constants::VIEW_WIDTH - 5.f, 0}); //to have a little padding to the right
+    lives_view.setOrigin({c.position.x + c.size.x, c.position.y + (c.size.y / 2.f)}); //right middle of the rect
 
+    float IconBreite = lives_icon_1.getGlobalBounds().size.x; //as default because every sprite has the same size
 
+    //set the positions of the sprites and the text
+    float first = constants::VIEW_WIDTH - padding_right;
+
+    lives_icon_1.setPosition({first, ausrichtungslinie});
+    lives_icon_2.setPosition({first - padding_right - IconBreite, ausrichtungslinie});
+    lives_icon_3.setPosition({first - 2* (padding_right + IconBreite), ausrichtungslinie});
+    
+     lives_view.setPosition({first - 3*(padding_right + IconBreite), ausrichtungslinie}); //to have a little padding to the right
 }
 
 
@@ -56,9 +112,8 @@ void OverlayControl::update_score(size_t score) {
     layout_header();
 }
 
-void OverlayControl::update_lives(int lives) {
-    lives_view.setString(std::to_string(lives));
-    layout_header();
+void OverlayControl::update_lives() {
+    lives_view.setString("Lives: " + std::to_string(state.lives));
 }
 
 void OverlayControl::update_level(size_t level) {
@@ -71,6 +126,11 @@ void OverlayControl::draw() {
     layer.add_to_layer(score_view);
     layer.add_to_layer(lives_view);
     layer.add_to_layer(level_view);
+    
+    if (state.lives >= 1) layer.add_to_layer(lives_icon_1);
+    if (state.lives >= 2) layer.add_to_layer(lives_icon_2);
+    if (state.lives == 3) layer.add_to_layer(lives_icon_3);
+
     if(show_center_view)
         layer.add_to_layer(center_view);
 }

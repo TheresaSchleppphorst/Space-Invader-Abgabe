@@ -1,6 +1,4 @@
-//
-// Created by there on 07.08.2025.
-//
+
 
 #include "Spaceship.hpp"
 #include "Constants.hpp"

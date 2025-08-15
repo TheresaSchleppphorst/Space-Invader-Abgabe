@@ -10,7 +10,8 @@ Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIG
     game_layer(window),
     overlay_layer(window),
     overlay_control(overlay_layer, state),
-    spaceship_control(game_layer)
+    spaceship_control(game_layer),
+    alien_control(game_layer)
     {
     // limit frame rate
     window.setFramerateLimit(constants::FRAME_RATE);
@@ -70,7 +71,7 @@ bool Game::input() {
 void Game::update(float time_passed) {
     // TODO: update the game objects with the current time stamp
 
-    //check if the spaceship hit an alien
+    //check if an alien got hit
    /** if(collision_alien) {
         state.alien_hits++;
         state.score += 10;
@@ -106,6 +107,7 @@ void Game::draw() {
     //draw the game elements
     game_layer.clear();
     spaceship_control.draw_spaceship();
+    alien_control.draw_aliens();
     
     //draw the overlay
     overlay_layer.clear();

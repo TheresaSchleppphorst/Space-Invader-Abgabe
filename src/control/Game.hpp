@@ -6,6 +6,7 @@
 #include "../view/Layer.hpp"
 #include "SpaceshipControl.hpp"
 #include "OverlayControl.hpp"
+#include "AlienControl.hpp"
 #include "../model/GameState.hpp"
 
 
@@ -42,6 +43,7 @@ private:
     //Controls for different parts of the game
     SpaceshipControl spaceship_control;
     OverlayControl overlay_control;
+    AlienControl alien_control;
 };
 
 #endif

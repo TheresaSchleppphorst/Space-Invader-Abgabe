@@ -6,4 +6,7 @@ namespace constants {
 
      constexpr int MITTE_X_ACHSE = VIEW_WIDTH / 2;  //300
      constexpr int MITTE_Y_ACHSE = VIEW_HEIGHT / 2; //300
+
+     constexpr int SPIELFELDRAND_LI = 60;
+     constexpr int SPIELFELDRAND_RE = 540;
 }

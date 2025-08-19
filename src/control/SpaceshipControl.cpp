@@ -1,6 +1,6 @@
 #include "SpaceshipControl.hpp"
-#include <iostream>
 #include "../model/Constants.hpp"
+#include <iostream>
 #include <algorithm>
 
 SpaceshipControl::SpaceshipControl(Layer &layer) : spaceship(), layer(layer), shoots(){}
@@ -12,10 +12,10 @@ void SpaceshipControl::update_spaceship(float elapsed_time){
     //vertical position of the spaceship (the exact position where I want the spaceship to show)
     float y = spaceship.getPosition().y;
     //std::cout << "Der Wert der float-Variable ist: " << spaceship.getPosition().x << std::endl;
-    if (spaceship.getPosition().x > 60 && spaceship.getHorizontaleRichtung() == horizontaleRichtung::LEFT)
+    if (spaceship.getPosition().x > constants::SPIELFELDRAND_LI && spaceship.getHorizontaleRichtung() == horizontaleRichtung::LEFT)
     { x = -200;
     }
-    if (spaceship.getPosition().x < 540 && spaceship.getHorizontaleRichtung() == horizontaleRichtung::RIGHT)
+    if (spaceship.getPosition().x < constants::SPIELFELDRAND_RE && spaceship.getHorizontaleRichtung() == horizontaleRichtung::RIGHT)
     { x = 200;
     }
     x = spaceship.getPosition().x + x * elapsed_time;

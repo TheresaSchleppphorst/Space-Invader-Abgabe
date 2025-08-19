@@ -1,6 +1,4 @@
-//
-// Created by there on 05.08.2025.
-//
+
 
 #ifndef SPACESHIP_HPP
 #define SPACESHIP_HPP
@@ -11,6 +9,8 @@ enum class horizontaleRichtung {
   RIGHT,
   NONE
 };
+
+
 
 //Spaceship Class
 class Spaceship{

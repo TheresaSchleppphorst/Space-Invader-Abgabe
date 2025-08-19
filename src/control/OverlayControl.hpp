@@ -5,14 +5,17 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <vector>
 
 #include "../view/Layer.hpp"
+#include "../model/GameState.hpp"
 
 //Control for the overlay (score, game over text, level, lives)
 class OverlayControl{
     public:
-        //initializes the controller with the layer on which the score will be shown
-        OverlayControl(Layer &layer);
+        //initializes the controller with the layer on which the score will be shown and the
+        //current GameState
+        OverlayControl(Layer &layer, GameState& state);
 
         //if the spaceship shot an alien, the score is updated
         void update_score(size_t alien_hit);
@@ -21,7 +24,7 @@ class OverlayControl{
         void update_level(size_t level);
 
         //the remaining number of lives of the player (spaceship)
-        void update_lives(int lives);
+        void update_lives();
 
         //draw the overlay to the layer
         void draw();
@@ -42,14 +45,25 @@ class OverlayControl{
         //level
         size_t level = 0;
 
+        //Text element showing the level
+        sf::Text level_view;
+
         //Text element showing the score
         sf::Text score_view;
 
-        ///Text element showing the level
-        sf::Text level_view;
-
         ///Text element showing the lives
         sf::Text lives_view;
+
+        //Icons for the lives
+        sf::Sprite lives_icon_1;
+        sf::Sprite lives_icon_2;
+        sf::Sprite lives_icon_3;
+      
+        //Texture for the lives sprite
+        sf::Texture lives_texture;
+
+        //reference to the GameState values that update() in Game.cpp holds and changes
+        GameState& state;
 
         //layout of the header
         void layout_header();

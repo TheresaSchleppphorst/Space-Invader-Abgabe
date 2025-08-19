@@ -1,10 +1,10 @@
 #include "SpaceshipControl.hpp"
 #include <iostream>
 #include "../model/Constants.hpp"
+#include <algorithm>
 
-SpaceshipControl::SpaceshipControl(Layer &layer) : spaceship(), shoot(spaceship.getSprite().getPosition()), layer(layer){
+SpaceshipControl::SpaceshipControl(Layer &layer) : spaceship(), layer(layer), shoots(){}
 
-}
 
 void SpaceshipControl::update_spaceship(float elapsed_time){
     //horizontal position of the spaceship (will change with this function)
@@ -30,9 +30,8 @@ void SpaceshipControl::draw_spaceship(){
 }
 
 void SpaceshipControl::draw_shoot(){
-    if (shoot_active){
-        layer.add_to_layer(shoot.getSprite());
-    }
+        for(const auto& shoot: shoots){
+        layer.add_to_layer(shoot.getSprite());}
 }
 
 void SpaceshipControl::right_button_pressed(){
@@ -49,35 +48,36 @@ void SpaceshipControl::direction_button_released(::horizontaleRichtung hR){
 }
 
 void SpaceshipControl::space_bar_pressed(){
-    shoot_active = true;
     auto spaceshipPosition = spaceship.getPosition();
+    shoots.emplace_back(spaceshipPosition);
+    auto& shoot = shoots.back();
     shoot.setPosition({spaceshipPosition.x - 25, spaceshipPosition.y -20});
     shoot.move_up();
-
 }
 
-
 void SpaceshipControl::update_shoot(float elapsed_time) {
-    if(shoot_active == true){
+    if(shoots.empty() == false){
 
-    float x = shoot.getPosition().x;
-    float y = shoot.getPosition().y;
     float speed = 500.f;
+
+    for(auto& shoot : shoots){
+        float x = shoot.getPosition().x;
+        float y = shoot.getPosition().y;
 
     if (shoot.getVertikaleRichtung() == vertikaleRichtung::UP) {
         y -= elapsed_time * speed;
+        // update position
+        shoot.setPosition({x, y});
     }
- 
-    // update position
-    shoot.setPosition({x, y});
-
-    // NEU::
-    const float top = -constants::VIEW_HEIGHT;
-    const float halfH = shoot.getSprite().getOrigin().y;
-
-    if (y + halfH < top) {
-        shoot_active = false;
     }
 
-}
+    // Verschwinden der Schüsse:
+    
+    for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
+       if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y + 300) {
+            shootIterator = shoots.erase(shootIterator);
+        } else 
+            shootIterator++;
+    }
+    }
 }

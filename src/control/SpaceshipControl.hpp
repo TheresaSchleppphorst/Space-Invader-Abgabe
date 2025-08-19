@@ -42,13 +42,11 @@ private:
         //spaceship object
         Spaceship spaceship;
 
-        //shoot object
-        Shoot shoot;
-
         //layer on which the spaceship is drawn
-        Layer &layer;    
+        Layer &layer; 
 
-         bool shoot_active = false;
+        // vector of all shoots
+        std::vector<Shoot> shoots;
 };
 
 #endif

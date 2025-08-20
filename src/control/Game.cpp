@@ -3,16 +3,21 @@
 #include <SFML/Window/Keyboard.hpp>
 
 #include "../model/Constants.hpp"
+#include <algorithm>
 
 Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIGHT}), "Space Invaders"),
     view(sf::FloatRect(sf::Vector2f({0,-constants::VIEW_HEIGHT}), sf::Vector2f({constants::VIEW_WIDTH,constants::VIEW_HEIGHT}))),
     game_layer(window),
-    spaceship_control(game_layer)
+    overlay_layer(window),
+    overlay_control(overlay_layer, state),
+    spaceship_control(game_layer),
+    alien_control(game_layer)
     {
     // limit frame rate
     window.setFramerateLimit(constants::FRAME_RATE);
     // set the view (visible area) for our game
     game_layer.set_view(view);
+    
 }
 
 void Game::start() {
@@ -58,24 +63,66 @@ bool Game::input() {
                 // move left
                 spaceship_control.left_button_pressed();
             }
+             // shooting with space bar:
+            else if (keyPressed->code == sf::Keyboard::Key::Space) {
+                 spaceship_control.space_bar_pressed();
+            }
         } 
     }
     return false;
 }
 
 void Game::update(float time_passed) {
+    spaceship_control.update_spaceship(time_passed);
+    spaceship_control.update_shoot(time_passed);
     // TODO: update the game objects with the current time stamp
+
+    //check if an alien got hit
+   /** if(collision_alien) {
+        state.alien_hits++;
+        state.score += 10;
+        overlay_control.update_score(state.score);
+    }
+    
+    //check if the aliens hit the spaceship
+   if (spaceship_got_hit) {
+        state.spaceship_hits += 1;
+        state.lives = std::max(0, state.lives -1);
+        overlay_control.update_lives(state.lives);
+    }
+    */
+
+    //check if level upgrade is necessary
+    if (state.game_won) {
+        state.level++;
+        overlay_control.update_level(state.level);
+        state.game_won = false;
+    }
+
+    //check if the spaceship lost all his lives -> game over
+    if(state.lives <= 0) {
+       overlay_control.game_over();
+       return; // should stop everything
+    }   
+    //update the spaceships position
+    spaceship_control.update_spaceship(time_passed);
 }
 
 void Game::draw() {
     window.clear();
-
+    //draw the game elements
     game_layer.clear();
-    // TODO: add game elements to layer
     spaceship_control.draw_spaceship();
+    spaceship_control.draw_shoot();
+    alien_control.draw_aliens();
     
+    //draw the overlay
+    overlay_layer.clear();
+    overlay_control.draw();
+
+    //add all render targets to the window and draw them
     game_layer.draw();
-    
+    overlay_layer.draw();
 
     window.display();
 }

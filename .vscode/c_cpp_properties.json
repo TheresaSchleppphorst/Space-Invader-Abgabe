@@ -3,6 +3,22 @@
         {
             "name": "Mac",
             "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "macos-clang-arm64"
+        }
+    ],
+    "version": 4
+}
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "includePath": [
                 "${workspaceFolder}/SFML/include",
                 "/opt/homebrew/include",
                 "${workspaceFolder}/GoogleTest/googletest/include",

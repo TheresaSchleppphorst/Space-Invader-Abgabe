@@ -2,3 +2,8 @@ GoogleTest/
 build/
 SFML-3.0.0/
 SFML/
+googletest-1.17.0/
+game
+build/
+*.o
+*.d

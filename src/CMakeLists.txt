@@ -1,12 +1,14 @@
 # Model
 set(ModelSources
     ${CMAKE_CURRENT_SOURCE_DIR}/model/Spaceship.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/model/Aliens.cpp
     )
 
 # Controller
 set(ControlSources
     ${CMAKE_CURRENT_SOURCE_DIR}/control/Game.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/control/SpaceshipControl.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/control/AlienControl.cpp
     )
 
 # View

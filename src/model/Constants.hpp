@@ -4,5 +4,11 @@ namespace constants {
     constexpr int VIEW_HEIGHT = 600;
     constexpr unsigned int FRAME_RATE = 60;
 
-     constexpr int MITTE_X_ACHSE = VIEW_WIDTH / 2;
+     constexpr int MITTE_X_ACHSE = VIEW_WIDTH / 2;  //300
+     constexpr int MITTE_Y_ACHSE = VIEW_HEIGHT / 2; //300
+     constexpr sf::Vector2f MITTE = {VIEW_WIDTH / 2, VIEW_HEIGHT / 2}; // (300,300)
+
+     constexpr int SPIELFELDRAND_LI = 60;
+     constexpr int SPIELFELDRAND_RE = 540;
+    
 }

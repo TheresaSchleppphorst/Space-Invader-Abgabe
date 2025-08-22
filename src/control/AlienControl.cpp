@@ -1,12 +1,14 @@
 #include "AlienControl.hpp"
 #include "../model/Aliens.hpp"
+#include "../model/Constants.hpp"
 #include <iostream>
 
+
 AlienControl::AlienControl(Layer &layer) : layer(layer){
-    AlienControl::build_AlienGrid();
+    AlienControl::build_Aliengrid();
 }
 
-void AlienControl::build_AlienGrid() {
+void AlienControl::build_Aliengrid() {
 
     // Create the Alien grid.
     int level_depth = 5;
@@ -29,9 +31,39 @@ void AlienControl::build_AlienGrid() {
 }
 
 void AlienControl::update_aliens(float elapsed_time){
+    // Incase theres need to alter the speed.
+    float speedControl = 1.3;
 
-    //TODO finish the Update function
+    // the Grid moves right until the first alien hits the SPIELFELDRAND_RE,
+    for(auto& row : alien_grid){
+        for(auto& alien: row){
 
+             // horrizontal position of the alien.
+            float x = alien.getPosition().x;
+            // vertical position of the alien.
+            float y = alien.getPosition().y;
+
+            if(((alien.getPosition().x > constants::SPIELFELDRAND_RE)||(alien.getPosition().x < constants::SPIELFELDRAND_LI))
+            && !justMovedDown){
+                    move_Aliengrid_down();
+            }
+
+
+            // Move alien depending on RichtungAlien.
+            float movement = 12;
+            if(alien.getRichtungAlien() == RichtungAlien::LEFT) {
+                movement = - movement;
+            }
+
+            x = alien.getPosition().x + movement * elapsed_time * speedControl;
+
+            //update position
+            alien.setPosition({x, y});
+        }
+    }
+    if(aliensInBounds()){
+        justMovedDown = false;
+    }
 }
 
 void AlienControl::draw_aliens(){
@@ -39,7 +71,7 @@ void AlienControl::draw_aliens(){
     for(auto& row : alien_grid ) {
         // For every Alien in the Row ...
         for(auto& alien : row){
-            layer.add_to_layer(alien.getSprite());
+             layer.add_to_layer(alien.getSprite());
         }
     }
 }
@@ -48,6 +80,44 @@ void AlienControl::draw_alien_shoot(){
 
     //TODO, wie oft sollen die Aliens schießen etc.
 
+}
+
+void AlienControl::move_Aliengrid_down() {
+
+    for(auto& row : alien_grid){
+        for(auto& alien : row){
+            
+            float y = alien.getPosition().y;
+            float x = alien.getPosition().x;
+            // testen ob + oder -:
+            // (16+12) is an estimate can be change to our liking. Since all Aliens are moved down we dont need to consider spacing so much.
+            alien.setPosition({x,y +(12)});
+            // Switch Direction from left to right, or right to left:
+            if(alien.getRichtungAlien() == RichtungAlien::RIGHT){
+                alien.setRichtungAlien(RichtungAlien::LEFT);
+        }
+        else if(alien.getRichtungAlien() == RichtungAlien::LEFT){
+                alien.setRichtungAlien(RichtungAlien::RIGHT);
+            }
+    }
+}
+justMovedDown = true;
+}
+
+bool AlienControl::aliensInBounds(){
+    bool inBounds = true;
+
+    for(auto& row : alien_grid){
+        for(auto& alien : row){
+            // checks if all aliens are in bounds, if they are not:
+            // inBounds = false.
+            if ((alien.getPosition().x > constants::SPIELFELDRAND_RE)||(alien.getPosition().x < constants::SPIELFELDRAND_LI)) {
+                inBounds = false;
+            }
+        }
+    }
+    
+    return inBounds;
 }
 
 

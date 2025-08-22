@@ -37,16 +37,27 @@ sf::Vector2f Aliens::getPosition() const {
     return position;
 }
 
+void Aliens::setPosition(sf::Vector2f position){
+    this->position = position;
+    sprite.setPosition(position);
+}
 
 RichtungAlien Aliens::getRichtungAlien() const {
     return rA;
+}
+
+void Aliens::setRichtungAlien(RichtungAlien Richtung){
+    rA = Richtung;
 }
 
 const sf::Sprite& Aliens::getSprite() const {
     return sprite;
 }
 
-void Aliens::setPosition(sf::Vector2f position){
-    this->position = position;
-    sprite.setPosition(position);
-}
+// void setAlive(bool isAlive){
+//     alive = isAlive;
+// }
+
+// const bool getAlive(){
+//     return alive;
+// }

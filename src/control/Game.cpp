@@ -75,7 +75,8 @@ bool Game::input() {
 void Game::update(float time_passed) {
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
-    // TODO: update the game objects with the current time stamp
+    alien_control.update_aliens(time_passed);
+    
 
     //check if an alien got hit
    /** if(collision_alien) {

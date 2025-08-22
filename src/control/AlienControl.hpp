@@ -14,7 +14,7 @@ class AlienControl {
         AlienControl(Layer &layer);
 
         //create an Alien Grid:
-        void build_AlienGrid();
+        void build_Aliengrid();
 
         //determine the position of the alien depending on the current movement
         void update_aliens(float elapsed_time);
@@ -25,9 +25,17 @@ class AlienControl {
         // draw the alien shoot to the layer
         void draw_alien_shoot();
 
+        // moves the Aliengrid down if outer bounds are reached.
+        void move_Aliengrid_down();
+
+        // checks if all aliens are with in the left and right Border:
+        bool aliensInBounds();
 private:
-        // Alien Grid
+        //Alien Grid
         std::vector<std::vector<Aliens>> alien_grid;
+
+        //Boolean used to controll the downward movement
+        bool justMovedDown;
 
         //layer on which the alien is drawn
         Layer &layer; 

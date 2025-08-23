@@ -30,6 +30,10 @@ class AlienControl {
 
         // checks if all aliens are with in the left and right Border:
         bool aliensInBounds();
+
+        // checks if aliens have reached the bottom of the screen (invaded the Planet)
+        // should lead to gameOver()
+        bool bottomReached();
 private:
         //Alien Grid
         std::vector<std::vector<Aliens>> alien_grid;

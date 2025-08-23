@@ -2,6 +2,8 @@
 #include "../model/Aliens.hpp"
 #include "../model/Constants.hpp"
 #include <iostream>
+// this is just needed for a quick test in update_alien:
+// using namespace std; 
 
 
 AlienControl::AlienControl(Layer &layer) : layer(layer){
@@ -31,8 +33,15 @@ void AlienControl::build_Aliengrid() {
 }
 
 void AlienControl::update_aliens(float elapsed_time){
+
+    if(bottomReached()) {
+        // TODO write gameOver() function
+        // this is the test needing the statement at the top:
+        // cout << "Game would be over now!";
+    };
+
     // Incase theres need to alter the speed.
-    float speedControl = 1.3;
+    float speedControl = 4.0;
 
     if(!aliensInBounds() && !justMovedDown){
                     move_Aliengrid_down();
@@ -46,7 +55,7 @@ void AlienControl::update_aliens(float elapsed_time){
             float x = alien.getPosition().x;
             // vertical position of the alien.
             float y = alien.getPosition().y;
-            
+
             // Move alien depending on RichtungAlien.
             float movement = 12;
             if(alien.getRichtungAlien() == RichtungAlien::LEFT) {
@@ -114,6 +123,22 @@ bool AlienControl::aliensInBounds(){
     }
 }
  return inBounds;
+}
+
+// checks if the bottom boundry has been breached.
+bool AlienControl::bottomReached(){
+
+    bool reached;
+    for(auto& row : alien_grid){
+        for(auto& alien : row){
+            if (alien.getPosition().y == constants::SPIELFELDRAND_UN){
+                reached = true;
+            }
+        }
+    }
+    
+return reached;
+
 }
 
 

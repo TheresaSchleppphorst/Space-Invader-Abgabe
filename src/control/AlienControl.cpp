@@ -34,6 +34,10 @@ void AlienControl::update_aliens(float elapsed_time){
     // Incase theres need to alter the speed.
     float speedControl = 1.3;
 
+    if(!aliensInBounds() && !justMovedDown){
+                    move_Aliengrid_down();
+            }
+
     // the Grid moves right until the first alien hits the SPIELFELDRAND_RE,
     for(auto& row : alien_grid){
         for(auto& alien: row){
@@ -42,13 +46,7 @@ void AlienControl::update_aliens(float elapsed_time){
             float x = alien.getPosition().x;
             // vertical position of the alien.
             float y = alien.getPosition().y;
-
-            if(((alien.getPosition().x > constants::SPIELFELDRAND_RE)||(alien.getPosition().x < constants::SPIELFELDRAND_LI))
-            && !justMovedDown){
-                    move_Aliengrid_down();
-            }
-
-
+            
             // Move alien depending on RichtungAlien.
             float movement = 12;
             if(alien.getRichtungAlien() == RichtungAlien::LEFT) {
@@ -58,6 +56,7 @@ void AlienControl::update_aliens(float elapsed_time){
             x = alien.getPosition().x + movement * elapsed_time * speedControl;
 
             //update position
+            y = alien.getPosition().y;
             alien.setPosition({x, y});
         }
     }
@@ -78,7 +77,7 @@ void AlienControl::draw_aliens(){
 
 void AlienControl::draw_alien_shoot(){
 
-    //TODO, wie oft sollen die Aliens schießen etc.
+    //TODO
 
 }
 
@@ -91,7 +90,7 @@ void AlienControl::move_Aliengrid_down() {
             float x = alien.getPosition().x;
             // testen ob + oder -:
             // (16+12) is an estimate can be change to our liking. Since all Aliens are moved down we dont need to consider spacing so much.
-            alien.setPosition({x,y +(12)});
+            alien.setPosition({x,y + (12)});
             // Switch Direction from left to right, or right to left:
             if(alien.getRichtungAlien() == RichtungAlien::RIGHT){
                 alien.setRichtungAlien(RichtungAlien::LEFT);
@@ -108,16 +107,13 @@ bool AlienControl::aliensInBounds(){
     bool inBounds = true;
 
     for(auto& row : alien_grid){
-        for(auto& alien : row){
-            // checks if all aliens are in bounds, if they are not:
-            // inBounds = false.
-            if ((alien.getPosition().x > constants::SPIELFELDRAND_RE)||(alien.getPosition().x < constants::SPIELFELDRAND_LI)) {
-                inBounds = false;
-            }
-        }
+
+        if(row.front().getPosition().x < constants::SPIELFELDRAND_LI || row.back().getPosition().x > constants::SPIELFELDRAND_RE) {
+
+            inBounds = false;
     }
-    
-    return inBounds;
+}
+ return inBounds;
 }
 
 

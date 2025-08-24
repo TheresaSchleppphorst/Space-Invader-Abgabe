@@ -12,4 +12,8 @@ namespace constants {
      constexpr int SPIELFELDRAND_RE = 540;
      constexpr int SPIELFELDRAND_UN = -10;
 
+     // Alien class:
+     constexpr int ALIEN_HEIGHT = 235;
+     constexpr int ALIEN_WIDTH = 337;
+
 }

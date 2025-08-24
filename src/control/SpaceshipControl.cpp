@@ -51,7 +51,7 @@ void SpaceshipControl::space_bar_pressed(){
     auto spaceshipPosition = spaceship.getPosition();
     shoots.emplace_back(spaceshipPosition);
     auto& shoot = shoots.back();
-    shoot.setPosition({spaceshipPosition.x - 25, spaceshipPosition.y -20});
+    shoot.setPosition({spaceshipPosition.x -15 , spaceshipPosition.y -50});
     shoot.move_up();
 }
 

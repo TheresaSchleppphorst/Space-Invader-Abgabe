@@ -15,7 +15,7 @@ Shoot::Shoot(sf::Vector2f position) :
           sprite.setTexture(texture);
           sprite.setTextureRect(sf::IntRect({0,0}, {260,300}));
           sprite.setOrigin({30.f, 15.f});
-          sprite.setScale(sf::Vector2f{0.35f, 0.35f});
+          sprite.setScale(sf::Vector2f{0.18f, 0.18f});
           sprite.setPosition(position);
 }
 

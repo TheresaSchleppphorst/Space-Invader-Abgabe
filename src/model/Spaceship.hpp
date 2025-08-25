@@ -42,6 +42,8 @@ public:
     void move_left();
     //getter des Sprites
     const sf::Sprite &getSprite() const;
+    //damadge function
+    void take_damadge();
 
 
 };

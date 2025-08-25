@@ -43,9 +43,7 @@ void AlienControl::build_Aliengrid() {
 
 void AlienControl::update_aliens(float elapsed_time){
     // Problem with the communication between AlienControl and Game, since Game controlls the game_over() function.
-    if(bottomReached()) {
-        // TODO game_control.overlay_control.game_over();
-    };
+    
 
     // Incase theres need to alter the speed.
     float speedControl = 4.0;
@@ -137,10 +135,10 @@ bool AlienControl::aliensInBounds(){
 // checks if the bottom boundry has been breached.
 bool AlienControl::bottomReached(){
 
-    bool reached;
+    bool reached = false;
     for(auto& row : alien_grid){
         for(auto& alien : row){
-            if (alien.getPosition().y == constants::SPIELFELDRAND_UN){
+            if (alien.getPosition().y >= constants::SPIELFELDRAND_UN){
                 reached = true;
             }
         }
@@ -149,5 +147,3 @@ bool AlienControl::bottomReached(){
 return reached;
 
 }
-
-

@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "AlienControl.hpp"
 
 #include <SFML/Window/Keyboard.hpp>
 
@@ -76,6 +77,10 @@ void Game::update(float time_passed) {
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
     alien_control.update_aliens(time_passed);
+
+    if(alien_control.bottomReached()) {
+        overlay_control.game_over();
+    };
     
 
     //check if an alien got hit

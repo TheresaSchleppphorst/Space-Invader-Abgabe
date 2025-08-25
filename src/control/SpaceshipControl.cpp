@@ -58,7 +58,7 @@ void SpaceshipControl::space_bar_pressed(){
 void SpaceshipControl::update_shoot(float elapsed_time) {
     if(shoots.empty() == false){
 
-    float speed = 500.f;
+    float speed = 400;
 
     for(auto& shoot : shoots){
         float x = shoot.getPosition().x;
@@ -76,7 +76,7 @@ void SpaceshipControl::update_shoot(float elapsed_time) {
     for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
        if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y + 300) {
             shootIterator = shoots.erase(shootIterator);
-        } else 
+       } else 
             shootIterator++;
     }
     }

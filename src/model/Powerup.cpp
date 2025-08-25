@@ -1,66 +1,61 @@
 
-#include "Shoot.hpp"
+#include "Powerup.hpp"
 #include "Constants.hpp"
 #include "iostream"
 
-Shoot::Shoot(sf::Vector2f position) :
+Powerup::Powerup(sf::Vector2f position) :
     position(position), // Position beim Aufrufen setzen, je nachdem wo sich Alien oder Spaceship befinden
     texture(),
     sprite(texture) {
           //load texture
           if(!
-              texture.loadFromFile("assets/sprites/spriteShoot.png"))
+              texture.loadFromFile("assets/sprites/spriteGoodPowerUp.png"))
             throw std::invalid_argument("Could not load sprite");
           //set up sprite
           sprite.setTexture(texture);
-          sprite.setTextureRect(sf::IntRect({0,0}, {260,300}));
+          sprite.setTextureRect(sf::IntRect({0,0}, {100,100}));
           sprite.setOrigin({30.f, 15.f});
           sprite.setScale(sf::Vector2f{0.18f, 0.18f});
           sprite.setPosition(position);
 }
 
-void Shoot::move_up(){
-    if (vR != vertikaleRichtung::UP)
-    { vR = vertikaleRichtung::UP;}
-}
 
-void Shoot::move_down(){
+void Powerup::move_down(){
     if (vR != vertikaleRichtung::DOWN)
     {vR = vertikaleRichtung::DOWN;}
 }
 
 // evt. unnögig:
-void Shoot::stop_vertical_movement(){
+void Powerup::stop_vertical_movement(){
     vR = vertikaleRichtung::NONE;
 }
 
-sf::Vector2f Shoot::getPosition() const {
+sf::Vector2f Powerup::getPosition() const {
     return position;
 }
 
-vertikaleRichtung Shoot::getVertikaleRichtung() const {
+vertikaleRichtung Powerup::getVertikaleRichtung() const {
     return vR;
 }
 
-const sf::Sprite& Shoot::getSprite() const {
+const sf::Sprite& Powerup::getSprite() const {
     return sprite;
 }
 
-void Shoot::setPosition(sf::Vector2f position){
+void Powerup::setPosition(sf::Vector2f position){
     this->position = position;
     sprite.setPosition(position);
 }
 
-void Shoot::setAlienShootSprite()
+void Powerup::setBadPowerupSprite()
 {
-    if (!texture.loadFromFile("assets/sprites/spriteAlienShoot.png")) {
+    if (!texture.loadFromFile("assets/sprites/spriteBadPowerup.png")) {
         throw std::invalid_argument("Could not load sprite");
     }
 
     sprite.setTexture(texture);
-          sprite.setTextureRect(sf::IntRect({0,0}, {1216, 1216}));
+          sprite.setTextureRect(sf::IntRect({0,0}, {100, 100}));
           sprite.setOrigin({30.f, 15.f});
-          sprite.setScale(sf::Vector2f{0.04, 0.04});
+          sprite.setScale(sf::Vector2f{0.8, 0.8});
           sprite.setPosition(position);
 }
-    

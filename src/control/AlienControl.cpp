@@ -1,13 +1,17 @@
 #include "AlienControl.hpp"
 #include "../model/Aliens.hpp"
 #include "../model/Constants.hpp"
+#include "../model/Shoot.hpp"
 #include <iostream>
 // this is just needed for a quick test in update_alien:
 // using namespace std; 
 
 
-AlienControl::AlienControl(Layer &layer) : layer(layer){
+AlienControl::AlienControl(Layer &layer) : layer(layer), random_engine(static_cast<unsigned int>(
+        std::chrono::system_clock::now().time_since_epoch().count()))
+        {
     AlienControl::build_Aliengrid();
+    nextShoot_time = time_between_shoot(random_engine);
 }
 
 void AlienControl::build_Aliengrid() {
@@ -72,6 +76,10 @@ void AlienControl::update_aliens(float elapsed_time){
     if(aliensInBounds()){
         justMovedDown = false;
     }
+
+    random_shoot(elapsed_time);
+    update_shoot(elapsed_time);
+
 }
 
 void AlienControl::draw_aliens(){
@@ -84,10 +92,9 @@ void AlienControl::draw_aliens(){
     }
 }
 
-void AlienControl::draw_alien_shoot(){
-
-    //TODO
-
+void AlienControl::draw_shoot(){
+        for(const auto& shoot: shoots){
+        layer.add_to_layer(shoot.getSprite());}
 }
 
 void AlienControl::move_Aliengrid_down() {
@@ -138,7 +145,76 @@ bool AlienControl::bottomReached(){
     }
     
 return reached;
-
 }
+
+std::vector<Aliens*> AlienControl::getShootingAliens() {
+    std::vector<Aliens*> lowest;
+    int reihe = alien_grid[0].size();
+    for (int j = 0; j < reihe; j++) {
+        for (int i = alien_grid.size()-1; i >= 0; i--) {
+            if (true) {
+                lowest.push_back(&alien_grid[i][j]);
+                break;
+            }
+        }
+    }
+    return lowest;
+}
+
+
+void AlienControl::alienShoot(Aliens* sAlien) {
+
+    auto pos = sAlien->getPosition();
+    shoots.emplace_back(pos);
+    auto& s = shoots.back();
+    s.setAlienShootSprite(); // anderes Sprite (blaue Schüsse)
+    s.setPosition(pos);
+    s.move_down(); // Bewegungsrichtung nach unten
+}
+
+void AlienControl::random_shoot(float elapsed_time) {
+    nextShoot_time -= elapsed_time;
+    if (nextShoot_time > 0) return;
+
+    auto shooters = getShootingAliens();
+    if (!shooters.empty()) {
+        std::uniform_int_distribution<size_t> pick(0, shooters.size()-1);
+        Aliens* a = shooters[pick(random_engine)];
+
+        // Schießen
+        alienShoot(a);
+    }
+
+    nextShoot_time = time_between_shoot(random_engine); // nächstes Intervall
+}
+
+
+void AlienControl::update_shoot(float elapsed_time) {
+    if(shoots.empty() == false){
+
+    float speed = 200; // Alien Schüssen sind langsamer als die vom Raumschiff (einfacher zu spielen)
+
+    for(auto& shoot : shoots){
+        float x = shoot.getPosition().x;
+        float y = shoot.getPosition().y;
+
+    if (shoot.getVertikaleRichtung() == vertikaleRichtung::DOWN) {
+        y += elapsed_time * speed;
+        // update position
+        shoot.setPosition({x, y});
+    }
+    }
+
+    // Verschwinden der Schüsse:
+    
+    for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
+       if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y - 300) {
+            shootIterator = shoots.erase(shootIterator);
+       } else 
+            shootIterator++;
+    }
+}
+}
+    
 
 

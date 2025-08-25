@@ -7,6 +7,7 @@
 #include "SpaceshipControl.hpp"
 #include "OverlayControl.hpp"
 #include "AlienControl.hpp"
+#include "PowerupControl.hpp"
 #include "../model/GameState.hpp"
 
 
@@ -44,6 +45,7 @@ private:
     SpaceshipControl spaceship_control;
     OverlayControl overlay_control;
     AlienControl alien_control;
+    PowerupControl powerup_control;
 };
 
 #endif

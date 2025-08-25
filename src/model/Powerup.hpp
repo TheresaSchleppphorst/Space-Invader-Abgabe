@@ -1,16 +1,12 @@
 
-#ifndef SHOOT_HPP
-#define SHOOT_HPP
+#ifndef Powerup_HPP
+#define Powerup_HPP
 #include <SFML/Graphics.hpp>
 #include "../view/Layer.hpp"
+#include "../model/Shoot.hpp"
 
-enum class vertikaleRichtung {
-  UP,
-  DOWN,
-  NONE
-};
 
-class Shoot {
+class Powerup {
     protected:
     sf::Vector2f position;
     //Schuss bewegt sich nach oben (Raumschiff) oder unten (Alien)
@@ -18,32 +14,27 @@ class Shoot {
     sf:: Texture texture;
     sf::Sprite sprite;
 
-
   public:
 
-    ~Shoot() = default;
+    ~Powerup() = default;
     //Konstruktor
-    Shoot(sf::Vector2f position);
-  
-    
-     //setter + getter Position
+    Powerup(sf::Vector2f position);
+
+    //setter + getter Position
     sf::Vector2f getPosition() const;
     void setPosition(sf::Vector2f position);
     //check, ob Bewegung nach oben oder unten
     vertikaleRichtung getVertikaleRichtung() const;
-    //Schuss bewegt sich nicht weiter
+    //PowerUp bewegt sich nicht weiter
     void stop_vertical_movement();
     // Bewegung nach oben
-    void move_up();
-    // Bewegung nach oben
     void move_down();
-    
     //getter des Sprites
     const sf::Sprite &getSprite() const;
 
-    // anderes Bild für die Schüsse der Aliens laden
-    void setAlienShootSprite();
+    // change Sprite for different PowerUps
+    void setBadPowerupSprite();
 
 };
 
-#endif //SHOOT_HPP
+#endif //Powerup_HPP

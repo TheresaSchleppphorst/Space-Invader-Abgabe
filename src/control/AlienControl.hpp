@@ -1,12 +1,14 @@
 #ifndef ALIENCONTROL_H
 #define ALIENCONTROL_H
 
-#include <SFML/Graphics.hpp>
+#include <random>
 
+#include <SFML/Graphics.hpp>
 #include "../model/Aliens.hpp"
 //#include "ShootControl.hpp"
 //#include "../model/Shoot.hpp"
 #include "../view/Layer.hpp"
+#include "../model/Shoot.hpp"
 
 class AlienControl {
     public:
@@ -22,6 +24,9 @@ class AlienControl {
         //draw the alien to the layer
         void draw_aliens();
 
+        //draw the shoot to the layer
+        void draw_shoot();
+
         // draw the alien shoot to the layer
         void draw_alien_shoot();
 
@@ -34,6 +39,17 @@ class AlienControl {
         // checks if aliens have reached the bottom of the screen (invaded the Planet)
         // should lead to gameOver()
         bool bottomReached();
+
+        // gives back the lowest row of aliens because only they can shoot
+        std::vector<Aliens*> getShootingAliens();
+
+        // random shooting -> sAlien is the current shooting Alien
+        void alienShoot(Aliens* sAlien);
+
+        void random_shoot(float elapsed_time);
+
+        void update_shoot(float elapsed_time);
+
 private:
         //Alien Grid
         std::vector<std::vector<Aliens>> alien_grid;
@@ -41,9 +57,20 @@ private:
         //Boolean used to controll the downward movement
         bool justMovedDown;
 
-        //layer on which the alien is drawn
+        // vector of all shoots
+        std::vector<Shoot> shoots;
+
+        // layer on which the alien is drawn
         Layer &layer; 
-        
+
+        // random number generator
+        std::mt19937 random_engine;
+
+        // time between 1 and 2 seconds between the shoots of aliens
+        std::uniform_real_distribution<float> time_between_shoot{1, 2};
+
+        // time until next shoot
+        float nextShoot_time = 0;
        
 };
 

@@ -77,7 +77,7 @@ void Game::update(float time_passed) {
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
     alien_control.update_aliens(time_passed);
-    spaceship_control.update_shoot(time_passed);
+    powerup_control.update_powerup(time_passed);
     
 
     //check if an alien got hit

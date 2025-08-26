@@ -32,8 +32,11 @@ class Powerup {
     //getter des Sprites
     const sf::Sprite &getSprite() const;
 
-    // change Sprite for different PowerUps
+    // change Sprite for bad PowerUps
     void setBadPowerupSprite();
+
+    // change Sprite for good PowerUps
+    void setGoodPowerupSprite();
 
 };
 

@@ -5,8 +5,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "../model/Aliens.hpp"
-//#include "ShootControl.hpp"
-//#include "../model/Shoot.hpp"
 #include "../view/Layer.hpp"
 #include "../model/Shoot.hpp"
 

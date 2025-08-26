@@ -15,7 +15,7 @@ Powerup::Powerup(sf::Vector2f position) :
           sprite.setTexture(texture);
           sprite.setTextureRect(sf::IntRect({0,0}, {100,100}));
           sprite.setOrigin({30.f, 15.f});
-          sprite.setScale(sf::Vector2f{0.18f, 0.18f});
+          sprite.setScale(sf::Vector2f{0.9, 0.9});
           sprite.setPosition(position);
 }
 
@@ -52,7 +52,18 @@ void Powerup::setBadPowerupSprite()
     if (!texture.loadFromFile("assets/sprites/spriteBadPowerup.png")) {
         throw std::invalid_argument("Could not load sprite");
     }
+    sprite.setTexture(texture);
+          sprite.setTextureRect(sf::IntRect({0,0}, {100, 100}));
+          sprite.setOrigin({30.f, 15.f});
+          sprite.setScale(sf::Vector2f{0.8, 0.8});
+          sprite.setPosition(position);
+}
 
+void Powerup::setGoodPowerupSprite()
+{
+    if (!texture.loadFromFile("assets/sprites/spriteGoodPowerup.png")) {
+        throw std::invalid_argument("Could not load sprite");
+    }
     sprite.setTexture(texture);
           sprite.setTextureRect(sf::IntRect({0,0}, {100, 100}));
           sprite.setOrigin({30.f, 15.f});

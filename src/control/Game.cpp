@@ -5,6 +5,8 @@
 
 #include "../model/Constants.hpp"
 #include <algorithm>
+#include <SFML/Graphics.hpp>
+#include <vector>
 
 Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIGHT}), "Space Invaders"),
     view(sf::FloatRect(sf::Vector2f({0,-constants::VIEW_HEIGHT}), sf::Vector2f({constants::VIEW_WIDTH,constants::VIEW_HEIGHT}))),
@@ -74,29 +76,30 @@ bool Game::input() {
 }
 
 void Game::update(float time_passed) {
+
+    //Draw the GameOver screen:
+    if(alien_control.bottomReached()) {
+        overlay_control.game_over();
+        return; // No more Movement
+    };
+
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
     alien_control.update_aliens(time_passed);
 
-    if(alien_control.bottomReached()) {
-        overlay_control.game_over();
-    };
-    
-
-    //check if an alien got hit
-   /** if(collision_alien) {
+  if(collisionAlien()) {
         state.alien_hits++;
         state.score += 10;
         overlay_control.update_score(state.score);
     }
     
-    //check if the aliens hit the spaceship
-   if (spaceship_got_hit) {
-        state.spaceship_hits += 1;
-        state.lives = std::max(0, state.lives -1);
-        overlay_control.update_lives(state.lives);
-    }
-    */
+//     //check if the aliens hit the spaceship
+//    if (spaceship_got_hit) {
+//         state.spaceship_hits += 1;
+//         state.lives = std::max(0, state.lives -1);
+//         overlay_control.update_lives(state.lives);
+//     }
+
 
     //check if level upgrade is necessary
     if (state.game_won) {
@@ -131,4 +134,45 @@ void Game::draw() {
     overlay_layer.draw();
 
     window.display();
+}
+
+bool Game::collisionAlien(){
+    //check if an alien got hit
+    bool alien_hit = false;
+
+    // Iterating through all aliens:
+    for(auto& row : alien_control.alien_grid){
+        for(auto& alien : row){
+            //Skip all dead aliens
+            if(!alien.getAlive()){
+                continue;
+            }
+
+            float alienX = alien.getPosition().x;
+            float alienY = alien.getPosition().y;
+
+            // Iterate through all shoots:
+            for(auto& shot : spaceship_control.shoots){
+
+                // Check if shot is within an alien row (height)
+                if(shot.getPosition().y >= alienY
+                && shot.getPosition().y <= alienY + constants::ALIEN_HEIGHT * 0.08){
+                    // Check if shot is within an alien collum (width)
+                    if(shot.getPosition().x >= alienX - constants::MITTE_ALIEN_WIDTH 
+                && shot.getPosition().x <= alienX + constants::MITTE_ALIEN_WIDTH){
+                    // ==> We are within an alien Sprite box.
+                    alien.take_damadge();
+                    alien_hit = true;
+                    spaceship_control.shoots.erase(shot);
+
+                    }
+                }
+            }
+
+            
+
+        }
+    }
+
+    return alien_hit;
 }

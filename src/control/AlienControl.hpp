@@ -44,7 +44,7 @@ private:
         //layer on which the alien is drawn
         Layer &layer; 
         
-       
+       friend class Game;
 };
 
 #endif

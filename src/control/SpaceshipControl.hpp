@@ -36,7 +36,6 @@ class SpaceshipControl {
 
         //shoot movement
         void update_shoot(float elapsed_time);
-        
 
 private:
         //spaceship object
@@ -47,6 +46,8 @@ private:
 
         // vector of all shoots
         std::vector<Shoot> shoots;
+
+        friend class Game;
 };
 
 #endif

@@ -42,8 +42,6 @@ void AlienControl::build_Aliengrid() {
 }
 
 void AlienControl::update_aliens(float elapsed_time){
-    // Problem with the communication between AlienControl and Game, since Game controlls the game_over() function.
-    
 
     // Incase theres need to alter the speed.
     float speedControl = 4.0;
@@ -84,8 +82,11 @@ void AlienControl::draw_aliens(){
     for(auto& row : alien_grid ) {
         // For every Alien in the Row ...
         for(auto& alien : row){
-             layer.add_to_layer(alien.getSprite());
+            if(alien.getAlive()){
+                layer.add_to_layer(alien.getSprite());
+            }
         }
+             
     }
 }
 
@@ -102,8 +103,6 @@ void AlienControl::move_Aliengrid_down() {
             
             float y = alien.getPosition().y;
             float x = alien.getPosition().x;
-        
-            // (16+12) is an estimate can be change to our liking. Since all Aliens are moved down we dont need to consider spacing.
 
             alien.setPosition({x,y + (12)});
             // Switch Direction from left to right, or right to left:

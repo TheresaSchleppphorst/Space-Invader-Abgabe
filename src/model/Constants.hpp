@@ -14,6 +14,8 @@ namespace constants {
 
      // Alien class:
      constexpr int ALIEN_HEIGHT = 235;
+     constexpr float MITTE_ALIEN_HEIGHT = ALIEN_HEIGHT /2;
      constexpr int ALIEN_WIDTH = 337;
+     constexpr float MITTE_ALIEN_WIDTH = ALIEN_WIDTH / 2;
 
 }

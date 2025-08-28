@@ -8,6 +8,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+
 Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIGHT}), "Space Invaders"),
     view(sf::FloatRect(sf::Vector2f({0,-constants::VIEW_HEIGHT}), sf::Vector2f({constants::VIEW_WIDTH,constants::VIEW_HEIGHT}))),
     game_layer(window),
@@ -160,6 +161,22 @@ bool Game::collisionAlien(){
             // Iterate through all shoots:
             for(auto& shot : spaceship_control.shoots){
 
+                if(!shot.getActive()){
+                    continue;
+                }
+
+                sf::FloatRect alienBounds = alien.getSprite().getGlobalBounds();
+                sf::FloatRect shotBounds = shot.getSprite().getGlobalBounds();
+
+                if(alienBounds.findIntersection(shotBounds)){
+
+                    alien.take_damadge();
+                    alien_hit = true;
+                    shot.setActive(false);
+                    
+                }
+
+
                 // Check if shot is within an alien row (height)
                 if(shot.getPosition().y >= alienY
                 && shot.getPosition().y <= alienY + constants::ALIEN_HEIGHT * 0.08){
@@ -169,7 +186,8 @@ bool Game::collisionAlien(){
                     // ==> We are within an alien Sprite box.
                     alien.take_damadge();
                     alien_hit = true;
-                    spaceship_control.shoots.erase(shot);
+                    shot.setActive(false);
+                    
 
                     }
                 }

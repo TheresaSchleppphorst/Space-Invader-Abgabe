@@ -30,8 +30,11 @@ void SpaceshipControl::draw_spaceship(){
 }
 
 void SpaceshipControl::draw_shoot(){
-        for(const auto& shoot: shoots){
-        layer.add_to_layer(shoot.getSprite());}
+        for(auto& shoot: shoots){
+            if(shoot.getActive()){
+                layer.add_to_layer(shoot.getSprite());}
+            }
+        
 }
 
 void SpaceshipControl::right_button_pressed(){

@@ -99,8 +99,11 @@ void AlienControl::draw_aliens(){
 }
 
 void AlienControl::draw_shoot(){
-        for(const auto& shoot: shoots){
-        layer.add_to_layer(shoot.getSprite());}
+    for(auto& shoot: shoots){
+        if(shoot.getActive()){
+            layer.add_to_layer(shoot.getSprite());
+        }
+    }
 }
 
 void AlienControl::move_Aliengrid_down() {
@@ -144,7 +147,7 @@ bool AlienControl::bottomReached(){
     bool reached = false;
     for(auto& row : alien_grid){
         for(auto& alien : row){
-            if (alien.getPosition().y >= constants::SPIELFELDRAND_UN){
+            if (alien.getAlive() && alien.getPosition().y >= constants::SPIELFELDRAND_UNT){
                 reached = true;
             }
         }

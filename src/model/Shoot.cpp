@@ -3,9 +3,10 @@
 #include "Constants.hpp"
 #include "iostream"
 
+sf::Texture Shoot::texture;
+
 Shoot::Shoot(sf::Vector2f position) :
     position(position), // Position beim Aufrufen setzen, je nachdem wo sich Alien oder Spaceship befinden
-    texture(),
     sprite(texture) {
           //load texture
           if(!
@@ -63,4 +64,15 @@ void Shoot::setAlienShootSprite()
           sprite.setScale(sf::Vector2f{0.04, 0.04});
           sprite.setPosition(position);
 }
+
+void Shoot::setActive(bool status){
+    active = status;
+}
     
+const bool Shoot::getActive(){
+    return active;
+}
+
+void Shoot::hit(){
+    setActive(false);
+}

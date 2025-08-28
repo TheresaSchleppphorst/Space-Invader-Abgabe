@@ -14,7 +14,8 @@ Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIG
     overlay_layer(window),
     overlay_control(overlay_layer, state),
     spaceship_control(game_layer),
-    alien_control(game_layer)
+    alien_control(game_layer),
+    powerup_control(game_layer)
     {
     // limit frame rate
     window.setFramerateLimit(constants::FRAME_RATE);
@@ -86,6 +87,9 @@ void Game::update(float time_passed) {
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
     alien_control.update_aliens(time_passed);
+    powerup_control.update_powerup(time_passed);
+    
+
 
   if(collisionAlien()) {
         state.alien_hits++;
@@ -123,7 +127,9 @@ void Game::draw() {
     game_layer.clear();
     spaceship_control.draw_spaceship();
     spaceship_control.draw_shoot();
+    alien_control.draw_shoot();
     alien_control.draw_aliens();
+    powerup_control.draw_powerup();
     
     //draw the overlay
     overlay_layer.clear();

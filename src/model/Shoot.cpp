@@ -15,7 +15,7 @@ Shoot::Shoot(sf::Vector2f position) :
           sprite.setTexture(texture);
           sprite.setTextureRect(sf::IntRect({0,0}, {260,300}));
           sprite.setOrigin({30.f, 15.f});
-          sprite.setScale(sf::Vector2f{0.35f, 0.35f});
+          sprite.setScale(sf::Vector2f{0.18f, 0.18f});
           sprite.setPosition(position);
 }
 
@@ -50,3 +50,17 @@ void Shoot::setPosition(sf::Vector2f position){
     this->position = position;
     sprite.setPosition(position);
 }
+
+void Shoot::setAlienShootSprite()
+{
+    if (!texture.loadFromFile("assets/sprites/spriteAlienShoot.png")) {
+        throw std::invalid_argument("Could not load sprite");
+    }
+
+    sprite.setTexture(texture);
+          sprite.setTextureRect(sf::IntRect({0,0}, {1216, 1216}));
+          sprite.setOrigin({30.f, 15.f});
+          sprite.setScale(sf::Vector2f{0.04, 0.04});
+          sprite.setPosition(position);
+}
+    

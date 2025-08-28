@@ -51,14 +51,14 @@ void SpaceshipControl::space_bar_pressed(){
     auto spaceshipPosition = spaceship.getPosition();
     shoots.emplace_back(spaceshipPosition);
     auto& shoot = shoots.back();
-    shoot.setPosition({spaceshipPosition.x - 25, spaceshipPosition.y -20});
+    shoot.setPosition({spaceshipPosition.x -15 , spaceshipPosition.y -50});
     shoot.move_up();
 }
 
 void SpaceshipControl::update_shoot(float elapsed_time) {
     if(shoots.empty() == false){
 
-    float speed = 500.f;
+    float speed = 400;
 
     for(auto& shoot : shoots){
         float x = shoot.getPosition().x;
@@ -76,7 +76,7 @@ void SpaceshipControl::update_shoot(float elapsed_time) {
     for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
        if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y + 300) {
             shootIterator = shoots.erase(shootIterator);
-        } else 
+       } else 
             shootIterator++;
     }
     }

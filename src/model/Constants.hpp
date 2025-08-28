@@ -10,6 +10,8 @@ namespace constants {
 
      constexpr int SPIELFELDRAND_LI = 60;
      constexpr int SPIELFELDRAND_RE = 540;
+     constexpr int SPIELFELDRAND_UN = -10;
+     constexpr int SPIELFELDRAND_OB = 590;
      constexpr int SPIELFELDRAND_UN = -50;
 
      // Alien class:

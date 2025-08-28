@@ -173,23 +173,7 @@ bool Game::collisionAlien(){
                     alien.take_damadge();
                     alien_hit = true;
                     shot.setActive(false);
-                    
-                }
 
-
-                // Check if shot is within an alien row (height)
-                if(shot.getPosition().y >= alienY
-                && shot.getPosition().y <= alienY + constants::ALIEN_HEIGHT * 0.08){
-                    // Check if shot is within an alien collum (width)
-                    if(shot.getPosition().x >= alienX - constants::MITTE_ALIEN_WIDTH 
-                && shot.getPosition().x <= alienX + constants::MITTE_ALIEN_WIDTH){
-                    // ==> We are within an alien Sprite box.
-                    alien.take_damadge();
-                    alien_hit = true;
-                    shot.setActive(false);
-                    
-
-                    }
                 }
             }
 

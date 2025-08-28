@@ -16,6 +16,7 @@ class Shoot {
     //Schuss bewegt sich nach oben (Raumschiff) oder unten (Alien)
     vertikaleRichtung vR = vertikaleRichtung::NONE;
     static sf::Texture texture;
+    static sf::Texture alienTexture;
     sf::Sprite sprite;
     bool active = true;
 

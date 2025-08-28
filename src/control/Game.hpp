@@ -36,7 +36,7 @@ private:
 
     //Collision Functions:
     bool collisionAlien();
-    // bool collisionSpaceship();
+    bool collisionSpaceship();
 
     sf::RenderWindow window;
 

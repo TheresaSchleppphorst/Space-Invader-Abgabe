@@ -168,7 +168,7 @@ void AlienControl::alienShoot(Aliens* sAlien) {
     shoots.emplace_back(pos);
     auto& s = shoots.back();
     s.setAlienShootSprite(); // anderes Sprite (blaue Schüsse)
-    s.setPosition(pos);
+    s.setPosition({pos.x, pos.y - 15 });
     s.move_down(); // Bewegungsrichtung nach unten
 }
 

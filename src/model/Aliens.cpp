@@ -15,10 +15,9 @@ Aliens::Aliens(sf::Vector2f alienPos) :
         throw std::invalid_argument("Could not load sprite");
         //set up sprite
         sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect({0, 321}, {481, 321}));
-        sprite.setScale({0.08f, 0.08f});
-        sf::FloatRect bounds = sprite.getGlobalBounds();     
-        sprite.setOrigin({bounds.position.x + bounds.size.x / 2, bounds.position.y + bounds.size.y });        
+        sprite.setTextureRect(sf::IntRect({80, 365}, {constants::ALIEN_WIDTH, constants::ALIEN_HEIGHT}));
+        sprite.setScale({0.08f, 0.08f});   
+        sprite.setOrigin({constants::ALIEN_WIDTH / 2, constants::ALIEN_HEIGHT});        
         sprite.setPosition(alienPos);
 }
  
@@ -54,10 +53,14 @@ const sf::Sprite& Aliens::getSprite() const {
     return sprite;
 }
 
-// void setAlive(bool isAlive){
-//     alive = isAlive;
-// }
+void Aliens::setAlive(bool isAlive){
+    alive = isAlive;
+}
 
-// const bool getAlive(){
-//     return alive;
-// }
+const bool Aliens::getAlive(){
+    return alive;
+}
+
+void Aliens::take_damadge(){
+    setAlive(false);
+}

@@ -35,7 +35,6 @@ class SpaceshipControl {
 
         //shoot movement
         void update_shoot(float elapsed_time);
-        
 
 private:
         //spaceship object
@@ -49,6 +48,8 @@ private:
 
         // Bild für Shoot verwi
         sf::Texture shootTexture;
+
+        friend class Game;
 };
 
 #endif

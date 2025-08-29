@@ -3,9 +3,11 @@
 #include "Constants.hpp"
 #include "iostream"
 
+sf::Texture Shoot::texture;
+sf::Texture Shoot::alienTexture;
+
 Shoot::Shoot(sf::Vector2f position) :
     position(position), // Position beim Aufrufen setzen, je nachdem wo sich Alien oder Spaceship befinden
-    texture(),
     sprite(texture) {
           //load texture
           if(!
@@ -13,7 +15,7 @@ Shoot::Shoot(sf::Vector2f position) :
             throw std::invalid_argument("Could not load sprite");
           //set up sprite
           sprite.setTexture(texture);
-          sprite.setTextureRect(sf::IntRect({0,0}, {260,300}));
+          sprite.setTextureRect(sf::IntRect({0,0}, {110,180}));
           sprite.setOrigin({30.f, 15.f});
           sprite.setScale(sf::Vector2f{0.18f, 0.18f});
           sprite.setPosition(position);
@@ -53,14 +55,25 @@ void Shoot::setPosition(sf::Vector2f position){
 
 void Shoot::setAlienShootSprite()
 {
-    if (!texture.loadFromFile("assets/sprites/spriteAlienShoot.png")) {
+    if (!alienTexture.loadFromFile("assets/sprites/spriteAlienShoot.png")) {
         throw std::invalid_argument("Could not load sprite");
     }
 
-    sprite.setTexture(texture);
+    sprite.setTexture(alienTexture);
           sprite.setTextureRect(sf::IntRect({0,0}, {1216, 1216}));
           sprite.setOrigin({30.f, 15.f});
           sprite.setScale(sf::Vector2f{0.04, 0.04});
           sprite.setPosition(position);
 }
+
+void Shoot::setActive(bool status){
+    active = status;
+}
     
+const bool Shoot::getActive(){
+    return active;
+}
+
+void Shoot::hit(){
+    setActive(false);
+}

@@ -34,6 +34,10 @@ private:
     // draws the scene
     void draw();
 
+    //Collision Functions:
+    bool collisionAlien();
+    bool collisionSpaceship();
+
     sf::RenderWindow window;
 
     // view area and layers

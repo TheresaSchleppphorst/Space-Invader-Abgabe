@@ -15,8 +15,10 @@ class Shoot {
     sf::Vector2f position;
     //Schuss bewegt sich nach oben (Raumschiff) oder unten (Alien)
     vertikaleRichtung vR = vertikaleRichtung::NONE;
-    sf:: Texture texture;
+    static sf::Texture texture;
+    static sf::Texture alienTexture;
     sf::Sprite sprite;
+    bool active = true;
 
 
   public:
@@ -43,6 +45,14 @@ class Shoot {
 
     // anderes Bild für die Schüsse der Aliens laden
     void setAlienShootSprite();
+
+    // Activity Setter
+    void setActive(bool status);
+    // Activity Getter
+    const bool getActive();
+    // Changes the Active status of a Shot after an Colision to false
+    void hit();
+
 
 };
 

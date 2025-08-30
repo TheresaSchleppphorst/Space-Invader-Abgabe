@@ -14,7 +14,7 @@ protected:
 TEST_F(SpaceshipTest, Initialization) {
     //position is initialized correctly
     ASSERT_EQ(s.getPosition().x, constants::MITTE_X_ACHSE);
-    ASSERT_EQ(s.getPosition().y, -10);
+    ASSERT_EQ(s.getPosition().y, constants::SPIELFELDRAND_UN);
 
      //bounds are greater than null
     const auto& sp = s.getSprite();

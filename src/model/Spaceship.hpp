@@ -43,7 +43,6 @@ public:
     //getter des Sprites
     const sf::Sprite &getSprite() const;
 
-
 };
 
 #endif //SPACESHIP_HPP

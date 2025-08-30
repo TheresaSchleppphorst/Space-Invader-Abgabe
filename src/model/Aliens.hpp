@@ -19,9 +19,8 @@ class Aliens {
     static sf::Texture texture;
     sf::Sprite sprite;
 
-
     //determines if the alien is shown (alive = true) or not 
-    bool alive;
+    bool alive = true;
 
     //alien formation starts at the left hand side and moves to the right 
     RichtungAlien rA = RichtungAlien::RIGHT;
@@ -48,11 +47,14 @@ class Aliens {
     //Sprite getter
     const sf::Sprite &getSprite() const;
 
-    // //alive Status getter
-    // const bool getAlive();
+    //alive Status getter
+    const bool getAlive();
 
-    // //alive Status setter
-    // void setAlive(bool isAlive);
+    //alive Status setter
+    void setAlive(bool isAlive);
+
+    //Damadge funktion:
+    void take_damadge();
 
 
 };

@@ -5,7 +5,7 @@
 #include "iostream"
 
 Spaceship::Spaceship() :
-    position({constants::MITTE_X_ACHSE, -10}),
+    position({constants::MITTE_X_ACHSE, constants::SPIELFELDRAND_UN}),
     texture(),
     sprite(texture) {
         //load texture

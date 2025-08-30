@@ -1,19 +1,32 @@
 #include "AlienControl.hpp"
+#include "OverlayControl.hpp"
 #include "../model/Aliens.hpp"
 #include "../model/Constants.hpp"
+#include "../model/Shoot.hpp"
 #include <iostream>
-// this is just needed for a quick test in update_alien:
-// using namespace std; 
 
 
-AlienControl::AlienControl(Layer &layer) : layer(layer){
+AlienControl::AlienControl(Layer &layer) : layer(layer), random_engine(static_cast<unsigned int>(
+        std::chrono::system_clock::now().time_since_epoch().count()))
+        {
     AlienControl::build_Aliengrid();
+    nextShoot_time = time_between_shoot(random_engine);
 }
 
 void AlienControl::build_Aliengrid() {
 
     // Create the Alien grid.
     int level_depth = 5;
+
+    // set Variables:
+    // 0.08 = texture scale.
+    float alien_gap_H = constants::ALIEN_WIDTH * 0.08 /2;
+    float alien_gap_V = constants::ALIEN_HEIGHT * 0.08 /2;
+
+    // accounting for the AlienSprite Origin:
+    float sprite_gap_H = constants::ALIEN_WIDTH * 0.08;
+    float sprite_gap_V = constants::ALIEN_HEIGHT * 0.08;
+    
 
     // Creates an alien_grid depending on the required Level_depth.
     for (int i = 0; i < level_depth; i++){
@@ -23,7 +36,7 @@ void AlienControl::build_Aliengrid() {
         // Fills the created alien_row with 11 Aliens each.
         for (int j = 0; j < 11; j++){
             float jfloat = static_cast<float>(j);
-            Aliens newAlien = Aliens({72 + (24+15)*jfloat,-500 + (16+12)*ifloat});
+            Aliens newAlien = Aliens({60 + (alien_gap_H + sprite_gap_H)*jfloat,-450 + (alien_gap_V + sprite_gap_V)*ifloat});
             alien_row.push_back(newAlien);
         }
 
@@ -33,12 +46,6 @@ void AlienControl::build_Aliengrid() {
 }
 
 void AlienControl::update_aliens(float elapsed_time){
-
-    if(bottomReached()) {
-        // TODO write gameOver() function
-        // this is the test needing the statement at the top:
-        // cout << "Game would be over now!";
-    };
 
     // Incase theres need to alter the speed.
     float speedControl = 4.0;
@@ -72,6 +79,10 @@ void AlienControl::update_aliens(float elapsed_time){
     if(aliensInBounds()){
         justMovedDown = false;
     }
+
+    random_shoot(elapsed_time);
+    update_shoot(elapsed_time);
+
 }
 
 void AlienControl::draw_aliens(){
@@ -79,15 +90,20 @@ void AlienControl::draw_aliens(){
     for(auto& row : alien_grid ) {
         // For every Alien in the Row ...
         for(auto& alien : row){
-             layer.add_to_layer(alien.getSprite());
+            if(alien.getAlive()){
+                layer.add_to_layer(alien.getSprite());
+            }
         }
+             
     }
 }
 
-void AlienControl::draw_alien_shoot(){
-
-    //TODO
-
+void AlienControl::draw_shoot(){
+    for(auto& shoot: shoots){
+        if(shoot.getActive()){
+            layer.add_to_layer(shoot.getSprite());
+        }
+    }
 }
 
 void AlienControl::move_Aliengrid_down() {
@@ -97,10 +113,10 @@ void AlienControl::move_Aliengrid_down() {
             
             float y = alien.getPosition().y;
             float x = alien.getPosition().x;
-            // testen ob + oder -:
-            // (16+12) is an estimate can be change to our liking. Since all Aliens are moved down we dont need to consider spacing so much.
+
             alien.setPosition({x,y + (12)});
             // Switch Direction from left to right, or right to left:
+
             if(alien.getRichtungAlien() == RichtungAlien::RIGHT){
                 alien.setRichtungAlien(RichtungAlien::LEFT);
         }
@@ -128,17 +144,86 @@ bool AlienControl::aliensInBounds(){
 // checks if the bottom boundry has been breached.
 bool AlienControl::bottomReached(){
 
-    bool reached;
+    bool reached = false;
     for(auto& row : alien_grid){
         for(auto& alien : row){
-            if (alien.getPosition().y == constants::SPIELFELDRAND_UN){
+            if (alien.getAlive() && alien.getPosition().y >= constants::SPIELFELDRAND_UNT){
                 reached = true;
             }
         }
     }
     
 return reached;
-
 }
+
+std::vector<Aliens*> AlienControl::getShootingAliens() {
+    std::vector<Aliens*> lowest;
+    int reihe = alien_grid[0].size();
+    for (int j = 0; j < reihe; j++) {
+        for (int i = alien_grid.size()-1; i >= 0; i--) {
+            if (true) {
+                lowest.push_back(&alien_grid[i][j]);
+                break;
+            }
+        }
+    }
+    return lowest;
+}
+
+
+void AlienControl::alienShoot(Aliens* sAlien) {
+
+    auto pos = sAlien->getPosition();
+    shoots.emplace_back(pos);
+    auto& s = shoots.back();
+    s.setAlienShootSprite(); // anderes Sprite (blaue Schüsse)
+    s.setPosition({pos.x, pos.y - 15 });
+    s.move_down(); // Bewegungsrichtung nach unten
+}
+
+void AlienControl::random_shoot(float elapsed_time) {
+    nextShoot_time -= elapsed_time;
+    if (nextShoot_time > 0) return;
+
+    auto shooters = getShootingAliens();
+    if (!shooters.empty()) {
+        std::uniform_int_distribution<size_t> pick(0, shooters.size()-1);
+        Aliens* a = shooters[pick(random_engine)];
+
+        // Schießen
+        alienShoot(a);
+    }
+
+    nextShoot_time = time_between_shoot(random_engine); // nächstes Intervall
+}
+
+
+void AlienControl::update_shoot(float elapsed_time) {
+    if(shoots.empty() == false){
+
+    float speed = 200; // Alien Schüssen sind langsamer als die vom Raumschiff (einfacher zu spielen)
+
+    for(auto& shoot : shoots){
+        float x = shoot.getPosition().x;
+        float y = shoot.getPosition().y;
+
+    if (shoot.getVertikaleRichtung() == vertikaleRichtung::DOWN) {
+        y += elapsed_time * speed;
+        // update position
+        shoot.setPosition({x, y});
+    }
+    }
+
+    // Verschwinden der Schüsse:
+    
+    for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
+       if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y - 300) {
+            shootIterator = shoots.erase(shootIterator);
+       } else 
+            shootIterator++;
+    }
+}
+}
+    
 
 

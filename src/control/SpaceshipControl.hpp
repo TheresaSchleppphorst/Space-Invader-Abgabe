@@ -2,7 +2,6 @@
 #define SPACESHIPCONTROL_H
 
 #include <SFML/Graphics.hpp>
-
 #include "../model/Spaceship.hpp"
 //#include "ShootControl.hpp"
 #include "../model/Shoot.hpp"
@@ -36,7 +35,6 @@ class SpaceshipControl {
 
         //shoot movement
         void update_shoot(float elapsed_time);
-        
 
 private:
         //spaceship object
@@ -47,6 +45,11 @@ private:
 
         // vector of all shoots
         std::vector<Shoot> shoots;
+
+        // Bild für Shoot verwi
+        sf::Texture shootTexture;
+
+        friend class Game;
 };
 
 #endif

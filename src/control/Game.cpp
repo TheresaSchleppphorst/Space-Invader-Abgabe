@@ -1,17 +1,22 @@
 #include "Game.hpp"
+#include "AlienControl.hpp"
 
 #include <SFML/Window/Keyboard.hpp>
 
 #include "../model/Constants.hpp"
 #include <algorithm>
+#include <SFML/Graphics.hpp>
+#include <vector>
+
 
 Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIGHT}), "Space Invaders"),
     view(sf::FloatRect(sf::Vector2f({0,-constants::VIEW_HEIGHT}), sf::Vector2f({constants::VIEW_WIDTH,constants::VIEW_HEIGHT}))),
     game_layer(window),
     overlay_layer(window),
-    overlay_control(overlay_layer, state),
     spaceship_control(game_layer),
-    alien_control(game_layer)
+    overlay_control(overlay_layer, state),
+    alien_control(game_layer),
+    powerup_control(game_layer)
     {
     // limit frame rate
     window.setFramerateLimit(constants::FRAME_RATE);
@@ -73,25 +78,39 @@ bool Game::input() {
 }
 
 void Game::update(float time_passed) {
+    
+    //Draw the GameOver screen:
+    if(alien_control.bottomReached()) {
+        overlay_control.game_over();
+        return; // No more Movement
+    };
+
+    //check if the spaceship lost all his lives -> game over
+    if(state.lives <= 0) {
+       overlay_control.game_over();
+       return; // should stop everything
+    }   
+
     spaceship_control.update_spaceship(time_passed);
     spaceship_control.update_shoot(time_passed);
     alien_control.update_aliens(time_passed);
+    powerup_control.update_powerup(time_passed);
     
 
-    //check if an alien got hit
-   /** if(collision_alien) {
+
+  if(collisionAlien()) {
         state.alien_hits++;
         state.score += 10;
         overlay_control.update_score(state.score);
     }
     
     //check if the aliens hit the spaceship
-   if (spaceship_got_hit) {
+   if (collisionSpaceship()) {
         state.spaceship_hits += 1;
         state.lives = std::max(0, state.lives -1);
-        overlay_control.update_lives(state.lives);
+        overlay_control.update_lives();
     }
-    */
+
 
     //check if level upgrade is necessary
     if (state.game_won) {
@@ -100,11 +119,7 @@ void Game::update(float time_passed) {
         state.game_won = false;
     }
 
-    //check if the spaceship lost all his lives -> game over
-    if(state.lives <= 0) {
-       overlay_control.game_over();
-       return; // should stop everything
-    }   
+    
     //update the spaceships position
     spaceship_control.update_spaceship(time_passed);
 }
@@ -115,7 +130,9 @@ void Game::draw() {
     game_layer.clear();
     spaceship_control.draw_spaceship();
     spaceship_control.draw_shoot();
+    alien_control.draw_shoot();
     alien_control.draw_aliens();
+    powerup_control.draw_powerup();
     
     //draw the overlay
     overlay_layer.clear();
@@ -127,3 +144,67 @@ void Game::draw() {
 
     window.display();
 }
+
+bool Game::collisionAlien(){
+    //check if an alien got hit
+    bool alien_hit = false;
+
+    // Iterating through all aliens:
+    for(auto& row : alien_control.alien_grid){
+        for(auto& alien : row){
+            //Skip all dead aliens
+            if(!alien.getAlive()){
+                continue;
+            }
+
+            // Iterate through all shoots:
+            for(auto& shot : spaceship_control.shoots){
+
+                if(!shot.getActive()){
+                    continue;
+                }
+
+                sf::FloatRect alienBounds = alien.getSprite().getGlobalBounds();
+                sf::FloatRect shotBounds = shot.getSprite().getGlobalBounds();
+
+                if(alienBounds.findIntersection(shotBounds)){
+
+                    alien.take_damadge();
+                    alien_hit = true;
+                    shot.setActive(false);
+
+                }
+            }
+
+            
+
+        }
+    }
+
+    return alien_hit;
+}
+
+bool Game::collisionSpaceship(){
+    //check if an alien got hit
+    bool spaceship_hit = false;
+
+        for(auto& shot : alien_control.shoots){
+
+            if(!shot.getActive()){
+                    continue;
+            }
+
+                sf::FloatRect spaceshipBounds = spaceship_control.spaceship.getSprite().getGlobalBounds();
+                sf::FloatRect shotBounds = shot.getSprite().getGlobalBounds();
+
+             if(spaceshipBounds.findIntersection(shotBounds)){
+
+                    spaceship_hit = true;
+                    shot.setActive(false);
+
+            }
+        }
+
+    return spaceship_hit;
+}
+

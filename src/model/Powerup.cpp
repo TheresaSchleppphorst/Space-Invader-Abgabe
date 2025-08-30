@@ -49,7 +49,7 @@ void Powerup::setPosition(sf::Vector2f position){
 
 void Powerup::setBadPowerupSprite()
 {
-    if (!texture.loadFromFile("assets/sprites/spriteBadPowerup.png")) {
+    if (!texture.loadFromFile("assets/sprites/spriteBadPowerUp.png")) {
         throw std::invalid_argument("Could not load sprite");
     }
     sprite.setTexture(texture);
@@ -61,7 +61,7 @@ void Powerup::setBadPowerupSprite()
 
 void Powerup::setGoodPowerupSprite()
 {
-    if (!texture.loadFromFile("assets/sprites/spriteGoodPowerup.png")) {
+    if (!texture.loadFromFile("assets/sprites/spriteGoodPowerUp.png")) {
         throw std::invalid_argument("Could not load sprite");
     }
     sprite.setTexture(texture);

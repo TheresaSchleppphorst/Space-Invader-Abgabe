@@ -68,7 +68,7 @@ bool Game::input() {
                 // move left
                 spaceship_control.left_button_pressed();
             }
-             // shooting with space bar:
+             // shooting with space bar
             else if (keyPressed->code == sf::Keyboard::Key::Space) {
                  spaceship_control.space_bar_pressed();
             }
@@ -79,7 +79,7 @@ bool Game::input() {
 
 void Game::update(float time_passed) {
     
-    //Draw the GameOver screen:
+    //Draw the GameOver screen
     if(alien_control.bottomReached()) {
         overlay_control.game_over();
         return; // No more Movement
@@ -97,7 +97,7 @@ void Game::update(float time_passed) {
     powerup_control.update_powerup(time_passed);
     
 
-
+    //check if the spaceship hits an alien
   if(collisionAlien()) {
         state.alien_hits++;
         state.score += 10;

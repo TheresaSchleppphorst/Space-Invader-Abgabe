@@ -19,6 +19,7 @@ void SpaceshipControl::update_spaceship(float elapsed_time){
     { x = 200;
     }
     x = spaceship.getPosition().x + x * elapsed_time;
+    //x = std::clamp(x, constants::SPIELFELDRAND_LI, constants::SPIELFELDRAND_RE);
 
     //update position
     spaceship.setPosition({x, y});

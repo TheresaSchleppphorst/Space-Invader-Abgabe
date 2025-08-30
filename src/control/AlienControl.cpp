@@ -161,8 +161,9 @@ std::vector<Aliens*> AlienControl::getShootingAliens() {
     int reihe = alien_grid[0].size();
     for (int j = 0; j < reihe; j++) {
         for (int i = alien_grid.size()-1; i >= 0; i--) {
-            if (true) {
-                lowest.push_back(&alien_grid[i][j]);
+            Aliens& a = alien_grid[i][j];
+            if (a.getAlive()) {
+                lowest.push_back(&a);
                 break;
             }
         }
@@ -214,7 +215,7 @@ void AlienControl::update_shoot(float elapsed_time) {
     }
     }
 
-    // Verschwinden der Schüsse:
+    // Disapperance of the shoots
     
     for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
        if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y - 300) {

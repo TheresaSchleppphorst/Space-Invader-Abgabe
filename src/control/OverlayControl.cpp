@@ -113,8 +113,24 @@ void OverlayControl::update_score(size_t score) {
 }
 
 void OverlayControl::update_lives() {
-    lives_view.setString("Lives: " + std::to_string(state.lives));
+
+    if (lives_view.getString() != "Lives:") {
+        lives_view.setString("Lives:");
+        sf::FloatRect c = lives_view.getLocalBounds();
+        lives_view.setOrigin({c.position.x + c.size.x, c.position.y + c.size.y / 2.f});
+    }
+
+    auto setVisible = [](sf::Sprite& s, bool on) {
+        auto color = s.getColor();
+        color.a = on ? 255 : 0;            
+        s.setColor(color);
+    };
+
+    setVisible(lives_icon_1, state.lives >= 1);
+    setVisible(lives_icon_2, state.lives >= 2);
+    setVisible(lives_icon_3, state.lives >= 3);
 }
+
 
 void OverlayControl::update_level(size_t level) {
    level_view.setString("Level:" + std::to_string(level));
@@ -127,9 +143,9 @@ void OverlayControl::draw() {
     layer.add_to_layer(lives_view);
     layer.add_to_layer(level_view);
     
-    if (state.lives >= 1) layer.add_to_layer(lives_icon_1);
-    if (state.lives >= 2) layer.add_to_layer(lives_icon_2);
-    if (state.lives == 3) layer.add_to_layer(lives_icon_3);
+    layer.add_to_layer(lives_icon_1);
+    layer.add_to_layer(lives_icon_2);
+    layer.add_to_layer(lives_icon_3);
 
     if(show_center_view)
         layer.add_to_layer(center_view);

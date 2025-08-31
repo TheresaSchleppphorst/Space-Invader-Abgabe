@@ -65,7 +65,7 @@ private:
         std::mt19937 random_engine;
 
         // time between 1 and 2 seconds between the shoots of aliens
-        std::uniform_real_distribution<float> time_between_shoot{1, 2};
+        std::uniform_real_distribution<float> time_between_shoot{2, 3};
 
         // time until next shoot
         float nextShoot_time = 0;

@@ -72,30 +72,52 @@ bool Game::input() {
             else if (keyPressed->code == sf::Keyboard::Key::Space) {
                  spaceship_control.space_bar_pressed();
             }
+
+            else if (keyPressed->code == sf::Keyboard::Key::Enter) {
+                if (phase == GamePhase::levelCleared) {
+                    overlay_control.hide_text();
+                    state.level++;
+                    overlay_control.update_level(state.level);
+                    state.lives = 3;
+                    overlay_control.update_lives();
+                    start_next_level();
+                    phase = GamePhase::playing;
+                } else if (phase == GamePhase::gameOver) {
+                    overlay_control.hide_text();
+                    reset_game();
+                    phase = GamePhase::playing;
+                    }
+            }
+
+
         } 
     }
     return false;
 }
 
+
+
 void Game::update(float time_passed) {
+
+    //halt the game if we are not playing
+    if(phase != GamePhase::playing){
+        return;
+    }
     
     //Draw the GameOver screen
     if(alien_control.bottomReached()) {
         overlay_control.game_over();
-        return; // No more Movement
+        phase = GamePhase::gameOver;
+        return; 
     };
 
     //check if the spaceship lost all his lives -> game over
     if(state.lives <= 0) {
        overlay_control.game_over();
-       return; // should stop everything
+       phase = GamePhase::gameOver;
+       return; 
     }   
 
-    spaceship_control.update_spaceship(time_passed);
-    spaceship_control.update_shoot(time_passed);
-    alien_control.update_aliens(time_passed);
-    powerup_control.update_powerup(time_passed);
-    
 
     //check if the spaceship hits an alien
   if(collisionAlien()) {
@@ -111,17 +133,42 @@ void Game::update(float time_passed) {
         overlay_control.update_lives();
     }
 
-
-    //check if level upgrade is necessary
-    if (state.game_won) {
-        state.level++;
-        overlay_control.update_level(state.level);
-        state.game_won = false;
+    //check if all Aliens are dead
+    bool all_dead = true;
+    for (auto& row : alien_control.alien_grid) {
+        for (auto& a : row) {
+            if (a.getAlive()) {
+                all_dead = false;
+                break;
+            }
+        }
+        if (!all_dead) break;
+    }
+    if (all_dead){
+        overlay_control.game_won();
+        phase = GamePhase::levelCleared;
+        return;
     }
 
+
     
-    //update the spaceships position
+    //update all positions
     spaceship_control.update_spaceship(time_passed);
+    spaceship_control.update_shoot(time_passed);
+    alien_control.update_aliens(time_passed);
+    powerup_control.update_powerup(time_passed);
+}
+
+void Game::start_next_level(){
+    alien_control.build_Aliengrid();
+}
+
+void Game::reset_game(){
+    state = GameState{};
+    overlay_control.update_lives();
+    overlay_control.update_score(state.score);
+    overlay_control.update_level(state.level);
+    alien_control.build_Aliengrid();
 }
 
 void Game::draw() {

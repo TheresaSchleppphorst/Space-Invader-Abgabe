@@ -25,6 +25,15 @@ private:
     //the state of all variables (level, lives etc.)
     GameState state;
 
+    //phase of the game
+    GamePhase phase = GamePhase::playing;
+
+    //starts the new level
+    void start_next_level();
+
+    //resets the game after game over
+    void reset_game();
+
     // processes user input, returns true if window has been closed
     bool input();
 

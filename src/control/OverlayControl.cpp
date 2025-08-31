@@ -35,7 +35,6 @@ OverlayControl::OverlayControl(Layer &layer, GameState& state) :
         auto ts = lives_texture.getSize();
 
         //sprite 1
-    
         lives_icon_1.setTexture(lives_texture, true);
         lives_icon_1.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
         sf::FloatRect icon_1 = lives_icon_1.getLocalBounds();     
@@ -43,7 +42,6 @@ OverlayControl::OverlayControl(Layer &layer, GameState& state) :
         lives_icon_1.setScale({0.3, 0.3});
 
         //sprite 2
-
         lives_icon_2.setTexture(lives_texture, true);
         lives_icon_2.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
         sf::FloatRect icon_2 = lives_icon_2.getLocalBounds();     
@@ -51,7 +49,6 @@ OverlayControl::OverlayControl(Layer &layer, GameState& state) :
         lives_icon_2.setScale({0.3, 0.3});
 
         //sprite 3
-
         lives_icon_3.setTexture(lives_texture, true);
         lives_icon_3.setTextureRect(sf::IntRect({0,int(ts.y) - 40}, {80, 40}));
         sf::FloatRect icon_3 = lives_icon_3.getLocalBounds();     
@@ -60,7 +57,6 @@ OverlayControl::OverlayControl(Layer &layer, GameState& state) :
 
 
         //position the center view
-
         center_view.setPosition({constants::MITTE_X_ACHSE, constants::MITTE_Y_ACHSE});
 
         //function that formats the header
@@ -126,9 +122,12 @@ void OverlayControl::update_lives() {
         s.setColor(color);
     };
 
-    setVisible(lives_icon_1, state.lives >= 1);
-    setVisible(lives_icon_2, state.lives >= 2);
-    setVisible(lives_icon_3, state.lives >= 3);
+   std::array<sf::Sprite*, 3> icons = { &lives_icon_3, &lives_icon_2, &lives_icon_1 };
+
+    for (size_t i = 0; i < icons.size(); ++i) {
+        bool on = (state.lives > i);  
+        setVisible(*icons[i], on);
+    }
 }
 
 
@@ -159,6 +158,22 @@ void OverlayControl::game_over() {
     //view has to be centered according to its size
     sf::FloatRect rc = center_view.getLocalBounds();
     center_view.setOrigin({rc.size.x/2, rc.size.y/2});
+}
+
+void OverlayControl::game_won(){
+    //show the center text with "YAAAAY" in blue
+    show_center_view = true;
+    center_view.setString("YAAAAY");
+    center_view.setFillColor({0, 0, 255, 255});
+    //view has to be centered according to its size
+    sf::FloatRect rc = center_view.getLocalBounds();
+    center_view.setOrigin({rc.size.x/2, rc.size.y/2});
+
+
+}
+
+void OverlayControl::hide_text(){
+    show_center_view = false;
 }
 
 

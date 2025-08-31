@@ -35,6 +35,12 @@ class OverlayControl{
         //show the game-over-text
         void game_over();
 
+        //show the game-won text
+        void game_won();
+
+        //hides the center text
+        void hide_text();
+
     private:
         //Text font
         sf:: Font font;

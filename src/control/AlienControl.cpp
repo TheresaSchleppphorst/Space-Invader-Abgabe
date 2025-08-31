@@ -15,6 +15,11 @@ AlienControl::AlienControl(Layer &layer) : layer(layer), random_engine(static_ca
 
 void AlienControl::build_Aliengrid() {
 
+    //clear the grid at the start of every level
+    alien_grid.clear();
+    shoots.clear();
+    justMovedDown = false;
+
     // Create the Alien grid.
     int level_depth = 5;
 
@@ -225,6 +230,8 @@ void AlienControl::update_shoot(float elapsed_time) {
     }
 }
 }
+
+
     
 
 

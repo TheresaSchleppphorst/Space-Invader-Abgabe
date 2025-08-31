@@ -39,7 +39,7 @@ class AlienControl {
         bool bottomReached();
 
         // gives back the lowest row of aliens because only they can shoot
-        std::vector<Aliens*> getShootingAliens();
+        std::vector<Aliens*> getAllAliens();
 
         // random shooting -> sAlien is the current shooting Alien
         void alienShoot(Aliens* sAlien);
@@ -65,13 +65,12 @@ private:
         std::mt19937 random_engine;
 
         // time between 1 and 2 seconds between the shoots of aliens
-        std::uniform_real_distribution<float> time_between_shoot{1, 2};
+        std::uniform_real_distribution<float> time_between_shoot{2, 3};
 
         // time until next shoot
         float nextShoot_time = 0;
-       
         
-       friend class Game;
+        friend class Game;
 };
 
 #endif

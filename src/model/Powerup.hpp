@@ -37,7 +37,6 @@ class Powerup {
 
     // change Sprite for good PowerUps
     void setGoodPowerupSprite();
-
 };
 
 #endif //Powerup_HPP

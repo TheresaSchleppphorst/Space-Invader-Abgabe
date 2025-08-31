@@ -133,6 +133,16 @@ void Game::update(float time_passed) {
         overlay_control.update_lives();
     }
 
+    if(collisionPowerup()){
+        powerup_control.delete_powerup();
+        if(powerup_control.get_good_powerup()){
+            spaceship_control.activate_good_powerup(5);
+        }
+        if(!powerup_control.get_good_powerup()){
+            spaceship_control.activate_bad_powerup(5);
+        }
+
+    }
     //check if all Aliens are dead
     bool all_dead = true;
     for (auto& row : alien_control.alien_grid) {
@@ -222,9 +232,6 @@ bool Game::collisionAlien(){
 
                 }
             }
-
-            
-
         }
     }
 
@@ -232,7 +239,7 @@ bool Game::collisionAlien(){
 }
 
 bool Game::collisionSpaceship(){
-    //check if an alien got hit
+    //check if the spaceship got hit
     bool spaceship_hit = false;
 
         for(auto& shot : alien_control.shoots){
@@ -255,3 +262,16 @@ bool Game::collisionSpaceship(){
     return spaceship_hit;
 }
 
+bool Game::collisionPowerup(){
+    //check if an powerup is activated
+    if(!powerup_control.get_powerup_active()){return false;}
+
+                sf::FloatRect spaceshipBounds = spaceship_control.spaceship.getSprite().getGlobalBounds();
+                sf::FloatRect powerupBounds = powerup_control.powerup.getSprite().getGlobalBounds();
+
+             if(spaceshipBounds.findIntersection(powerupBounds)){
+                    return true;
+             }
+
+    return false;
+}

@@ -18,6 +18,12 @@ class PowerupControl {
         void draw_powerup();
 
         void new_powerup(float elapsed_time);
+
+        bool get_powerup_active();
+
+        bool get_good_powerup();
+
+        void delete_powerup();
         
 
 private:
@@ -37,11 +43,13 @@ private:
         float nextPowerup_time = 0;
 
         // Tempo mit dem das Powerup nach unten kommt 
-        float powerup_speed = 150; // ÄNDERN
+        float powerup_speed = 150; 
 
         bool powerup_active = false;
 
         bool good_powerup = true;
+
+        friend class Game;
 };
 
 #endif

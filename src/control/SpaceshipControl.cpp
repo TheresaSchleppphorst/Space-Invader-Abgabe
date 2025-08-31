@@ -1,5 +1,6 @@
 #include "SpaceshipControl.hpp"
 #include "../model/Constants.hpp"
+#include "../model/Powerup.hpp"
 #include <iostream>
 #include <algorithm>
 
@@ -33,8 +34,7 @@ void SpaceshipControl::draw_shoot(){
         for(auto& shoot: shoots){
             if(shoot.getActive()){
                 layer.add_to_layer(shoot.getSprite());}
-            }
-        
+            } 
 }
 
 void SpaceshipControl::right_button_pressed(){
@@ -59,9 +59,18 @@ void SpaceshipControl::space_bar_pressed(){
 }
 
 void SpaceshipControl::update_shoot(float elapsed_time) {
-    if(shoots.empty() == false){
+    // check for powerups:
 
-    float speed = 400;
+       if (powerup_active) {
+        time_left -= elapsed_time;
+        if (time_left <= 0) {
+            powerup_active = false;
+            time_left   = 0;
+            speed = 400; // set speed to normal speed
+        }
+    }
+
+    if(shoots.empty() == false){
 
     for(auto& shoot : shoots){
         float x = shoot.getPosition().x;
@@ -71,16 +80,29 @@ void SpaceshipControl::update_shoot(float elapsed_time) {
         y -= elapsed_time * speed;
         // update position
         shoot.setPosition({x, y});
-    }
-    }
+    }}
 
     // Verschwinden der Schüsse:
-    
     for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
        if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y + 300) {
             shootIterator = shoots.erase(shootIterator);
        } else 
             shootIterator++;
-    }
-    }
+    }}
+}
+
+void SpaceshipControl::activate_good_powerup(float time){
+    if(powerup_active){return;}
+
+    powerup_active = true;
+    time_left = time;
+    speed = 800; // shoots are faster
+}
+
+void SpaceshipControl::activate_bad_powerup(float time){
+    if(powerup_active){return;}
+
+    powerup_active = true;
+    time_left = time;
+    speed = 200; // shoots are slower
 }

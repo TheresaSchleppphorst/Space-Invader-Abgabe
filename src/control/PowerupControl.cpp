@@ -9,6 +9,14 @@ PowerupControl::PowerupControl(Layer &layer) : powerup(sf::Vector2f{0, 0}), laye
             nextPowerup_time = time_between_powerup(random_engine);
         }
 
+bool PowerupControl::get_powerup_active(){
+    return powerup_active;
+}
+
+bool PowerupControl::get_good_powerup(){
+    return good_powerup;
+}
+
 void PowerupControl::update_powerup(float elapsed_time){
 
     new_powerup(elapsed_time);
@@ -27,6 +35,9 @@ void PowerupControl::update_powerup(float elapsed_time){
     }
 }
 
+void PowerupControl:: delete_powerup(){
+    powerup_active = false;
+}
 
 void PowerupControl::draw_powerup(){
     if(powerup_active){

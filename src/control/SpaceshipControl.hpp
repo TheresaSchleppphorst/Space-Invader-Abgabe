@@ -36,6 +36,12 @@ class SpaceshipControl {
         //shoot movement
         void update_shoot(float elapsed_time);
 
+        // activation of powerup for time seconds
+        void activate_good_powerup(float time);
+
+        // activation of powerup for time seconds
+        void activate_bad_powerup(float time);
+
 private:
         //spaceship object
         Spaceship spaceship;
@@ -43,13 +49,21 @@ private:
         //layer on which the spaceship is drawn
         Layer &layer; 
 
+        // speed of shoots
+        float speed = 400;
+
         // vector of all shoots
         std::vector<Shoot> shoots;
 
-        // Bild für Shoot verwi
         sf::Texture shootTexture;
 
         friend class Game;
+
+        // true if powerup is currently active
+        bool powerup_active = false;
+
+        // how long the powerup is still active
+        float time_left = 0;
 };
 
 #endif

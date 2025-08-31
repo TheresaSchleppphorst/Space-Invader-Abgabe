@@ -69,9 +69,8 @@ private:
 
         // time until next shoot
         float nextShoot_time = 0;
-       
         
-       friend class Game;
+        friend class Game;
 };
 
 #endif

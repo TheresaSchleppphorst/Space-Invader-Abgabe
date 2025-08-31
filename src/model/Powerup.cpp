@@ -19,7 +19,6 @@ Powerup::Powerup(sf::Vector2f position) :
           sprite.setPosition(position);
 }
 
-
 void Powerup::move_down(){
     if (vR != vertikaleRichtung::DOWN)
     {vR = vertikaleRichtung::DOWN;}

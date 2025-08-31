@@ -156,18 +156,16 @@ bool AlienControl::bottomReached(){
 return reached;
 }
 
-std::vector<Aliens*> AlienControl::getShootingAliens() {
-    std::vector<Aliens*> lowest;
+std::vector<Aliens*> AlienControl::getAllAliens() {
+    std::vector<Aliens*> aliens;
     int reihe = alien_grid[0].size();
-    for (int j = 0; j < reihe; j++) {
-        for (int i = alien_grid.size()-1; i >= 0; i--) {
-            if (true) {
-                lowest.push_back(&alien_grid[i][j]);
-                break;
-            }
+    int zeile = 5;
+     for (int j = 0; j < reihe; j++) {
+        for (int i = 0; i < zeile; i++) {
+                aliens.push_back(&alien_grid[i][j]);
         }
     }
-    return lowest;
+    return aliens;
 }
 
 
@@ -185,16 +183,20 @@ void AlienControl::random_shoot(float elapsed_time) {
     nextShoot_time -= elapsed_time;
     if (nextShoot_time > 0) return;
 
-    auto shooters = getShootingAliens();
-    if (!shooters.empty()) {
-        std::uniform_int_distribution<size_t> pick(0, shooters.size()-1);
-        Aliens* a = shooters[pick(random_engine)];
+    auto aliens = getAllAliens();
+    if (!aliens.empty()) {
+        std::uniform_int_distribution<size_t> pick(0, aliens.size()-1);
+        Aliens* a = aliens[pick(random_engine)];
 
-        // Schießen
-        alienShoot(a);
+        // Shoot
+        if(a->getAlive()){
+            alienShoot(a);
+            nextShoot_time = time_between_shoot(random_engine); // Wenn das ausgewählte Alien existiert soll nach einer random Zeit das nächste Alien schießen
+        } 
+        else{
+            nextShoot_time = 0; // Falls das random ausgewählte Alien nicht mehr existiert wird sofort ein neues ausgewählt
+        }
     }
-
-    nextShoot_time = time_between_shoot(random_engine); // nächstes Intervall
 }
 
 

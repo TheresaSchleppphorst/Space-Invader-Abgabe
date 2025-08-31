@@ -39,7 +39,7 @@ class AlienControl {
         bool bottomReached();
 
         // gives back the lowest row of aliens because only they can shoot
-        std::vector<Aliens*> getShootingAliens();
+        std::vector<Aliens*> getAllAliens();
 
         // random shooting -> sAlien is the current shooting Alien
         void alienShoot(Aliens* sAlien);

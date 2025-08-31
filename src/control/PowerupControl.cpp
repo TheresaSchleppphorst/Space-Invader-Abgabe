@@ -62,7 +62,7 @@ void PowerupControl::new_powerup(float elapsed_time){
 
     powerup.setPosition({x, y});
 
-    // um auch negative Powerups zu haben wird zufällig (abhängig von der x Koordinate) das Powerup geändert
+    // good and bad powerUps switch
    if (good_powerup){ 
     powerup.setBadPowerupSprite();
     good_powerup = false;

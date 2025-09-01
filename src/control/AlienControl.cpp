@@ -168,7 +168,7 @@ std::vector<Aliens*> AlienControl::getAllAliens() {
         for (int i = alien_grid.size()-1; i >= 0; i--) {
             Aliens& a = alien_grid[i][j];
             if (a.getAlive()) {
-                lowest.push_back(&a);
+                aliens.push_back(&a);
                 break;
             }
         }

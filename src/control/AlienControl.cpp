@@ -148,7 +148,7 @@ bool AlienControl::bottomReached(){
     bool reached = false;
     for(auto& row : alien_grid){
         for(auto& alien : row){
-            if (alien.getAlive() && alien.getPosition().y >= constants::SPIELFELDRAND_UNT){
+            if (alien.getAlive() && alien.getPosition().y >= constants::SPIELFELDRAND_UNTEN_ALIEN){
                 reached = true;
             }
         }

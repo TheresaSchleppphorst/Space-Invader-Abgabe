@@ -33,6 +33,13 @@ class SpaceshipControl {
         //shoot
         void space_bar_pressed();
 
+        // getter for speed
+        float getSpeed();
+
+
+        // setter for speed
+        void setSpeed(float newSpeed);
+
         //shoot movement
         void update_shoot(float elapsed_time);
 
@@ -57,7 +64,7 @@ private:
         Layer &layer; 
 
         // speed of shoots
-        float speed = 400;
+        float speed = 300;
 
         // vector of all shoots
         std::vector<Shoot> shoots;
@@ -71,6 +78,10 @@ private:
 
         // how long the powerup is still active
         float time_left = 0;
+
+        // necessary to set speed back to normal speed after a powerup
+        bool good = false;
+        bool bad = false;
 };
 
 #endif

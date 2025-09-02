@@ -52,9 +52,6 @@ void AlienControl::build_Aliengrid() {
 
 void AlienControl::update_aliens(float elapsed_time){
 
-    // Incase theres need to alter the speed.
-    float speedControl = 4.0;
-
     if(!aliensInBounds() && !justMovedDown){
                     move_Aliengrid_down();
             }
@@ -99,7 +96,6 @@ void AlienControl::draw_aliens(){
                 layer.add_to_layer(alien.getSprite());
             }
         }
-             
     }
 }
 
@@ -211,8 +207,6 @@ void AlienControl::random_shoot(float elapsed_time) {
 void AlienControl::update_shoot(float elapsed_time) {
     if(shoots.empty() == false){
 
-    float speed = 200; // Alien Schüssen sind langsamer als die vom Raumschiff (einfacher zu spielen)
-
     for(auto& shoot : shoots){
         float x = shoot.getPosition().x;
         float y = shoot.getPosition().y;
@@ -236,6 +230,25 @@ void AlienControl::update_shoot(float elapsed_time) {
 
 }
 
+void AlienControl::setMin(float nMin){
+    if(nMin >= 0.5){
+         min = nMin;
+    }
+}
+
+void  AlienControl::setMax(float nMax){
+    if(nMax >= 0.5){
+         max = nMax;
+    }
+}
+
+void  AlienControl::setSpeed(float nSpeed){
+    speed = nSpeed;
+}
+
+void  AlienControl::setSpeedControl(float nSpeed){
+    speedControl = nSpeed;
+}
 
     
 

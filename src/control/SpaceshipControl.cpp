@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 
-SpaceshipControl::SpaceshipControl(Layer &layer) : spaceship(), layer(layer), shoots(){}
+SpaceshipControl::SpaceshipControl(ILayer& layer) : spaceship(), layer(layer), shoots(){}
 
 
 void SpaceshipControl::update_spaceship(float elapsed_time){

@@ -11,7 +11,7 @@
 class AlienControl {
     public:
         //initialize control with layer
-        AlienControl(Layer &layer);
+        AlienControl(ILayer& layer);
 
         //create an Alien Grid:
         void build_Aliengrid();
@@ -66,8 +66,8 @@ private:
         // vector of all shoots
         std::vector<Shoot> shoots;
 
-        // layer on which the alien is drawn
-        Layer &layer; 
+        // layer on which the aliens are drawn
+        ILayer& layer; 
 
         // random number generator
         std::mt19937 random_engine;

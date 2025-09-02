@@ -2,9 +2,10 @@
 #define LAYER_H
 
 #include <SFML/Graphics.hpp>
+#include "ILayer.hpp"
 
 // Layer class
-class Layer {
+class Layer : public ILayer {
 public:   
     // Initializes the layer in the given window
     Layer(sf::RenderWindow &window);

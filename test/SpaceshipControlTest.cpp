@@ -5,6 +5,8 @@
 #include "../src/model/Constants.hpp"
 
 
+using ::testing::NiceMock;
+
 class SpaceshipControlTest : public ::testing::Test {
 
 public:
@@ -12,7 +14,7 @@ public:
 
 
 protected:
-    MockLayer layer;
+    NiceMock<MockLayer> layer;
     SpaceshipControl sc;
 };
 
@@ -81,5 +83,134 @@ TEST_F(SpaceshipControlTest, RespectBoundaries) {
     EXPECT_LE(posRE.x, constants::SPIELFELDRAND_RE);
 }
 
+TEST_F(SpaceshipControlTest, DrawSpaceship){
+
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(1));
+    sc.draw_spaceship();
+}
 
 
+TEST_F(SpaceshipControlTest, DrawShoot){
+    //without spacebar, there is no shoot
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(0));
+    sc.draw_shoot();
+
+    //one spacebar equals one shoot
+    sc.space_bar_pressed();
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(1));
+    sc.draw_shoot();
+
+    //two more shoots should equal 3 shoots in total
+    sc.space_bar_pressed();
+    sc.space_bar_pressed();
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(3));
+    sc.draw_shoot();
+
+}
+
+TEST_F(SpaceshipControlTest, ClearAll) {
+     ::testing::Mock::VerifyAndClearExpectations(&layer);
+
+     sc.space_bar_pressed();
+     sc.space_bar_pressed();
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(2));
+    sc.draw_shoot();
+
+    //clear the window from shoots
+    sc.clearAll();
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(::testing::Exactly(0));
+    sc.draw_shoot();
+
+}
+
+TEST_F(SpaceshipControlTest, PowerUpDoubleActivation) {
+    //powerups do not multiply their features
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+    sc.setSpeed(400.0f);
+
+    sc.activate_good_powerup(2.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 700.0f);
+
+    sc.activate_good_powerup(2.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 700.0f);
+
+    sc.update_shoot(2.01f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 400.f);
+
+}
+
+TEST_F(SpaceshipControlTest, PowerUpUnique) {
+    //a spaceship can only inherit one powerup
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+    sc.setSpeed(400.0f);
+
+    sc.activate_good_powerup(2.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 700.0f);
+
+    sc.activate_bad_powerup(2.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 700.0f);
+
+    sc.update_shoot(2.01f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 400.f);
+
+}
+
+TEST_F(SpaceshipControlTest, UpdateShootGoodPU) {
+    //testing good powerup on shoots
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+
+    sc.setSpeed(400.0f);
+    sc.activate_good_powerup(1.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 700.0f);
+
+    sc.update_shoot(1.01f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 400.0f);
+}
+
+TEST_F(SpaceshipControlTest, UpdateShootBadPU) {
+    //testing bad powerup on shoots
+     ::testing::Mock::VerifyAndClearExpectations(&layer);
+
+    sc.setSpeed(400.0f);
+    sc.activate_bad_powerup(1.0f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 200.0f);
+
+    sc.update_shoot(1.01f);
+    EXPECT_FLOAT_EQ(sc.getSpeed(), 400.0f);
+}
+
+TEST_F(SpaceshipControlTest, LinearMovement){
+    const auto start = sc.getSpaceship().getPosition();
+    sc.right_button_pressed();
+
+    const float time = 0.5f;
+    sc.update_spaceship(time);
+
+    const auto end = sc.getSpaceship().getPosition();
+
+    EXPECT_NEAR(end.x, start.x + 200.0f * time, 1e-4f); //the delta of 0.0001
+    EXPECT_FLOAT_EQ(end.y, start.y);
+}
+
+
+TEST_F(SpaceshipControlTest, DirectionChange){
+    //movement from right to left is immediate
+    const auto start = sc.getSpaceship().getPosition();
+
+    sc.right_button_pressed();
+    sc.update_spaceship(0.2f);
+    const auto mid = sc.getSpaceship().getPosition();
+    EXPECT_GT(mid.x, start.x);
+
+    sc.left_button_pressed();
+    sc.update_spaceship(0.2f);
+    const auto end = sc.getSpaceship().getPosition();
+    EXPECT_LT(end.x, mid.x);
+
+    EXPECT_FLOAT_EQ(start.y, mid.y);
+    EXPECT_FLOAT_EQ(end.y, mid.y);
+
+}

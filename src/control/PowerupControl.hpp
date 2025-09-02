@@ -5,12 +5,12 @@
 #include <SFML/Graphics.hpp>
 
 #include "../model/Powerup.hpp"
-#include "../view/Layer.hpp"
+#include "../view/ILayer.hpp"
 
 class PowerupControl {
     public:
         //initialize control with layer
-        PowerupControl(Layer &layer);
+        PowerupControl(ILayer& layer);
 
         void update_powerup(float elapsed_time);
 
@@ -31,7 +31,7 @@ private:
         Powerup powerup;
 
         //layer on which the powerup is drawn
-        Layer &layer;
+        ILayer& layer;
 
         // random number generator
         std::mt19937 random_engine;

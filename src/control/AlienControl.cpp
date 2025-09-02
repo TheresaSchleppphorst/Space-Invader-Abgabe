@@ -3,10 +3,11 @@
 #include "../model/Aliens.hpp"
 #include "../model/Constants.hpp"
 #include "../model/Shoot.hpp"
+#include "../view/ILayer.hpp"
 #include <iostream>
 
 
-AlienControl::AlienControl(Layer &layer) : layer(layer), random_engine(static_cast<unsigned int>(
+AlienControl::AlienControl(ILayer& layer) : layer(layer), random_engine(static_cast<unsigned int>(
         std::chrono::system_clock::now().time_since_epoch().count()))
         {
     AlienControl::build_Aliengrid();

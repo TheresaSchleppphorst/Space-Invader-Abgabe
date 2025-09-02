@@ -5,12 +5,12 @@
 #include "../model/Spaceship.hpp"
 //#include "ShootControl.hpp"
 #include "../model/Shoot.hpp"
-#include "../view/Layer.hpp"
+#include "../view/ILayer.hpp"
 
 class SpaceshipControl {
     public:
         //initialize control with layer
-        SpaceshipControl(Layer &layer);
+        SpaceshipControl(ILayer& layer);
 
         //determine the position of the spaceship depending on the current movement
         void update_spaceship(float elapsed_time);
@@ -54,7 +54,7 @@ private:
         Spaceship spaceship;
 
         //layer on which the spaceship is drawn
-        Layer &layer; 
+        ILayer& layer; 
 
         // speed of shoots
         float speed = 300;

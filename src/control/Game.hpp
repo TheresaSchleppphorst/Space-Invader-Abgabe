@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-#include "../view/Layer.hpp"
+#include "../view/ILayer.hpp"
 #include "SpaceshipControl.hpp"
 #include "OverlayControl.hpp"
 #include "AlienControl.hpp"

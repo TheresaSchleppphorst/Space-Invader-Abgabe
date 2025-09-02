@@ -3,7 +3,7 @@
 #include <cmath>
 
 
-PowerupControl::PowerupControl(Layer &layer) : powerup(sf::Vector2f{0, 0}), layer(layer), random_engine(static_cast<unsigned int>(
+PowerupControl::PowerupControl(ILayer& layer) : powerup(sf::Vector2f{0, 0}), layer(layer), random_engine(static_cast<unsigned int>(
         std::chrono::system_clock::now().time_since_epoch().count()))
         {
             nextPowerup_time = time_between_powerup(random_engine);

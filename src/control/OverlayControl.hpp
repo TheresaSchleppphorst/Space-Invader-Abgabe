@@ -7,7 +7,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <vector>
 
-#include "../view/Layer.hpp"
+#include "../view/ILayer.hpp"
 #include "../model/GameState.hpp"
 
 //Control for the overlay (score, game over text, level, lives)
@@ -15,7 +15,7 @@ class OverlayControl{
     public:
         //initializes the controller with the layer on which the score will be shown and the
         //current GameState
-        OverlayControl(Layer &layer, GameState& state);
+        OverlayControl(ILayer& layer, GameState& state);
 
         //if the spaceship shot an alien, the score is updated
         void update_score(size_t alien_hit);
@@ -84,7 +84,7 @@ class OverlayControl{
         bool show_center_view = false;
 
         //layer on which the text is drawn
-        Layer &layer;
+        ILayer& layer;
 
 
 };

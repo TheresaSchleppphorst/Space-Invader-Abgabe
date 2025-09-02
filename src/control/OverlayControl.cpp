@@ -1,7 +1,8 @@
 #include "OverlayControl.hpp"
 #include "../model/Constants.hpp"
+#include "../view/ILayer.hpp"
 
-OverlayControl::OverlayControl(Layer &layer, GameState& state) :
+OverlayControl::OverlayControl(ILayer& layer, GameState& state) :
     font("assets/fonts/DejaVuSansMono.ttf"),
     score_view(font),
     level_view(font),

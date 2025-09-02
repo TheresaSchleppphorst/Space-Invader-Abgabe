@@ -75,5 +75,4 @@ void PowerupControl::new_powerup(float elapsed_time){
     powerup_active = true;
 
     nextPowerup_time = time_between_powerup(random_engine); // nächstes Intervall
-
 }

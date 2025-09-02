@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <cmath>
+
 
 
 Game::Game() : window(sf::VideoMode({constants::VIEW_WIDTH, constants::VIEW_HEIGHT}), "Space Invaders"),
@@ -77,23 +79,32 @@ bool Game::input() {
                 if (phase == GamePhase::levelCleared) {
                     overlay_control.hide_text();
                     spaceship_control.clearAll();
+                    powerup_control.delete_powerup();
                     state.level++;
                     overlay_control.update_level(state.level);
                     state.lives = 3;
                     overlay_control.update_lives();
 
-                    spaceship_control.setSpeed(400 + state.level*50);
+                    //level-up rises the speed and frequency of the alien shoots
                     alien_control.setMin(2.5-0.5*state.level);
                     alien_control.setMax(3.5-0.5*state.level);
                     alien_control.setSpeed(200+state.level*50);
-                    alien_control.setSpeedControl(3 + state.level + 1);
+                    alien_control.setSpeedControl(3 + std::sqrt(state.level));
 
                     start_next_level();
                     phase = GamePhase::playing;
                 }   else if (phase == GamePhase::gameOver) {
                     overlay_control.hide_text();
                     spaceship_control.clearAll();
+                    powerup_control.delete_powerup();
                     reset_game();
+
+                    //set the speed/frequency according to the level
+                    alien_control.setMin(2.5-0.5*state.level);
+                    alien_control.setMax(3.5-0.5*state.level);
+                    alien_control.setSpeed(200+state.level*50);
+                    alien_control.setSpeedControl(3 + std::sqrt(state.level));
+
                     phase = GamePhase::playing;
                  }
             }

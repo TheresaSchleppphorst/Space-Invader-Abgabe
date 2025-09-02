@@ -1,34 +1,27 @@
 #include <gtest/gtest.h>
-#include <SFML/Graphics.hpp>
+#include "../src/view/MockLayer.hpp"
 
 #include "../src/control/SpaceshipControl.hpp"
 #include "../src/model/Constants.hpp"
-#include "../src/view/Layer.hpp"
+
 
 class SpaceshipControlTest : public ::testing::Test {
 
 public:
-   SpaceshipControlTest()
-    : window(sf::VideoMode(1, 1, 32), "test", sf::Style::None)  
-    , layer(window)
-    , s(layer)
-{
-    window.setVisible(false); 
-}
+ SpaceshipControlTest() : sc(layer) {}
 
 
 protected:
-    sf::RenderWindow window;
-    Layer            layer;
-    SpaceshipControl s;
+    MockLayer layer;
+    SpaceshipControl sc;
 };
 
 //x value increases while y stays stable
 TEST_F(SpaceshipControlTest, RightButtonPressed) {
-    auto start = s.getSpaceship().getPosition();
-    s.right_button_pressed();
-    s.update_spaceship(1.0f);
-    auto end = s.getSpaceship().getPosition();
+    auto start = sc.getSpaceship().getPosition();
+    sc.right_button_pressed();
+    sc.update_spaceship(1.0f);
+    auto end = sc.getSpaceship().getPosition();
 
     EXPECT_GT(end.x, start.x);
     EXPECT_FLOAT_EQ(end.y, start.y);
@@ -36,10 +29,10 @@ TEST_F(SpaceshipControlTest, RightButtonPressed) {
 
 //x value decreases while y stays stable
 TEST_F(SpaceshipControlTest, LeftButtonPressed) {
-    auto start = s.getSpaceship().getPosition();
-    s.left_button_pressed();
-    s.update_spaceship(1.0f);
-    auto end = s.getSpaceship().getPosition();
+    auto start = sc.getSpaceship().getPosition();
+    sc.left_button_pressed();
+    sc.update_spaceship(1.0f);
+    auto end = sc.getSpaceship().getPosition();
 
     EXPECT_LT(end.x, start.x);
     EXPECT_FLOAT_EQ(end.y, start.y);
@@ -47,13 +40,13 @@ TEST_F(SpaceshipControlTest, LeftButtonPressed) {
 
 //releasing a direction button stops the movement 
 TEST_F(SpaceshipControlTest, DirectionButtonReleased) {
-    s.right_button_pressed();
-    s.update_spaceship(0.5f); 
-    const auto mid = s.getSpaceship().getPosition();
+    sc.right_button_pressed();
+    sc.update_spaceship(0.5f); 
+    const auto mid = sc.getSpaceship().getPosition();
 
-    s.direction_button_released(horizontaleRichtung::RIGHT);
-    s.update_spaceship(1.0f); 
-    const auto end = s.getSpaceship().getPosition();
+    sc.direction_button_released(horizontaleRichtung::RIGHT);
+    sc.update_spaceship(1.0f); 
+    const auto end = sc.getSpaceship().getPosition();
 
     EXPECT_FLOAT_EQ(end.x, mid.x);
     EXPECT_FLOAT_EQ(end.y, mid.y);
@@ -61,9 +54,9 @@ TEST_F(SpaceshipControlTest, DirectionButtonReleased) {
 
 //nothing moves if I don't press a button
 TEST_F(SpaceshipControlTest, NoMovementWithoutButton) {
-    const auto start = s.getSpaceship().getPosition();
-    s.update_spaceship(1.0f);
-    const auto end = s.getSpaceship().getPosition();
+    const auto start = sc.getSpaceship().getPosition();
+    sc.update_spaceship(1.0f);
+    const auto end = sc.getSpaceship().getPosition();
 
     EXPECT_FLOAT_EQ(end.x, start.x);
     EXPECT_FLOAT_EQ(end.y, start.y);
@@ -72,20 +65,20 @@ TEST_F(SpaceshipControlTest, NoMovementWithoutButton) {
 //we play in boundaries
 TEST_F(SpaceshipControlTest, RespectBoundaries) {
     //left boundary
-    s.getSpaceship().setPosition({constants::SPIELFELDRAND_LI, s.getSpaceship().getPosition().y});
-    s.left_button_pressed();
-    s.update_spaceship(1.0f);
+    sc.getSpaceship().setPosition(sf::Vector2f{constants::SPIELFELDRAND_LI, sc.getSpaceship().getPosition().y});
+    sc.left_button_pressed();
+    sc.update_spaceship(1.0f);
 
-    const auto pos = s.getSpaceship().getPosition();
-    EXPECT_GE(pos.x, constants::SPIELFELDRAND_LI);
+    const auto posLE = sc.getSpaceship().getPosition();
+    EXPECT_GE(posLE.x, constants::SPIELFELDRAND_LI);
 
     //right boundary
-    s.getSpaceship().setPosition({constants::SPIELFELDRAND_RE, s.getSpaceship().getPosition().y});
-    s.right_button_pressed();
-    s.update_spaceship(1.0f);
+    sc.getSpaceship().setPosition(sf::Vector2f{constants::SPIELFELDRAND_RE, sc.getSpaceship().getPosition().y});
+    sc.right_button_pressed();
+    sc.update_spaceship(1.0f);
 
-    const auto pos = s.getSpaceship().getPosition();
-    EXPECT_LE(pos.x, constants::SPIELFELDRAND_RE);
+    const auto posRE = sc.getSpaceship().getPosition();
+    EXPECT_LE(posRE.x, constants::SPIELFELDRAND_RE);
 }
 
 

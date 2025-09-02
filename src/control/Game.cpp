@@ -76,6 +76,7 @@ bool Game::input() {
             else if (keyPressed->code == sf::Keyboard::Key::Enter) {
                 if (phase == GamePhase::levelCleared) {
                     overlay_control.hide_text();
+                    spaceship_control.clearAll();
                     state.level++;
                     overlay_control.update_level(state.level);
                     state.lives = 3;

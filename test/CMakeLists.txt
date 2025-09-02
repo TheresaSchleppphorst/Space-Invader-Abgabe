@@ -2,6 +2,7 @@ enable_testing()
 
 set(ControlSources
     ${CMAKE_SOURCE_DIR}/src/control/Game.cpp
+    ${CMAKE_SOURCE_DIR}/src/control/SpaceshipControl.cpp
     )
 
 set(ModelSources
@@ -19,6 +20,7 @@ set(TestSources
     ${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/AliensTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ShootTest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipControlTest.cpp
     )
 
 add_executable(Test

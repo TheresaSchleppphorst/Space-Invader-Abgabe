@@ -42,6 +42,13 @@ class SpaceshipControl {
         // activation of powerup for time seconds
         void activate_bad_powerup(float time);
 
+        //for testing purposes
+        const Spaceship& getSpaceship() const { return spaceship; }
+
+        //shoots and powerups disappear
+        void clearAll();
+
+
 private:
         //spaceship object
         Spaceship spaceship;

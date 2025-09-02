@@ -24,6 +24,7 @@ class PowerupControl {
         bool get_good_powerup();
 
         void delete_powerup();
+
         
 
 private:

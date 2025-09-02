@@ -107,3 +107,8 @@ void SpaceshipControl::activate_bad_powerup(float time){
     time_left = time;
     speed = 200; // shoots are slower
 }
+
+void SpaceshipControl::clearAll(){
+    shoots.clear();
+    powerup_active = false;
+}

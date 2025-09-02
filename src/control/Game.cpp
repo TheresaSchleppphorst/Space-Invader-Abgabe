@@ -80,21 +80,25 @@ bool Game::input() {
                     overlay_control.update_level(state.level);
                     state.lives = 3;
                     overlay_control.update_lives();
+
+                    spaceship_control.setSpeed(400 + state.level*50);
+                    alien_control.setMin(2.5-0.5*state.level);
+                    alien_control.setMax(3.5-0.5*state.level);
+                    alien_control.setSpeed(200+state.level*50);
+                    alien_control.setSpeedControl(3 + state.level + 1);
+
                     start_next_level();
                     phase = GamePhase::playing;
-                } else if (phase == GamePhase::gameOver) {
+                }   else if (phase == GamePhase::gameOver) {
                     overlay_control.hide_text();
                     reset_game();
                     phase = GamePhase::playing;
-                    }
+                 }
             }
-
-
         } 
     }
     return false;
 }
-
 
 
 void Game::update(float time_passed) {

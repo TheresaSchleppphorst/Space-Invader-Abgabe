@@ -48,6 +48,14 @@ class AlienControl {
 
         void update_shoot(float elapsed_time);
 
+        void setMin(float nMin);
+
+        void setMax(float nMax);
+
+        void setSpeed(float nSpeed);
+
+        void setSpeedControl(float nSpeed);
+
 private:
         //Alien Grid
         std::vector<std::vector<Aliens>> alien_grid;
@@ -64,8 +72,17 @@ private:
         // random number generator
         std::mt19937 random_engine;
 
-        // time between 1 and 2 seconds between the shoots of aliens
-        std::uniform_real_distribution<float> time_between_shoot{2, 3};
+        // Incase theres need to alter the speed of the alien grid.
+        float speedControl = 4.0;
+
+        // minimum and maximum amount of seconds inbetween shots
+        float min= 2; // state.level einbinden !!
+        float max = 3;
+
+        float speed = 150;
+
+        // time between min and max seconds inbetween the shoots of the aliens
+        std::uniform_real_distribution<float> time_between_shoot{min, max};
 
         // time until next shoot
         float nextShoot_time = 0;

@@ -92,6 +92,7 @@ bool Game::input() {
                     phase = GamePhase::playing;
                 }   else if (phase == GamePhase::gameOver) {
                     overlay_control.hide_text();
+                    spaceship_control.clearAll();
                     reset_game();
                     phase = GamePhase::playing;
                  }

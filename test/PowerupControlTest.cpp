@@ -12,7 +12,7 @@ class PowerupControlTest : public ::testing::Test{
 
     public:
         PowerupControlTest()
-        : window(sf::VideoMode(1,1,32), "test", sf::Style::None)
+        : window(sf::VideoMode(sf::Vector2u(1, 1)), "test", sf::Style::None)
         , layer(window)
         , pc(layer)
         {

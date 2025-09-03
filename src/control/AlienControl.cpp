@@ -10,11 +10,11 @@
 AlienControl::AlienControl(ILayer& layer) : layer(layer), random_engine(static_cast<unsigned int>(
         std::chrono::system_clock::now().time_since_epoch().count()))
         {
-    AlienControl::build_Aliengrid();
+    AlienControl::build_Aliengrid(60,-450);
     nextShoot_time = time_between_shoot(random_engine);
-}
+} 
 
-void AlienControl::build_Aliengrid() {
+void AlienControl::build_Aliengrid(int x, int y) {
 
     //clear the grid at the start of every level
     alien_grid.clear();
@@ -42,7 +42,7 @@ void AlienControl::build_Aliengrid() {
         // Fills the created alien_row with 11 Aliens each.
         for (int j = 0; j < 11; j++){
             float jfloat = static_cast<float>(j);
-            Aliens newAlien = Aliens({60 + (alien_gap_H + sprite_gap_H)*jfloat,-450 + (alien_gap_V + sprite_gap_V)*ifloat});
+            Aliens newAlien = Aliens({x + (alien_gap_H + sprite_gap_H)*jfloat, y + (alien_gap_V + sprite_gap_V)*ifloat});
             alien_row.push_back(newAlien);
         }
 
@@ -61,7 +61,7 @@ void AlienControl::update_aliens(float elapsed_time){
     for(auto& row : alien_grid){
         for(auto& alien: row){
 
-             // horrizontal position of the alien.
+            // horrizontal position of the alien.
             float x = alien.getPosition().x;
             // vertical position of the alien.
             float y = alien.getPosition().y;
@@ -171,6 +171,18 @@ std::vector<Aliens*> AlienControl::getAllAliens() {
         }
     }
     return aliens;
+}
+
+std::vector<std::vector<Aliens>> AlienControl::getAlienGrid(){
+    return alien_grid;
+}
+
+std::vector<std::vector<Aliens>>& AlienControl::getAlienGridRef() {
+    return alien_grid;
+}
+
+bool AlienControl::getJustMovedDown(){
+    return justMovedDown;
 }
 
 

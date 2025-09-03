@@ -153,19 +153,10 @@ TEST_F(AlienControlTest, AlienShoot) {
 // test to check if only the alive aliens shoot
 TEST_F(AlienControlTest, RandomShootOnlyIfAlive) {
     //building a test Grid with only one living alien:
-    testAC.getAlienGridRef().clear();
-    std::vector<Aliens> r1, r2;
-    Aliens a({10, 20});
-    a.setAlive(false);
-    Aliens b({30, 40}); 
-    b.setAlive(true);   // alive
-    Aliens c({50, 60}); 
-    c.setAlive(false);
-    r1.push_back(a); 
-    r1.push_back(b); 
-    r1.push_back(c);
-    testAC.getAlienGridRef().push_back(r1);
-    testAC.getAlienGridRef().push_back(r2);  
+   auto& grid = testAC.getAlienGridRef();
+   for (auto& row : grid) for (auto& al : row) al.setAlive(false);
+   grid[0][1].setAlive(true); // genau einer lebt
+
 
     testAC.random_shoot(10); // there has to be a shoot after 10 seconds
 

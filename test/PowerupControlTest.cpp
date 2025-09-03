@@ -2,6 +2,7 @@
 #include "../src/view/MockLayer.hpp"
 
 #include "../src/control/PowerupControl.hpp"
+#include "../src/control/SpaceshipControl.hpp"
 #include "../src/model/Constants.hpp"
 
 
@@ -38,9 +39,11 @@ TEST_F(PowerupControlTest, DrawPowerup){
 
 TEST_F(PowerupControlTest, PowerupDeletion){
 
+    SpaceshipControl sc(layer);
+
     pc.set_powerup_active(true);
 
-    pc.delete_powerup();
+    pc.delete_powerup(sc);
     
     ASSERT_FALSE(pc.get_powerup_active());
 

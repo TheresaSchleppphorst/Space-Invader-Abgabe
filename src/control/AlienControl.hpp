@@ -13,8 +13,8 @@ class AlienControl {
         //initialize control with layer
         AlienControl(ILayer& layer);
 
-        //create an Alien Grid:
-        void build_Aliengrid();
+        //create an Alien Grid starting at the given coordinates:
+        void build_Aliengrid(int x, int y);
 
         //determine the position of the alien depending on the current movement
         void update_aliens(float elapsed_time);
@@ -40,6 +40,15 @@ class AlienControl {
 
         // gives back the lowest row of aliens because only they can shoot
         std::vector<Aliens*> getAllAliens();
+
+        // AlienGrid Getter:
+        std::vector<std::vector<Aliens>> getAlienGrid();
+
+        std::vector<std::vector<Aliens>>& getAlienGridRef();
+
+        //JustMovedDown status Getter:
+        bool getJustMovedDown();
+
 
         // random shooting -> sAlien is the current shooting Alien
         void alienShoot(Aliens* sAlien);

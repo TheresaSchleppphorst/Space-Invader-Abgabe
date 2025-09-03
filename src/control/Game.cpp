@@ -187,7 +187,7 @@ void Game::update(float time_passed) {
 }
 
 void Game::start_next_level(){
-    alien_control.build_Aliengrid();
+    alien_control.build_Aliengrid(60,-450);
 }
 
 void Game::reset_game(){
@@ -195,7 +195,7 @@ void Game::reset_game(){
     overlay_control.update_lives();
     overlay_control.update_score(state.score);
     overlay_control.update_level(state.level);
-    alien_control.build_Aliengrid();
+    alien_control.build_Aliengrid(60,-450);
 }
 
 void Game::draw() {

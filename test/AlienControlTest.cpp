@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <SFML/Graphics.hpp>
+#include "../src/view/MockLayer.hpp"
 
 #include "../src/control/AlienControl.hpp"
 #include "../src/model/Constants.hpp"
@@ -8,54 +7,133 @@
 class AlienControlTest : public::testing::Test {
 
     public:
-    AlienControlTest() : window(sf::VideoMode(1,1,32), "test",sf::Style::None),
-    layer(window),
-    testAC(layer){
-        window.setVisible(false);
-    }
+    AlienControlTest() : testAC(layer) {}
 
     protected:
-    sf::RenderWindow window;
-    Layer layer;
+    
+    MockLayer layer;
     AlienControl testAC;
 };
 
 //build_Aliengrid()
 TEST_F(AlienControlTest, buildsAlienGrid){
-     testAC.build_Aliengrid();
+     testAC.build_Aliengrid(60,-450);
      //Checks for amount of rows:
      ASSERT_EQ(5, testAC.getAlienGrid().size());
+     // int to check the y coordinates with:
+     int i = 0;
     for(auto& alienrow : testAC.getAlienGrid()){
         //Checks for amount of aliens per row:
         ASSERT_EQ(11, alienrow.size());
         for(auto& alien : alienrow){
             float alienY = alien.getPosition().y;
-            ASSERT_THAT(alienY, )
+            //check if all Y coordinates within a row are equal
+            ASSERT_FLOAT_EQ(alienY, -450 + (constants::ALIEN_HEIGHT * 0.08 /2 + constants::ALIEN_HEIGHT * 0.08)*i);
         }
+        i++;
     }
-    
-
-    //TODO fix this 
 }
 
 //update_aliens()
 TEST_F(AlienControlTest, updatesAliens){
-    // TODO write Test
+    // check if, when !aliensInBounds && !justMovedDown the aliens get moved down each.
+    // 
 }
 
 //move_Aliengrid_down()
 TEST_F(AlienControlTest, movesAlienGridDown){
+    // JustMovedDown should be true after function call:
+    testAC.move_Aliengrid_down();
+    ASSERT_TRUE(testAC.getJustMovedDown());
+    
+    auto& grid = testAC.getAlienGridRef();
 
+    for(auto& row : grid){
+        for(auto& alien : row){
+            // does it switch directions? / does it move all aliens down by 12px?
+            RichtungAlien vorherRichtung = alien.getRichtungAlien();
+            float vorherPos = alien.getPosition().y;
+            testAC.move_Aliengrid_down();
+            RichtungAlien nachherRichtung = alien.getRichtungAlien();
+            float nachherPos = alien.getPosition().y;
+            ASSERT_NE(static_cast<int>(vorherRichtung), static_cast<int>(nachherRichtung));
+            ASSERT_EQ(vorherPos +12, nachherPos);
+        }
+    }
 }
 
 //aliensInBounds()
-TEST_F(AlienControlTest, aliensInBoundsreturn){
-
+TEST_F(AlienControlTest, CheckIfAliensInBounds){
+    //Normal starting Position should be in Bounds 
+    testAC.build_Aliengrid(60,-450);
+    ASSERT_TRUE(testAC.aliensInBounds());
+    //OutOfBounds on the Right:
+    testAC.build_Aliengrid(constants::SPIELFELDRAND_RE + 1,-450);
+    ASSERT_FALSE(testAC.aliensInBounds());
+    //OutOfBounds on the Left:
+    testAC.build_Aliengrid(constants::SPIELFELDRAND_LI - 1,-450);
+    ASSERT_FALSE(testAC.aliensInBounds());
 }
 
 //bottomReached()
+TEST_F(AlienControlTest, BottomWasReached){
+    //AlienGrid that reached the Bottom:
+    testAC.build_Aliengrid(60, constants::SPIELFELDRAND_UNTEN_ALIEN);
+    ASSERT_TRUE(testAC.bottomReached());
+    //AlienGrid that doesnt hit the Bottom Boundry:
+    testAC.build_Aliengrid(60, -500);
+    ASSERT_FALSE(testAC.bottomReached());
+    //Test that this assumption is not dependent on the X coordinate:
+    testAC.build_Aliengrid(0, constants::SPIELFELDRAND_UNTEN_ALIEN);
+    ASSERT_TRUE(testAC.bottomReached());
+    testAC.build_Aliengrid(-1, constants::SPIELFELDRAND_UNTEN_ALIEN);
+    ASSERT_TRUE(testAC.bottomReached());
+    testAC.build_Aliengrid(1000, constants::SPIELFELDRAND_UNTEN_ALIEN);
+    ASSERT_TRUE(testAC.bottomReached());
+}
+
 
 //getAllAliens()
+TEST_F(AlienControlTest, GetsAllAliens){
+    testAC.getAlienGridRef().clear();
+    //building a test Grid A:
+    Aliens a = Aliens({0,0});
+    a.setAlive(false);          //modify some alive states, dead aliens shouldnt be returned
+    Aliens b = Aliens({1,0});
+    Aliens c = Aliens({2,0});
+    Aliens d = Aliens({0,1});
+    d.setAlive(false);
+    Aliens e = Aliens({1,1});
+    e.setAlive(false);
+    Aliens f = Aliens({2,1});
+    //create two rows:
+    std::vector<Aliens> first;
+    std::vector<Aliens> second;
+    //fill the two rows:
+    first.push_back(a);
+    first.push_back(b);
+    first.push_back(c);
+    second.push_back(d);
+    second.push_back(e);
+    second.push_back(f);
+    //fill alien_grid:
+    testAC.getAlienGridRef().push_back(first);
+    testAC.getAlienGridRef().push_back(second);
+    
+    auto aliens = testAC.getAllAliens();
+
+    //check correct size:
+    ASSERT_EQ(aliens.size(), 2);
+
+    //check if pointers are correct:
+    EXPECT_EQ(aliens[0], &testAC.getAlienGridRef()[0][1]);
+    EXPECT_EQ(aliens[1], &testAC.getAlienGridRef()[1][2]);
+
+    //check if all returned aliens are alive:
+    for (auto* alien : aliens) {
+        EXPECT_TRUE(alien->getAlive());
+    }
+}
 
 //alienShoot()
 

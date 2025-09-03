@@ -3,12 +3,14 @@ enable_testing()
 set(ControlSources
     ${CMAKE_SOURCE_DIR}/src/control/Game.cpp
     ${CMAKE_SOURCE_DIR}/src/control/SpaceshipControl.cpp
+    ${CMAKE_SOURCE_DIR}/src/control/PowerupControl.cpp
     )
 
 set(ModelSources
     ${CMAKE_SOURCE_DIR}/src/model/Spaceship.cpp
     ${CMAKE_SOURCE_DIR}/src/model/Aliens.cpp
     ${CMAKE_SOURCE_DIR}/src/model/Shoot.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/model/Powerup.cpp
     )
 
 set(ViewSources
@@ -21,6 +23,7 @@ set(TestSources
     ${CMAKE_CURRENT_SOURCE_DIR}/AliensTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ShootTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipControlTest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/PowerupControlTest.cpp
     )
 
 add_executable(Test

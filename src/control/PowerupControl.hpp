@@ -12,18 +12,32 @@ class PowerupControl {
         //initialize control with layer
         PowerupControl(ILayer& layer);
 
+        //updates the powerup
         void update_powerup(float elapsed_time);
 
         //draw powerup to the layer
         void draw_powerup();
 
+        //creates a new powerup
         void new_powerup(float elapsed_time);
 
+        //getter + setter
         bool get_powerup_active();
+        void set_powerup_active(bool value) {powerup_active = value;};
 
+        //if its true its a good powerup
         bool get_good_powerup();
 
+        //sets the boolean active = false
         void delete_powerup();
+
+        //getter + setter
+        float getNextPowerupTime() {return nextPowerup_time;} 
+        void setNextPowerupTime(float time) {nextPowerup_time = time;};
+
+        //for testing purposes
+        Powerup getPowerup() {return powerup;};
+        
         
 
 private:
@@ -42,11 +56,13 @@ private:
         // time until next shoot
         float nextPowerup_time = 0;
 
-        // Tempo mit dem das Powerup nach unten kommt 
+        // speed of the power up
         float powerup_speed = 150; 
 
+        //default is false, so powerup not active
         bool powerup_active = false;
 
+        //default is true, so powerup is good
         bool good_powerup = true;
 
         friend class Game;

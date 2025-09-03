@@ -158,7 +158,7 @@ void OverlayControl::game_over() {
     center_view.setFillColor({255, 0, 0, 255});
     //view has to be centered according to its size
     sf::FloatRect rc = center_view.getLocalBounds();
-    center_view.setOrigin({rc.size.x/2, rc.size.y/2});
+    center_view.setOrigin({rc.position.x + rc.size.x/2, rc.position.y + rc.size.y/2});
 }
 
 void OverlayControl::game_won(){
@@ -168,7 +168,7 @@ void OverlayControl::game_won(){
     center_view.setFillColor({0, 0, 255, 255});
     //view has to be centered according to its size
     sf::FloatRect rc = center_view.getLocalBounds();
-    center_view.setOrigin({rc.size.x/2, rc.size.y/2});
+    center_view.setOrigin({rc.position.x + rc.size.x/2, rc.position.y + rc.size.y/2});
 
 
 }

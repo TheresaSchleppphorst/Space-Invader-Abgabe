@@ -41,6 +41,16 @@ class OverlayControl{
         //hides the center text
         void hide_text();
 
+         //for testing purposes
+         const sf::Text getScoreView() const {return score_view;};
+         const sf::Text getLevelView() const {return level_view;};
+         const sf::Text getLivesView() const {return lives_view;};
+         const sf::Text getCenterView() const {return center_view;};
+         const sf::Sprite getLivesIcon_1() const {return lives_icon_1;};
+         const sf::Sprite getLivesIcon_2() const {return lives_icon_2;};
+         const sf::Sprite getLivesIcon_3() const {return lives_icon_3;};
+         bool isCenterThere() const {return show_center_view;};
+
     private:
         //Text font
         sf:: Font font;
@@ -85,6 +95,8 @@ class OverlayControl{
 
         //layer on which the text is drawn
         ILayer& layer;
+
+       
 
 
 };

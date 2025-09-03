@@ -12,7 +12,7 @@ set(ControlSources
     ${CMAKE_CURRENT_SOURCE_DIR}/control/SpaceshipControl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/control/AlienControl.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/control/OverlayControl.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/control/Powerup.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/control/PowerupControl.cpp
     )
 
 # View

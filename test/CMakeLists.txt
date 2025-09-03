@@ -4,6 +4,8 @@ set(ControlSources
     ${CMAKE_SOURCE_DIR}/src/control/Game.cpp
     ${CMAKE_SOURCE_DIR}/src/control/SpaceshipControl.cpp
     ${CMAKE_SOURCE_DIR}/src/control/PowerupControl.cpp
+    ${CMAKE_SOURCE_DIR}/src/control/AlienControl.cpp
+    ${CMAKE_SOURCE_DIR}/src/control/OverlayControl.cpp
     )
 
 set(ModelSources
@@ -24,6 +26,8 @@ set(TestSources
     ${CMAKE_CURRENT_SOURCE_DIR}/ShootTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/SpaceshipControlTest.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/PowerupControlTest.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/AlienControlTest.cpp
+    ${CMAKE_SOURCE_DIR}/src/control/OverlayControlTest.cpp
     )
 
 add_executable(Test

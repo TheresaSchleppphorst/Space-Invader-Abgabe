@@ -5,5 +5,6 @@ SFML/
 googletest-1.17.0/
 game
 build/
+tests
 *.o
 *.d

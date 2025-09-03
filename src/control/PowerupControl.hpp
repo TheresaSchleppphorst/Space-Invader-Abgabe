@@ -6,6 +6,7 @@
 
 #include "../model/Powerup.hpp"
 #include "../view/ILayer.hpp"
+#include "../control/SpaceshipControl.hpp"
 
 class PowerupControl {
     public:
@@ -23,7 +24,7 @@ class PowerupControl {
 
         bool get_good_powerup();
 
-        void delete_powerup();
+        void delete_powerup(SpaceshipControl& sc);
         
 
 private:

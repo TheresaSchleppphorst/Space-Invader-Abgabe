@@ -69,20 +69,10 @@ void SpaceshipControl:: setSpeed(float newSpeed){
 void SpaceshipControl::update_shoot(float elapsed_time) {
     // check for powerups:
 
-       if (powerup_active) {
+        if (powerup_active) {
         time_left -= elapsed_time;
-        if (time_left <= 0 && powerup_active) {
-            powerup_active = false;
-            time_left   = 0;
-
-            // set speed to normal speed
-            if(good){
-            speed = getSpeed() - 300;
-            good = false;}
-
-            if(bad){
-            speed = getSpeed() + 200;
-            bad = false;}
+        if (time_left <= 0) {
+            deactivate_powerup();
         }
     }
 
@@ -128,4 +118,23 @@ void SpaceshipControl::activate_bad_powerup(float time){
 void SpaceshipControl::clearAll(){
     shoots.clear();
     powerup_active = false;
+}
+
+void SpaceshipControl:: deactivate_powerup(){
+
+      if (!powerup_active && !good && !bad)
+        return;
+
+    // set speed to normal speed
+             if(good){
+            speed = getSpeed() - 300;
+            good = false;}
+
+            if(bad){
+            speed = getSpeed() + 200;
+            bad = false;}
+
+            powerup_active = false;
+            time_left   = 0;
+
 }

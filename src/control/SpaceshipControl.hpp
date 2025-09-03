@@ -55,6 +55,9 @@ class SpaceshipControl {
         //shoots and powerups disappear
         void clearAll();
 
+        // deactivates poweruo
+        void  deactivate_powerup();
+
 
 private:
         //spaceship object

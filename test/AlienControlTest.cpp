@@ -1,4 +1,4 @@
-/* #include <gtest/gtest.h>
+#include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <SFML/Graphics.hpp>
 
@@ -62,4 +62,3 @@ TEST_F(AlienControlTest, aliensInBoundsreturn){
 //random_shoot()
 
 //update_shoot()
-*/

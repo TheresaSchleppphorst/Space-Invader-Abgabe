@@ -6,6 +6,7 @@
 
 #include "../model/Powerup.hpp"
 #include "../view/ILayer.hpp"
+#include "../control/SpaceshipControl.hpp"
 
 class PowerupControl {
     public:
@@ -29,7 +30,7 @@ class PowerupControl {
         bool get_good_powerup();
 
         //sets the boolean active = false
-        void delete_powerup();
+        void delete_powerup(SpaceshipControl& sc);
 
         //getter + setter
         float getNextPowerupTime() {return nextPowerup_time;} 

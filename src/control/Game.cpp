@@ -79,7 +79,7 @@ bool Game::input() {
                 if (phase == GamePhase::levelCleared) {
                     overlay_control.hide_text();
                     spaceship_control.clearAll();
-                    powerup_control.delete_powerup();
+                    powerup_control.delete_powerup(spaceship_control);
                     state.level++;
                     overlay_control.update_level(state.level);
                     state.lives = 3;
@@ -96,7 +96,7 @@ bool Game::input() {
                 }   else if (phase == GamePhase::gameOver) {
                     overlay_control.hide_text();
                     spaceship_control.clearAll();
-                    powerup_control.delete_powerup();
+                    powerup_control.delete_powerup(spaceship_control);
                     reset_game();
 
                     //set the speed/frequency according to the level
@@ -151,7 +151,7 @@ void Game::update(float time_passed) {
     }
 
     if(collisionPowerup()){
-        powerup_control.delete_powerup();
+        powerup_control.delete_powerup(spaceship_control);
         if(powerup_control.get_good_powerup()){
             spaceship_control.activate_good_powerup(5);
         }

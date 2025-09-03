@@ -35,8 +35,10 @@ void PowerupControl::update_powerup(float elapsed_time){
     }
 }
 
-void PowerupControl:: delete_powerup(){
+void PowerupControl:: delete_powerup(SpaceshipControl& sc){
     powerup_active = false;
+    sc.deactivate_powerup();
+    
 }
 
 void PowerupControl::draw_powerup(){

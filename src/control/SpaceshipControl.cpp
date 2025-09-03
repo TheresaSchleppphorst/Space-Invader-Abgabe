@@ -71,7 +71,7 @@ void SpaceshipControl::update_shoot(float elapsed_time) {
 
        if (powerup_active) {
         time_left -= elapsed_time;
-        if (time_left <= 0) {
+        if (time_left <= 0 && powerup_active) {
             powerup_active = false;
             time_left   = 0;
 

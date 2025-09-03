@@ -29,12 +29,17 @@ TEST_F(ShootTest, MovementUp){
     //movement up
     s.move_up();
     EXPECT_EQ(s.getVertikaleRichtung(), vertikaleRichtung::UP);
+}
 
+TEST_F(ShootTest, MovementUpUp){
   //further movement to the top changes nothing
   s.move_up();
   s.move_up();
   EXPECT_EQ(s.getVertikaleRichtung(), vertikaleRichtung::UP);
 
+}
+
+TEST_F(ShootTest, MovementDownUp){
   //movement from down to up sets correctly
   s.move_down();
   s.move_up();
@@ -45,12 +50,16 @@ TEST_F(ShootTest, MovementDown){
     //movement down
     s.move_down();
     EXPECT_EQ(s.getVertikaleRichtung(), vertikaleRichtung::DOWN);
+}
 
+TEST_F(ShootTest, MovementDownDown){
   //further movement to the bottom changes nothing
   s.move_down();
   s.move_down();
   EXPECT_EQ(s.getVertikaleRichtung(), vertikaleRichtung::DOWN);
+}
 
+TEST_F(ShootTest, MovementUpDown){
   //movement from up to down sets correctly
   s.move_up();
   s.move_down();

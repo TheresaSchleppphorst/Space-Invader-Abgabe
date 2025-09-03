@@ -30,12 +30,16 @@ TEST_F(SpaceshipTest, MovementRight){
   //movement to the right
   s.move_right();
   EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::RIGHT);
+}
 
+TEST_F(SpaceshipTest, MovementRightRight){
   //further movement to the right changes nothing
   s.move_right();
   s.move_right();
   EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::RIGHT);
+}
 
+TEST_F(SpaceshipTest, MovementLeftRight){
   //movement from left to right sets correctly
   s.move_left();
   s.move_right();
@@ -49,29 +53,37 @@ TEST_F(SpaceshipTest, MovementLeft){
     //movement to the left
     s.move_left();
     EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::LEFT);
+}
 
+TEST_F(SpaceshipTest, MovementLeftLeft){
     //further movement to the left changes nothing
     s.move_left();
     s.move_left();
     EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::LEFT);
+}
 
+TEST_F(SpaceshipTest, MovementRightLeft){
     //movement from right to left sets correctly
     s.move_right();
     s.move_left();
     EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::LEFT);
 }
 
-TEST_F(SpaceshipTest, StopMovement){
+TEST_F(SpaceshipTest, StopMovementRight){
   //movement to the right stops correctly
   s.move_right();
   s.stop_horizontal_movement();
   EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::NONE);
+}
 
+TEST_F(SpaceshipTest, StopMovementLeft){
   //movement to the left stops correctly
   s.move_left();
   s.stop_horizontal_movement();
   EXPECT_EQ(s.getHorizontaleRichtung(), horizontaleRichtung::NONE);
+}
 
+TEST_F(SpaceshipTest, StopMovementTwice){
   //stopping after stopping does not change the state
   s.stop_horizontal_movement();
   s.stop_horizontal_movement();

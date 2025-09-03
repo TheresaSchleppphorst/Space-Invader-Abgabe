@@ -26,32 +26,41 @@ TEST_F(AliensTest, Initialization) {
 }
 
 TEST_F(AliensTest, MovementRight){
-   //movement to the right
+   //movement to the right 
+  a.move_right();
+  EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::RIGHT);
+}
+
+TEST_F(AliensTest, MovementRightRight){
+  //further movement to the right changes nothing 
+  a.move_right();
   a.move_right();
   EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::RIGHT);
 
-  //further movement to the right changes nothing
-  a.move_right();
-  a.move_right();
-  EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::RIGHT);
+}
 
-  //movement from left to right sets correctly
+TEST_F(AliensTest, MovementLeftRight){
+  //movement from left to right sets correctly 
   a.move_left();
   a.move_right();
   EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::RIGHT);
 }
 
 TEST_F(AliensTest, MovementLeft){
-    //movement to the left
+    //movement to the left 
     a.move_left();
     EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::LEFT);
+}
 
-    //further movement to the left changes nothing
+TEST_F(AliensTest, MovementLeftLeft){
+    //further movement to the left changes nothing 
     a.move_left();
     a.move_left();
     EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::LEFT);
+}
 
-    //movement from right to left sets correctly
+TEST_F(AliensTest, MovementRightLeft){
+    //movement from right to left sets correctly 
     a.move_right();
     a.move_left();
     EXPECT_EQ(a.getRichtungAlien(), RichtungAlien::LEFT);

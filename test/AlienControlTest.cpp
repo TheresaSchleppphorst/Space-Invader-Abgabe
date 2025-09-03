@@ -136,7 +136,60 @@ TEST_F(AlienControlTest, GetsAllAliens){
 }
 
 //alienShoot()
+TEST_F(AlienControlTest, AlienShoot) {
+// test to see if only one alien shoots
+    // build test grid
+    testAC.build_Aliengrid(100, 200);
+
+    Aliens* a = &testAC.getAlienGridRef()[0][0];
+    testAC.alienShoot(a);
+
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(1); // checks if there is only one shoot 
+
+    testAC.draw_shoot();
+}
 
 //random_shoot()
+// test to check if only the alive aliens shoot
+TEST_F(AlienControlTest, RandomShootOnlyIfAlive) {
+    //building a test Grid with only one living alien:
+    testAC.getAlienGridRef().clear();
+    std::vector<Aliens> r1, r2;
+    Aliens a({10, 20});
+    a.setAlive(false);
+    Aliens b({30, 40}); 
+    b.setAlive(true);   // alive
+    Aliens c({50, 60}); 
+    c.setAlive(false);
+    r1.push_back(a); 
+    r1.push_back(b); 
+    r1.push_back(c);
+    testAC.getAlienGridRef().push_back(r1);
+    testAC.getAlienGridRef().push_back(r2);  
+
+    testAC.random_shoot(10); // there has to be a shoot after 10 seconds
+
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(1); // checks if there is only 1 shoot
+    testAC.draw_shoot();
+}
+
 
 //update_shoot()
+TEST_F(AlienControlTest, UpdateShootRemoved) {
+// tests if shoots outside the view get deleted
+    // build test grid
+    testAC.build_Aliengrid(100, 200);
+    Aliens* a = &testAC.getAlienGridRef()[0][0];
+    testAC.alienShoot(a);
+
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(1); // one shoot
+    testAC.draw_shoot();
+    ::testing::Mock::VerifyAndClearExpectations(&layer);
+
+    testAC.setSpeed(1000);
+    testAC.update_shoot(10);
+
+    EXPECT_CALL(layer, add_to_layer(::testing::_)).Times(0); // no shoot 
+    testAC.draw_shoot();
+}
+

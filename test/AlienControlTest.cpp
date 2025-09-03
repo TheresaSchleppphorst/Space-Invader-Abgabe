@@ -61,6 +61,7 @@ TEST_F(AlienControlTest, updatesAliens){
             EXPECT_NEAR(xAfter, xBefore - 12 * 0.001f * 0.01f, epsilon);
         }
     }
+    //Check wether the justMovedDown bool works:
     testAC.build_Aliengrid(0,0);
     testAC.update_aliens(1.0);
     //Aliens schould get moved down -> justMovedDown schould be true:

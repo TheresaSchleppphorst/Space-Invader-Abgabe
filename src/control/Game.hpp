@@ -21,13 +21,6 @@ public:
     // start the game
     void start();
 
-private:
-    //the state of all variables (level, lives etc.)
-    GameState state;
-
-    //phase of the game
-    GamePhase phase = GamePhase::playing;
-
     //starts the new level
     void start_next_level();
 
@@ -47,6 +40,21 @@ private:
     bool collisionAlien();
     bool collisionSpaceship();
     bool collisionPowerup();
+
+    //for testing purposes
+    GameState& getState()  {return state;};
+    OverlayControl& getOverlay()  {return overlay_control;};
+    AlienControl& getAliens()  {return alien_control;};
+    PowerupControl& getPowerup() {return powerup_control;};
+    SpaceshipControl& getSpaceship() {return spaceship_control;};
+    GamePhase getPhase()  {return phase;};
+
+private:
+    //the state of all variables (level, lives etc.)
+    GameState state;
+
+    //phase of the game
+    GamePhase phase = GamePhase::playing;
 
     sf::RenderWindow window;
 

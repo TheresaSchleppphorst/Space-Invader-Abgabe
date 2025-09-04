@@ -65,6 +65,12 @@ class AlienControl {
 
         void setSpeedControl(float nSpeed);
 
+        //for testing purposes
+        const std::vector<std::vector<Aliens>>& alienGrid() const { return alien_grid; }
+
+        
+
+
 private:
         //Alien Grid
         std::vector<std::vector<Aliens>> alien_grid;

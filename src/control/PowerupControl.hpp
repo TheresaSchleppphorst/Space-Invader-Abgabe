@@ -29,7 +29,7 @@ class PowerupControl {
         //if its true its a good powerup
         bool get_good_powerup();
 
-        void set_good_powerup (bool value) {good_powerup = value;};
+
 
         //sets the boolean active = false
         void delete_powerup(SpaceshipControl& sc);
@@ -39,7 +39,7 @@ class PowerupControl {
         void setNextPowerupTime(float time) {nextPowerup_time = time;};
 
         //for testing purposes
-        Powerup& getPowerup() {return powerup;};
+        Powerup getPowerup() {return powerup;};
 
         void set_good_powerup(bool value){good_powerup = value;}
         

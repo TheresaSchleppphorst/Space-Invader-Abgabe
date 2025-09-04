@@ -137,7 +137,6 @@ TEST_F(GameTest, AlienCollisionsWorks){
     ASSERT_FALSE(g.getSpaceship().getShotsRef() [0].getActive());
     ASSERT_TRUE(g.getSpaceship().getShotsRef() [1].getActive());
 
-    //Test F - hits and score
     
 }
 
@@ -186,7 +185,6 @@ TEST_F(GameTest, SpaceshipCollisionWorks){
 }
 
 TEST_F(GameTest, PowerupCollisionWorks){
-
     //powerup and spaceship on the same position makes a collison
 
     g.getSpaceship().getSpaceship().setPosition({0,0});
@@ -215,24 +213,37 @@ TEST_F(GameTest, SpaceshipHit) {
     EXPECT_EQ(g.getState().lives, prevLives - 1);
 }
 
-/**TEST_F(GameTest, AlienHit){
+TEST_F(GameTest, AlienHit){
     
     int prevScore = g.getState().score;
 
-    g.getAliens().getAlienGridRef().clear();
-    g.getAliens().getAlienGridRef().push_back({ Aliens({0,0}) });
-    auto &alien = g.getAliens().getAlienGridRef()[0][0];
-    alien.getSprite().setPosition({0,0});   
+   g.getAliens().getAlienGridRef().clear();
 
+    Aliens a = Aliens({0, -100});
+    Aliens b = Aliens({100, -500});
+    Aliens c = Aliens({0, -100});
+    c.setAlive(false);
+    Aliens d = Aliens({300, -300});
+
+    std::vector<Aliens> first;
+    std::vector<Aliens> second;
+
+    first.push_back(a);
+    first.push_back(b);
+    second.push_back(c);
+    second.push_back(d);
+
+    g.getAliens().getAlienGridRef().push_back(first);
+    g.getAliens().getAlienGridRef().push_back(second);
+
+    Shoot testA = Shoot({d.getPosition()});
     g.getSpaceship().getShotsRef().clear();
-    Shoot s({0,0});
-    Shoot s({alien.getSprite().getPosition()});                
-    g.getSpaceship().getShotsRef().push_back(s);
+    g.getSpaceship().getShotsRef().push_back(testA);
 
-    g.update(0.0f);
+    g.update(10.0f);
 
     EXPECT_EQ(g.getState().score, prevScore + 10);
 
 }
-*/
+
 

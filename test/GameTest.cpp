@@ -197,6 +197,29 @@ TEST_F(GameTest, PowerupCollisionWorks){
     ASSERT_TRUE(g.collisionPowerup());
 }
 
+TEST_F(GameTest, PowerupSpeedWorks){
+
+    //powerup and spaceship on the same position makes a collison
+    bool equal = false;
+
+    g.getSpaceship().getSpaceship().setPosition({0,0});
+    // speed before:
+    float speedBefore = g.getSpaceship().getSpeed();
+    
+    
+    g.getPowerup().getPowerup().setPosition({0, 0});
+    g.getPowerup().set_powerup_active(true);
+
+    g.update(0.1);
+
+    float speedAfter = g.getSpaceship().getSpeed();
+
+    if(speedAfter == speedBefore + 300 || speedAfter == speedBefore - 200){
+        equal = true;
+    }
+
+    ASSERT_TRUE(equal);
+}
 
 TEST_F(GameTest, SpaceshipHit) {
     //lives decrement when the spaceship is hit
@@ -208,7 +231,7 @@ TEST_F(GameTest, SpaceshipHit) {
     alienShot.setAlienShootSprite();
     g.getAliens().getShoots().push_back(alienShot);
   
-    g.update(0.0f);
+    g.update(0);
 
     EXPECT_EQ(g.getState().lives, prevLives - 1);
 }

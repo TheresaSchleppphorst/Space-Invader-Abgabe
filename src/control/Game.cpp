@@ -150,6 +150,7 @@ void Game::update(float time_passed) {
         overlay_control.update_lives();
     }
 
+    //check if a powerup is collisionig with the spaceship
     if(collisionPowerup()){
         powerup_control.delete_powerup(spaceship_control);
         if(powerup_control.get_good_powerup()){

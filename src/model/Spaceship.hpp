@@ -20,8 +20,9 @@ class Spaceship{
     sf::Vector2f position;
     //spaceship moves left or right
     horizontaleRichtung hR = horizontaleRichtung::NONE;
-
+    //texture of the sprite 
     sf:: Texture texture;
+    //sprite
     sf::Sprite sprite;
 
 

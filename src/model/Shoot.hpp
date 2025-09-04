@@ -13,7 +13,7 @@ enum class vertikaleRichtung {
 class Shoot {
     protected:
     sf::Vector2f position;
-    //Schuss bewegt sich nach oben (Raumschiff) oder unten (Alien)
+    //shoot goes up or down (spaceship or alien)
     vertikaleRichtung vR = vertikaleRichtung::NONE;
     static sf::Texture texture;
     static sf::Texture alienTexture;
@@ -24,26 +24,26 @@ class Shoot {
   public:
 
     ~Shoot() = default;
-    //Konstruktor
+    //constructor
     Shoot(sf::Vector2f position);
   
     
      //setter + getter Position
     sf::Vector2f getPosition() const;
     void setPosition(sf::Vector2f position);
-    //check, ob Bewegung nach oben oder unten
+    //check if movement is up or down
     vertikaleRichtung getVertikaleRichtung() const;
-    //Schuss bewegt sich nicht weiter
+    //shot stops moving
     void stop_vertical_movement();
-    // Bewegung nach oben
+    //movement up
     void move_up();
-    // Bewegung nach oben
+    //movement down
     void move_down();
     
     //getter des Sprites
     const sf::Sprite &getSprite() const;
 
-    // anderes Bild für die Schüsse der Aliens laden
+    // loading another image for the alien shots
     void setAlienShootSprite();
 
     // Activity Setter

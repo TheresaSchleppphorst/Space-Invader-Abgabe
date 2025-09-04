@@ -2,6 +2,8 @@
 #include "../model/Constants.hpp"
 #include <cmath>
 
+#include <iostream>
+
 
 PowerupControl::PowerupControl(ILayer& layer) : powerup(sf::Vector2f{0, 0}), layer(layer), random_engine(static_cast<unsigned int>(
         std::chrono::system_clock::now().time_since_epoch().count()))
@@ -23,15 +25,18 @@ void PowerupControl::update_powerup(float elapsed_time){
 
     if (!powerup_active) return;
 
-    // Einfaches Fallen nach unten (konstante Geschwindigkeit)
+    // falling down (constant speed) 
     auto pos = powerup.getPosition();
     pos.y += powerup_speed * elapsed_time;
     powerup.setPosition(pos);
 
-    // Timer für das nächste Powerup, wenn es den Bildschirmrand verlässt (unten)
+    // timer for the next powerup, if its out of the SPIELFELD
     if (pos.y > constants::SPIELFELDRAND_UN) {
         nextPowerup_time = time_between_powerup(random_engine);
         powerup_active = false;
+
+        //std::cout << "TEEEEEEEST " << powerup_active << std::endl;
+        //inline test that poweruup_active returns false at this moment
     }
 }
 
@@ -53,13 +58,13 @@ void PowerupControl::new_powerup(float elapsed_time){
 
     if (nextPowerup_time > 0.f) return;
 
-    // Zufällige X-Position wählen
-    const float minX  = constants::SPIELFELDRAND_LI + 50; // 50 ist die Hälfte des Powerup Sprites
+    // random x-position 
+    const float minX  = constants::SPIELFELDRAND_LI + 50; // 50 is half the powerup sprite
     const float maxX = constants::SPIELFELDRAND_RE - 50;
     std::uniform_real_distribution<float> xdist(minX, maxX);
     const float x = xdist(random_engine);
 
-    // y-Position am oberen Bildschirmrand
+    // y-position at the top display edge
     const float y = -constants::VIEW_HEIGHT;
 
     powerup.setPosition({x, y});
@@ -73,8 +78,8 @@ void PowerupControl::new_powerup(float elapsed_time){
         powerup.setGoodPowerupSprite();
         good_powerup= !good_powerup;}
 
-    powerup.move_down();      // Bewegung von oben nach unten
+    powerup.move_down();      // movement from top to bottom 
     powerup_active = true;
 
-    nextPowerup_time = time_between_powerup(random_engine); // nächstes Intervall
+    nextPowerup_time = time_between_powerup(random_engine); // next interval 
 }

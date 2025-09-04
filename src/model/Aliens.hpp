@@ -27,7 +27,7 @@ class Aliens {
 
 
   public:
-    //Konstruktor
+    //constructor
     Aliens(sf::Vector2f alienPos);
     
     //setter + getter position 

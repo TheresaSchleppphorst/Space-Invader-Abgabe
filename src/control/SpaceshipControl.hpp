@@ -33,6 +33,9 @@ class SpaceshipControl {
         //shoot
         void space_bar_pressed();
 
+        //for test purposes:
+        std::vector<Shoot>& getShotsRef(){ return shoots; }
+
         // getter for speed
         float getSpeed();
 
@@ -69,9 +72,10 @@ private:
         // speed of shoots
         float speed = 300;
 
-        // vector of all shoots
+        // vector of all shots
         std::vector<Shoot> shoots;
 
+        // texture for the shot
         sf::Texture shootTexture;
 
         friend class Game;

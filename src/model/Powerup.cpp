@@ -24,7 +24,7 @@ void Powerup::move_down(){
     {vR = vertikaleRichtung::DOWN;}
 }
 
-// evt. unnögig:
+
 void Powerup::stop_vertical_movement(){
     vR = vertikaleRichtung::NONE;
 }

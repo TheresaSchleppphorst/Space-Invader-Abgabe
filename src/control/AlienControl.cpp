@@ -173,6 +173,11 @@ std::vector<Aliens*> AlienControl::getAllAliens() {
     return aliens;
 }
 
+std::vector<std::vector<Aliens>> AlienControl::getAlienGrid(){
+    return alien_grid;
+}
+
+
 std::vector<std::vector<Aliens>>& AlienControl::getAlienGridRef() {
     return alien_grid;
 }
@@ -187,9 +192,9 @@ void AlienControl::alienShoot(Aliens* sAlien) {
     auto pos = sAlien->getPosition();
     shoots.emplace_back(pos);
     auto& s = shoots.back();
-    s.setAlienShootSprite(); // anderes Sprite (blaue Schüsse)
+    s.setAlienShootSprite(); // another sprite (blue shots)
     s.setPosition({pos.x, pos.y - 15 });
-    s.move_down(); // Bewegungsrichtung nach unten
+    s.move_down(); // direction of movement: down
 }
 
 void AlienControl::random_shoot(float elapsed_time) {
@@ -204,10 +209,10 @@ void AlienControl::random_shoot(float elapsed_time) {
         // Shoot
         if(a->getAlive()){
             alienShoot(a);
-            nextShoot_time = time_between_shoot(random_engine); // Wenn das ausgewählte Alien existiert soll nach einer random Zeit das nächste Alien schießen
+            nextShoot_time = time_between_shoot(random_engine); //if the chosen alien exists after random time the next alien should shoot
         } 
         else{
-            nextShoot_time = 0; // Falls das random ausgewählte Alien nicht mehr existiert wird sofort ein neues ausgewählt
+            nextShoot_time = 0; // if the randomly chosen Alien does not exist anymore another one is chosen right away
         }
     }
 }

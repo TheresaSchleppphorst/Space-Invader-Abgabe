@@ -56,6 +56,7 @@ private:
     //phase of the game
     GamePhase phase = GamePhase::playing;
 
+    //the window for the game
     sf::RenderWindow window;
 
     // view area and layers

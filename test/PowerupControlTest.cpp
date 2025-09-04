@@ -28,6 +28,7 @@ protected:
 
 
 TEST_F(PowerupControlTest, DrawPowerup){
+    //powerup is drawn correcly
 
     ::testing::Mock::VerifyAndClearExpectations(&layer);
 
@@ -60,6 +61,7 @@ TEST_F(PowerupControlTest, CorrectMovement){
 }
 
 TEST_F(PowerupControlTest, NoDoubleActivation) {
+    //a powerup can only be activated when its status was deactivated
     pc.set_powerup_active(true);
     pc.setNextPowerupTime(0.f);
 
@@ -72,6 +74,7 @@ TEST_F(PowerupControlTest, NoDoubleActivation) {
 }
 
 TEST_F(PowerupControlTest, NoTimerActivation) {
+    //when the timer is still running, no powerup can be activated
     pc.set_powerup_active(false);
     pc.setNextPowerupTime(10.0f); 
 
@@ -81,6 +84,7 @@ TEST_F(PowerupControlTest, NoTimerActivation) {
 }
 
 TEST_F(PowerupControlTest, TimerActivation) {
+    //powerup is initialized correctly when timer is over
     pc.set_powerup_active(false);
     pc.setNextPowerupTime(0.0f); 
 
@@ -97,3 +101,47 @@ TEST_F(PowerupControlTest, TimerActivation) {
 
     EXPECT_FLOAT_EQ(pos.y, -constants::VIEW_HEIGHT);
 }
+
+TEST_F(PowerupControlTest, PowerupSwitch) {
+    //powerup switches correctly between good and bad
+    pc.set_powerup_active(false);
+    pc.setNextPowerupTime(0.0f);
+
+    bool wasGood = pc.get_good_powerup();
+    pc.new_powerup(1.0f);
+    EXPECT_NE(pc.get_good_powerup(), wasGood); 
+}
+
+TEST_F(PowerupControlTest, TimeReset) {
+    //the time is reset correcty for the next powerup
+    pc.set_powerup_active(false);
+    pc.setNextPowerupTime(0.0f);
+
+    pc.new_powerup(1.0f);
+    EXPECT_GT(pc.getNextPowerupTime(), 0.0f);
+}
+
+TEST_F(PowerupControlTest, DoesNothingWhenInactive) {
+    //the powerup doesn't change position when not activated
+    pc.set_powerup_active(false);
+    auto oldPos = pc.getPowerup().getPosition();
+    pc.update_powerup(1.0f);
+    EXPECT_EQ(pc.getPowerup().getPosition(), oldPos);
+}
+
+
+TEST_F(PowerupControlTest, DeactivatesWhenOutOfScreen) {
+    //powerup gets deactivated when it falls out of the screen
+    powerup_triggern();
+    ASSERT_TRUE(pc.get_powerup_active());
+
+    sf::Vector2f highPos = pc.getPowerup().getPosition();
+    highPos.y = constants::SPIELFELDRAND_UN + 100.f; 
+    pc.getPowerup().setPosition(highPos); 
+
+    pc.update_powerup(100.0f);
+
+    EXPECT_FALSE(pc.get_powerup_active());
+    EXPECT_GT(pc.getNextPowerupTime(), 0.0f);
+}
+

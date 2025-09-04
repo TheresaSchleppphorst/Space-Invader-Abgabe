@@ -9,7 +9,6 @@
 class Powerup {
     protected:
     sf::Vector2f position;
-    //Schuss bewegt sich nach oben (Raumschiff) oder unten (Alien)
     vertikaleRichtung vR = vertikaleRichtung::NONE;
     sf:: Texture texture;
     sf::Sprite sprite;
@@ -17,19 +16,19 @@ class Powerup {
   public:
 
     ~Powerup() = default;
-    //Konstruktor
+    //constructor
     Powerup(sf::Vector2f position);
 
     //setter + getter Position
     sf::Vector2f getPosition() const;
     void setPosition(sf::Vector2f position);
-    //check, ob Bewegung nach oben oder unten
+    //check, if movement is up or down
     vertikaleRichtung getVertikaleRichtung() const;
-    //PowerUp bewegt sich nicht weiter
+    //powerup stops moving
     void stop_vertical_movement();
-    // Bewegung nach oben
+    //movement down
     void move_down();
-    //getter des Sprites
+    //getter of the sprite
     const sf::Sprite &getSprite() const;
 
     // change Sprite for bad PowerUps

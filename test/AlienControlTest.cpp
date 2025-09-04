@@ -36,8 +36,40 @@ TEST_F(AlienControlTest, buildsAlienGrid){
 
 //update_aliens()
 TEST_F(AlienControlTest, updatesAliens){
-    // check if, when !aliensInBounds && !justMovedDown the aliens get moved down each.
-    // 
+    // taking the float tolarance into account: (this should fix the problem)
+    float epsilon = 0.0005f; 
+
+    testAC.setSpeedControl(0.01);
+    //Check Right movement:
+    testAC.build_Aliengrid(60, -450);
+    for(auto& row : testAC.getAlienGridRef()){
+        for(auto& alien : row){
+            float xBefore = alien.getPosition().x;
+            testAC.update_aliens(0.001f);
+            float xAfter = alien.getPosition().x;
+            EXPECT_NEAR(xAfter, xBefore + 12 * 0.001f * 0.01f, epsilon);
+        }
+    }
+    //Check left movement:
+    testAC.build_Aliengrid(200, -450);
+    for(auto& row : testAC.getAlienGridRef()){
+        for(auto& alien : row){
+            alien.setRichtungAlien(RichtungAlien::LEFT);
+            float xBefore = alien.getPosition().x;
+            testAC.update_aliens(0.001f);
+            float xAfter = alien.getPosition().x;
+            EXPECT_NEAR(xAfter, xBefore - 12 * 0.001f * 0.01f, epsilon);
+        }
+    }
+    //Check wether the justMovedDown bool works:
+    testAC.build_Aliengrid(0,0);
+    testAC.update_aliens(1.0);
+    //Aliens schould get moved down -> justMovedDown schould be true:
+    ASSERT_TRUE(testAC.getJustMovedDown());
+    testAC.build_Aliengrid(60, -450); // safe inside bounds
+    testAC.update_aliens(1.0);
+    //Aliens shouldnt be moved down -> justMovedDown should be false:
+     ASSERT_FALSE(testAC.getJustMovedDown());
 }
 
 //move_Aliengrid_down()

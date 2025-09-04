@@ -88,7 +88,7 @@ void SpaceshipControl::update_shoot(float elapsed_time) {
         shoot.setPosition({x, y});
     }}
 
-    // Verschwinden der Schüsse:
+    // disapperance of the shots
     for (auto shootIterator = shoots.begin(); shootIterator != shoots.end(); ) {
        if (shootIterator->getSprite().getPosition().y >= constants::MITTE.y + 300) {
             shootIterator = shoots.erase(shootIterator);

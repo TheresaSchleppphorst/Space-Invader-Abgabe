@@ -44,6 +44,7 @@ class AlienControl {
         // AlienGrid Getter:
         std::vector<std::vector<Aliens>> getAlienGrid();
 
+        //for testing purposes only
         std::vector<std::vector<Aliens>>& getAlienGridRef();
 
         //JustMovedDown status Getter:
@@ -52,16 +53,22 @@ class AlienControl {
         // random shooting -> sAlien is the current shooting Alien
         void alienShoot(Aliens* sAlien);
 
+        //creates a random shot
         void random_shoot(float elapsed_time);
 
+        //updates the shoot
         void update_shoot(float elapsed_time);
 
+        //sets the Minimum of time between shots
         void setMin(float nMin);
 
+        //sets the maximum of time between shots
         void setMax(float nMax);
 
+        //sets the speed of the shot
         void setSpeed(float nSpeed);
 
+        //sets the speed of the alien grid
         void setSpeedControl(float nSpeed);
 
         //shot vector getter: (test purposes)
@@ -76,7 +83,7 @@ private:
         //Boolean used to controll the downward movement
         bool justMovedDown;
 
-        // vector of all shoots
+        // vector of all shots
         std::vector<Shoot> shoots;
 
         // layer on which the aliens are drawn
@@ -89,12 +96,13 @@ private:
         float speedControl = 4.0;
 
         // minimum and maximum amount of seconds inbetween shots
-        float min= 2; // state.level einbinden !!
+        float min= 2; 
         float max = 3;
 
+        //speed of the shot
         float speed = 150;
 
-        // time between min and max seconds inbetween the shoots of the aliens
+        // time between min and max seconds inbetween the shots of the aliens
         std::uniform_real_distribution<float> time_between_shoot{min, max};
 
         // time until next shoot

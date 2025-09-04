@@ -26,7 +26,7 @@ class OverlayControl{
         //the remaining number of lives of the player (spaceship)
         void update_lives();
 
-        // damadge function for the Spaceship:
+        // damage function for the Spaceship:
         void loose_life();
 
         //draw the overlay to the layer

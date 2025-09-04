@@ -72,9 +72,10 @@ private:
         // speed of shoots
         float speed = 300;
 
-        // vector of all shoots
+        // vector of all shots
         std::vector<Shoot> shoots;
 
+        // texture for the shot
         sf::Texture shootTexture;
 
         friend class Game;

@@ -7,7 +7,7 @@ sf::Texture Shoot::texture;
 sf::Texture Shoot::alienTexture;
 
 Shoot::Shoot(sf::Vector2f position) :
-    position(position), // Position beim Aufrufen setzen, je nachdem wo sich Alien oder Spaceship befinden
+    position(position), // set the position by call, matters where the spaceship and aliens are
     sprite(texture) {
           //load texture
           if(!

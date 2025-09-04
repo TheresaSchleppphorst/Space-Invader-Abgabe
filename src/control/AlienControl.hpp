@@ -49,7 +49,6 @@ class AlienControl {
         //JustMovedDown status Getter:
         bool getJustMovedDown();
 
-
         // random shooting -> sAlien is the current shooting Alien
         void alienShoot(Aliens* sAlien);
 
@@ -65,9 +64,8 @@ class AlienControl {
 
         void setSpeedControl(float nSpeed);
 
-        //for testing purposes
-        const std::vector<std::vector<Aliens>>& alienGrid() const { return alien_grid; }
-
+        //shot vector getter: (test purposes)
+        std::vector<Shoot>& getShoots() { return shoots;}
         
 
 

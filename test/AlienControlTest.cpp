@@ -19,10 +19,10 @@ class AlienControlTest : public::testing::Test {
 TEST_F(AlienControlTest, buildsAlienGrid){
      testAC.build_Aliengrid(60,-450);
      //Checks for amount of rows:
-     ASSERT_EQ(5, testAC.getAlienGrid().size());
+     ASSERT_EQ(5, testAC.getAlienGridRef().size());
      // int to check the y coordinates with:
      int i = 0;
-    for(auto& alienrow : testAC.getAlienGrid()){
+    for(auto& alienrow : testAC.getAlienGridRef()){
         //Checks for amount of aliens per row:
         ASSERT_EQ(11, alienrow.size());
         for(auto& alien : alienrow){

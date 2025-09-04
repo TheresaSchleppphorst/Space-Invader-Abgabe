@@ -31,7 +31,7 @@ void Shoot::move_down(){
     {vR = vertikaleRichtung::DOWN;}
 }
 
-// evt. unnögig:
+
 void Shoot::stop_vertical_movement(){
     vR = vertikaleRichtung::NONE;
 }

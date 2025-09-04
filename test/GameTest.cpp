@@ -198,3 +198,40 @@ TEST_F(GameTest, PowerupCollisionWorks){
 
     ASSERT_TRUE(g.collisionPowerup());
 }
+
+
+TEST_F(GameTest, SpaceshipHit) {
+    //lives decrement when the spaceship is hit
+    int prevLives = g.getState().lives;
+
+    
+    g.getAliens().getShoots().clear();
+    Shoot alienShot(g.getSpaceship().getSpaceship().getPosition());
+    alienShot.setAlienShootSprite();
+    g.getAliens().getShoots().push_back(alienShot);
+  
+    g.update(0.0f);
+
+    EXPECT_EQ(g.getState().lives, prevLives - 1);
+}
+
+TEST_F(GameTest, AlienHit){
+    
+    int prevScore = g.getState().score;
+
+    g.getAliens().getAlienGridRef().clear();
+    g.getAliens().getAlienGridRef().push_back({ Aliens({0,0}) });
+    auto &alien = g.getAliens().getAlienGridRef()[0][0];
+    alien.getSprite().setPosition({0,0});   // sicherstellen
+
+    g.getSpaceship().getShotsRef().clear();
+    Shoot s({0,0});
+    Shoot s({alien.getSprite().getPosition()});                
+    g.getSpaceship().getShotsRef().push_back(s);
+
+    g.update(0.0f);
+
+    EXPECT_EQ(g.getState().score, prevScore + 10);
+
+}
+

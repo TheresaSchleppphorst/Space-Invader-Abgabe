@@ -33,6 +33,9 @@ class SpaceshipControl {
         //shoot
         void space_bar_pressed();
 
+        //for test purposes:
+        std::vector<Shoot>& getShotsRef(){ return shoots; }
+
         // getter for speed
         float getSpeed();
 

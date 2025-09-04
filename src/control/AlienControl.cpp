@@ -173,6 +173,11 @@ std::vector<Aliens*> AlienControl::getAllAliens() {
     return aliens;
 }
 
+std::vector<std::vector<Aliens>> AlienControl::getAlienGrid(){
+    return alien_grid;
+}
+
+
 std::vector<std::vector<Aliens>>& AlienControl::getAlienGridRef() {
     return alien_grid;
 }

@@ -38,18 +38,16 @@ TEST_F(PowerupControlTest, DrawPowerup){
 }
 
 TEST_F(PowerupControlTest, PowerupDeletion){
-
+    //the deletion sets the powerup_active = false
     SpaceshipControl sc(layer);
-
     pc.set_powerup_active(true);
-
     pc.delete_powerup(sc);
-    
     ASSERT_FALSE(pc.get_powerup_active());
 
 }
 
 TEST_F(PowerupControlTest, CorrectMovement){
+    //powerup moves downwards
     powerup_triggern();
 
     sf::Vector2f startPOS = pc.getPowerup().getPosition();

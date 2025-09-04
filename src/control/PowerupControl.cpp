@@ -2,6 +2,8 @@
 #include "../model/Constants.hpp"
 #include <cmath>
 
+#include <iostream>
+
 
 PowerupControl::PowerupControl(ILayer& layer) : powerup(sf::Vector2f{0, 0}), layer(layer), random_engine(static_cast<unsigned int>(
         std::chrono::system_clock::now().time_since_epoch().count()))
@@ -32,6 +34,9 @@ void PowerupControl::update_powerup(float elapsed_time){
     if (pos.y > constants::SPIELFELDRAND_UN) {
         nextPowerup_time = time_between_powerup(random_engine);
         powerup_active = false;
+
+        //std::cout << "TEEEEEEEST " << powerup_active << std::endl;
+        //inline test that poweruup_active returns false at this moment
     }
 }
 

@@ -136,7 +136,12 @@ TEST_F(GameTest, AlienCollisionsWorks){
     ASSERT_FALSE(g.collisionAlien());
     ASSERT_FALSE(g.getSpaceship().getShotsRef() [0].getActive());
     ASSERT_TRUE(g.getSpaceship().getShotsRef() [1].getActive());
+
+    //Test F - hits and score
+    
 }
+
+
 
 TEST_F(GameTest, SpaceshipCollisionWorks){
     g.getSpaceship().getSpaceship().setPosition({0,0});

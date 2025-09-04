@@ -63,3 +63,51 @@ TEST_F(GameTest, Start){
 
     EXPECT_FALSE(g.getAliens().getAlienGridRef().empty());
 }
+
+TEST_F(GameTest, CollisionGoodPowerup) {
+    auto& sp = g.getSpaceship();  // SpaceshipControl&
+    auto& pu = g.getPowerup();    // PowerupControl&
+
+    const float base = sp.getSpeed();
+
+    // good powerup:
+    pu.getPowerup().setGoodPowerupSprite();
+    pu.set_powerup_active(true);
+    pu.set_good_powerup(true);
+    pu.getPowerup().setPosition({200,-200});
+    
+    sp.getSpaceship().setPosition({200, -200});
+
+    g.update(0);
+
+    // shoot should be faster
+    EXPECT_FLOAT_EQ(sp.getSpeed(), base + 300);
+    // set back to normal speed
+    sp.deactivate_powerup();
+    EXPECT_FLOAT_EQ(sp.getSpeed(), base);
+}
+
+TEST_F(GameTest, CollisionBadPowerup) {
+    auto& sp = g.getSpaceship();  // SpaceshipControl&
+    auto& pu = g.getPowerup();    // PowerupControl&
+
+    const float base = sp.getSpeed();
+
+    // good powerup:
+    pu.getPowerup().setBadPowerupSprite();
+    pu.set_powerup_active(true);
+    pu.set_good_powerup(false);
+    pu.getPowerup().setPosition({200,-200});
+    
+    sp.getSpaceship().setPosition({200, -200});
+
+    g.update(0);
+
+    // shoot should be slower
+    EXPECT_FLOAT_EQ(sp.getSpeed(), base - 200);
+    // set back to normal speed
+    sp.deactivate_powerup();
+    EXPECT_FLOAT_EQ(sp.getSpeed(), base);
+}
+
+

@@ -42,7 +42,7 @@ public:
     bool collisionPowerup();
 
     //for testing purposes
-    GameState getState()  {return state;};
+    GameState& getState()  {return state;};
     OverlayControl& getOverlay()  {return overlay_control;};
     AlienControl& getAliens()  {return alien_control;};
     PowerupControl& getPowerup() {return powerup_control;};

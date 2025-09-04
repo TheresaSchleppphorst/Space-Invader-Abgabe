@@ -184,3 +184,17 @@ TEST_F(GameTest, SpaceshipCollisionWorks){
     ASSERT_TRUE(shoots [1].getActive());
     ASSERT_EQ(shoots.size(), 2);
 }
+
+TEST_F(GameTest, PowerupCollisionWorks){
+
+    //powerup and spaceship on the same position makes a collison
+
+    g.getSpaceship().getSpaceship().setPosition({0,0});
+    
+    
+    g.getPowerup().getPowerup().setPosition({0, 0});
+    g.getPowerup().set_powerup_active(true);
+
+
+    ASSERT_TRUE(g.collisionPowerup());
+}

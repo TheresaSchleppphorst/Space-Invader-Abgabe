@@ -25,9 +25,9 @@ TEST_F(GameTest, ZeroLivesGameOver){
     EXPECT_EQ(g.getPhase(), GamePhase::gameOver);
 }
 
-/**TEST_F(GameTest, LevelWon){
+TEST_F(GameTest, LevelWon){
     g.start_next_level();
-    g.getAliens().getAlienGrid().clear();
+    g.getAliens().getAlienGridRef().clear();
 
     g.update(0.0f);
 
@@ -36,7 +36,6 @@ TEST_F(GameTest, ZeroLivesGameOver){
     EXPECT_EQ(g.getPhase(), GamePhase::levelCleared); //optional, keine Ahnung ob das funktioniert, sonst weglassen
 }
 
-*/
 
 TEST_F(GameTest, Reset){
     g.getState().score = 200;
@@ -49,18 +48,18 @@ TEST_F(GameTest, Reset){
     EXPECT_EQ(g.getState().level, 1);
     EXPECT_EQ(g.getState().lives, 3);
 
-    EXPECT_FALSE(g.getAliens().getAlienGrid().empty());
+    EXPECT_FALSE(g.getAliens().getAlienGridRef().empty());
 
 }
 
 
 TEST_F(GameTest, Start){
-    for(auto& row : g.getAliens().getAlienGrid()){
+    for(auto& row : g.getAliens().getAlienGridRef()){
         for(auto& a : row) {
             a.setAlive(false);
         }
     }
     g.start_next_level();
 
-    EXPECT_FALSE(g.getAliens().getAlienGrid().empty());
+    EXPECT_FALSE(g.getAliens().getAlienGridRef().empty());
 }

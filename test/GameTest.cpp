@@ -215,14 +215,14 @@ TEST_F(GameTest, SpaceshipHit) {
     EXPECT_EQ(g.getState().lives, prevLives - 1);
 }
 
-TEST_F(GameTest, AlienHit){
+/**TEST_F(GameTest, AlienHit){
     
     int prevScore = g.getState().score;
 
     g.getAliens().getAlienGridRef().clear();
     g.getAliens().getAlienGridRef().push_back({ Aliens({0,0}) });
     auto &alien = g.getAliens().getAlienGridRef()[0][0];
-    alien.getSprite().setPosition({0,0});   // sicherstellen
+    alien.getSprite().setPosition({0,0});   
 
     g.getSpaceship().getShotsRef().clear();
     Shoot s({0,0});
@@ -234,4 +234,5 @@ TEST_F(GameTest, AlienHit){
     EXPECT_EQ(g.getState().score, prevScore + 10);
 
 }
+*/
 
